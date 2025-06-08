@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.Models
 {
-    class RecipeCategory
+    public class RecipeCategory
     {
+        public Guid Id { get; }
         public string Name { get; set; }
 
         private List<Recipe> _recipes;
@@ -15,12 +16,13 @@ namespace MyCookBook.Models
 
         public RecipeCategory(string name, List<Recipe> recipes)
         {
+            Id = Guid.NewGuid();
             Name = name;
             _recipes = recipes;
         }
 
         /// <summary>
-        /// Adds a recipe to _recipes in alphabetical order.
+        /// Adds a recipe in alphabetical order.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
         public void AddRecipe(Recipe recipe)
@@ -36,7 +38,7 @@ namespace MyCookBook.Models
         }
 
         /// <summary>
-        /// Removes a recipe from _recipes by id.
+        /// Removes a recipe by id.
         /// </summary>
         /// <param name="id">The id of the recipe to remove.</param>
         public void RemoveRecipe(Guid id)
