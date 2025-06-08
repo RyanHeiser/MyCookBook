@@ -9,6 +9,7 @@ namespace MyCookBook.Models
 {
     public class Recipe
     {
+        public Guid Id { get; }
         public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
@@ -21,6 +22,7 @@ namespace MyCookBook.Models
 
         public Recipe(string name, int minutes, int servings, List<string> ingredients, List<string> directions)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
