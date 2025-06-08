@@ -78,8 +78,15 @@
             Margin="0 15 0 0" 
             Orientation="Horizontal">
 
-            <Button Content="Submit" Padding="5" />
-            <Button Content="Cancel" Margin="10 0 0 0" Padding="5" />
+            <Button 
+                Content="Submit" 
+                Padding="5" />
+            <Button 
+                Content="Cancel" 
+                Command="{Binding CancelCommand}" 
+                CommandParameter="{Binding Recipe}"
+                Margin="10 0 0 0" 
+                Padding="5" />
 
         </StackPanel>
 

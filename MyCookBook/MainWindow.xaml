@@ -4,14 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyCookBook"
-        xmlns:views="clr-namespace:MyCookBook.Views"
+        xmlns:views="clr-namespace:MyCookBook.Views" xmlns:vms="clr-namespace:MyCookBook.ViewModels"
         mc:Ignorable="d"
         FontSize="14"
         Title="My Cook Book" Height="450" Width="800">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid MaxWidth="600" Margin="20 10">
-            <views:CreateRecipeView Visibility="Visible" />
-            <views:RecipeDisplayView Visibility="Hidden" />
+            <Grid.Resources>
+                <DataTemplate DataType="{x:Type vms:CreateRecipeViewModel}">
+                    <views:CreateRecipeView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vms:RecipeDisplayViewModel}">
+                    <views:RecipeDisplayView />
+                </DataTemplate>
+            </Grid.Resources>
+            <ContentControl Content="{Binding CurrentViewModel}" />
         </Grid>
     </ScrollViewer>
 </Window>

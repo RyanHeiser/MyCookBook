@@ -14,15 +14,15 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Margin="0 0 30 0" Padding="5" Content="Back" />
-            <TextBlock FontSize="24" Text="New Recipe" />
+            <Button Content="Back" Command="{Binding BackCommand}" Margin="0 0 30 0" Padding="5" />
+            <TextBlock FontSize="24" Text="{Binding Recipe.Name}" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0 10 0 0" Orientation="Horizontal">
             <TextBlock Text="Time:" />
-            <TextBlock Margin="5 0 0 0" Text="[Time]" />
-            <TextBlock Margin="30 0 0 0" Text="Servings" />
-            <TextBlock Margin="5 0 0 0" Text="[Servings]" />
+            <TextBlock Margin="5 0 0 0" Text="{Binding Recipe.Minutes}" />
+            <TextBlock Margin="30 0 0 0" Text="Servings:" />
+            <TextBlock Margin="5 0 0 0" Text="{Binding Recipe.Servings}" />
         </StackPanel>
 
         <Grid Grid.Row="2" Margin="0 20 0 0">
