@@ -14,9 +14,18 @@ namespace MyCookBook.Converters
         private static PercentageConverter _instance;
 
         #region IValueConverter Members
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+
+        /// <summary>
+        /// Converts the value of an element to a percentage of itself.
+        /// </summary>
+        /// <param name="value">The value being converted</param>
+        /// <param name="targetType"></param>
+        /// <param name="percentage">The percentage the value is multiplied by</param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public object Convert(object value, Type targetType, object percentage, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+            return System.Convert.ToDouble(value) * System.Convert.ToDouble(percentage);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
