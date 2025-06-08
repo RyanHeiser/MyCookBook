@@ -10,7 +10,8 @@
         Title="My Cook Book" Height="450" Width="800">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid MaxWidth="600" Margin="20 10">
-            <views:CreateRecipeView />
+            <views:CreateRecipeView Visibility="Hidden" />
+            <views:RecipeDisplayView />
         </Grid>
     </ScrollViewer>
 </Window>
