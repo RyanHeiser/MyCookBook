@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Hosting;
 using MyCookBook.Models;
 using MyCookBook.Services;
+using MyCookBook.Services.Navigation;
+using MyCookBook.Stores;
 using MyCookBook.ViewModels;
 using MyCookBook.Views;
 using System.Configuration;
@@ -24,12 +26,19 @@ public partial class App : Application
             {
                 services.AddSingleton((s) => new RecipeBook(new List<RecipeCategory>()));
 
+                // View Models
                 services.AddTransient<CreateRecipeViewModel>();
+                services.AddSingleton<Func<CreateRecipeViewModel>>(services => () => services.GetRequiredService<CreateRecipeViewModel>()); // function to navigate to CreateRecipeViewModel
                 services.AddTransient<RecipeDisplayViewModel>();
+                services.AddSingleton<Func<RecipeDisplayViewModel>>(services => () => services.GetRequiredService<RecipeDisplayViewModel>()); // function to navigate to RecipeDisplayViewModel
                 services.AddSingleton<MainViewModel>();
-                services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType => (ViewModelBase) services.GetRequiredService(viewModelType));
 
-                services.AddSingleton<NavigationService>();
+                // Navigation Services
+                services.AddSingleton<NavigationService<RecipeDisplayViewModel>>();
+                services.AddSingleton<NavigationService<CreateRecipeViewModel>>();
+                
+                services.AddSingleton<NavigationStore>();
+                services.AddSingleton<RecipeBookStore>();
 
                 services.AddSingleton(s => new MainWindow()
                 {
@@ -42,8 +51,9 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         _host.Start();
-        NavigationService navigationService = _host.Services.GetRequiredService<NavigationService>();
-        navigationService.NavigateTo<CreateRecipeViewModel>();
+        NavigationService<CreateRecipeViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<CreateRecipeViewModel>>();
+        navigationService.Navigate();
+
         MainWindow wnd = _host.Services.GetRequiredService<MainWindow>();
         wnd.Show();
         base.OnStartup(e);

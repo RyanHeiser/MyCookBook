@@ -11,8 +11,8 @@ namespace MyCookBook.Models
         public Guid Id { get; }
         public string Name { get; set; }
 
-        private List<Recipe> _recipes;
-        public IEnumerable<Recipe> Recipes { get { return _recipes; } }
+        public List<Recipe> _recipes;
+        public IEnumerable<Recipe> Recipes { get; set; }
 
         public RecipeCategory(string name, List<Recipe> recipes)
         {
@@ -22,10 +22,20 @@ namespace MyCookBook.Models
         }
 
         /// <summary>
+        /// Gets all the categories in the ReservationBook.
+        /// TODO: Implement database to pull from
+        /// </summary>
+        /// <returns>An IEnumerable comtaining the categories</returns>
+        public IEnumerable<Recipe> GetAllRecipes()
+        {
+            return _recipes;
+        }
+
+        /// <summary>
         /// Adds a recipe in alphabetical order.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
-        public void AddRecipe(Recipe recipe)
+        public int AddRecipe(Recipe recipe)
         {
             _recipes.Add(recipe);
             for (int i = 0; i < _recipes.Count; i++)
@@ -33,8 +43,10 @@ namespace MyCookBook.Models
                 if (string.Compare(_recipes[i].Name, recipe.Name, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     _recipes.Insert(i, recipe);
+                    return i;
                 }
             }
+            return -1;
         }
 
         /// <summary>

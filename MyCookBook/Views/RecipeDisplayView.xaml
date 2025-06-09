@@ -41,9 +41,8 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Text="Ingredients" />
-            <ListView Grid.Row="1" Grid.Column="0">
-                <TextBlock Text="Ingredient 1" />
-                <TextBlock Text="Ingredient 2" />
+            <ListView ItemsSource="{Binding Recipe.Ingredients}" Grid.Row="1" Grid.Column="0">
+              
             </ListView>
 
             <TextBlock 
@@ -52,9 +51,8 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Text="Directions" />
-            <ListView Grid.Row="1" Grid.Column="1">
-                <TextBlock Text="Direction 1" />
-                <TextBlock Text="Direction 2" />
+            <ListView ItemsSource="{Binding Recipe.Directions}" Grid.Row="1" Grid.Column="1">
+                
             </ListView>
 
         </Grid>

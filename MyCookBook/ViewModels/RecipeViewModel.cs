@@ -12,8 +12,8 @@ namespace MyCookBook.ViewModels
         private readonly Recipe _recipe;
 
         public string Name => _recipe.Name;
-        public string Minutes => _recipe.Minutes.ToString();
-        public string Servings => _recipe.Servings.ToString();
+        public int Minutes => _recipe.Minutes;
+        public int Servings => _recipe.Servings;
         public IEnumerable<string> Ingredients => _recipe.Ingredients;
         public IEnumerable<string> Directions => _recipe.Directions;
 

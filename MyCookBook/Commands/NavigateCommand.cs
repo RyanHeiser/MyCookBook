@@ -1,5 +1,5 @@
 ﻿using MyCookBook.Models;
-using MyCookBook.Services;
+using MyCookBook.Services.Navigation;
 using MyCookBook.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace MyCookBook.Commands
 {
     public class NavigateCommand<TViewModel> : CommandBase where TViewModel : ViewModelBase
     {
-        private readonly NavigationService _navigationService;
+        private readonly NavigationService<TViewModel> _navigationService;
 
-        public NavigateCommand(NavigationService navigationService)
+        public NavigateCommand(NavigationService<TViewModel> navigationService)
         {
             _navigationService = navigationService;
         }
@@ -21,18 +21,25 @@ namespace MyCookBook.Commands
         /// <summary>
         /// Navigates to the view model.
         /// </summary>
-        /// <param name="parameter">A recipe if navigating to the RecipeDisplayViewModel</param>
+        /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
-            if (typeof(TViewModel) == typeof(RecipeDisplayViewModel) && parameter is Recipe recipe)
+            if (parameter != null)
             {
-                recipe = (Recipe) parameter;
-                _navigationService.NavigateToRecipeDisplay(recipe);
+                try
+                {
+                    object[] parameters = parameter as object[];
+                    _navigationService.Navigate(parameters);
+                }
+                catch (Exception ex)
+                {
+
+                }
             } 
             else
             {
-                _navigationService.NavigateTo<TViewModel>();
-            }    
+                _navigationService.Navigate();
+            }
         }
     }
 }

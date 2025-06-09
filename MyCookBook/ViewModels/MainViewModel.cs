@@ -1,4 +1,5 @@
 ﻿using MyCookBook.Services;
+using MyCookBook.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace MyCookBook.ViewModels
 {
     class MainViewModel : ViewModelBase
     {
-        private readonly NavigationService _navigationService;
-        public ViewModelBase CurrentViewModel => _navigationService.CurrentViewModel;
+        private readonly NavigationStore _navigationStore;
+        public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
-        public MainViewModel(NavigationService navigationService)
+        public MainViewModel(NavigationStore navigationStore)
         {
-            _navigationService = navigationService;
-            _navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
+            _navigationStore = navigationStore;
+            navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
         private void OnCurrentViewModelChanged()

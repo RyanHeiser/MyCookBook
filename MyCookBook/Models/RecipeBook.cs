@@ -8,8 +8,8 @@ namespace MyCookBook.Models
 {
     public class RecipeBook
     {
-        private List<RecipeCategory> _categories;
-        public IEnumerable<RecipeCategory> Categories { get { return _categories; } }
+        public List<RecipeCategory> _categories;
+        public IEnumerable<RecipeCategory> Categories => _categories;
 
         public RecipeBook(List<RecipeCategory> categories)
         {
@@ -17,19 +17,37 @@ namespace MyCookBook.Models
         }
 
         /// <summary>
+        /// Gets all the categories in the ReservationBook.
+        /// TODO: Implement database to pull from
+        /// </summary>
+        /// <returns>An IEnumerable comtaining the categories</returns>
+        public IEnumerable<RecipeCategory> GetAllCategories()
+        {
+            return _categories;
+        }
+
+        /// <summary>
         /// Adds a category in alphabetical order.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
-        public void AddRecipeCategory(RecipeCategory category)
+        /// <returns>The index at which the category was inserted</returns>
+        public int AddRecipeCategory(RecipeCategory category)
         {
-            _categories.Add(category);
+            if (_categories.Count == 0)
+            {
+                _categories.Add(category);
+                return 0;
+            }
+
             for (int i = 0; i < _categories.Count; i++)
             {
                 if (string.Compare(_categories[i].Name, category.Name, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     _categories.Insert(i, category);
+                    return i;
                 }
             }
+            return -1;
         }
 
         /// <summary>
