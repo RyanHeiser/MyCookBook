@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyCookBook.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace MyCookBook.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        protected Recipe? _recipe;
+        public Recipe? Recipe => _recipe;
+        protected RecipeCategory? _category;
+        public RecipeCategory? Category => _category;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>

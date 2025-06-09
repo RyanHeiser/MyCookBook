@@ -9,11 +9,11 @@ namespace MyCookBook.ViewModels
 {
     public class RecipeViewModel
     {
-        private readonly Recipe _recipe;
+        public Recipe _recipe { get; }
 
         public string Name => _recipe.Name;
-        public int Minutes => _recipe.Minutes;
-        public int Servings => _recipe.Servings;
+        public string Minutes => _recipe.Minutes != 0 ? _recipe.Minutes.ToString() : String.Empty;
+        public string Servings => _recipe.Servings != 0 ? _recipe.Servings.ToString() : String.Empty;
         public IEnumerable<string> Ingredients => _recipe.Ingredients;
         public IEnumerable<string> Directions => _recipe.Directions;
 

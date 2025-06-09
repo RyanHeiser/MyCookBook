@@ -39,6 +39,7 @@ public partial class App : Application
                 
                 services.AddSingleton<NavigationStore>();
                 services.AddSingleton<RecipeBookStore>();
+                services.AddSingleton<RecipeStore>();
 
                 services.AddSingleton(s => new MainWindow()
                 {

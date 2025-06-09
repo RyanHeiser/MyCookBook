@@ -21,16 +21,9 @@ namespace MyCookBook.Services.Navigation
             _createViewModel = createViewModel;
         }
 
-        public void Navigate(params object[] parameters)
+        public void Navigate()
         {
-            ViewModelBase vm = _createViewModel();
-
-            if (parameters.Length > 0 && vm is IParameterNavigationService paramViewModel)
-            {
-                paramViewModel.ParameterInitialize(parameters);
-            }
-
-            _navigationStore.CurrentViewModel = vm;
+            _navigationStore.CurrentViewModel = _createViewModel();
         }
     }
 }
