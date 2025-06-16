@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:MyCookBook.Views" xmlns:converters="clr-namespace:MyCookBook.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:PercentageConverter x:Key="PercentageConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -63,7 +68,9 @@
                 Name="IngredientList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox 
+                            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" 
+                            Width="{Binding ActualWidth, ElementName=IngredientList, Converter={StaticResource PercentageConverter}, ConverterParameter=0.95}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -77,7 +84,9 @@
                 Name="DirectionList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding Path=Text}" />
+                        <TextBox 
+                            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                            Width="{Binding ActualWidth, ElementName=DirectionList, Converter={StaticResource PercentageConverter}, ConverterParameter=0.95}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
