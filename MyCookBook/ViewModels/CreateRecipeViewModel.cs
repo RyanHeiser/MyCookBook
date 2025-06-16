@@ -66,17 +66,33 @@ namespace MyCookBook.ViewModels
         protected readonly ObservableCollection<string> _directions;
         public IEnumerable<string> Directions => _directions;
 
-        public ICommand SubmitCommand { get; set; }
+        public bool CanCreateRecipe => true;
 
-        // temp recipe
-        public Recipe TempRecipe { get; }
-
-        public CreateRecipeViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, NavigationService<RecipeDisplayViewModel> navigationService)
+        private bool _isSubmitting;
+        public bool IsSubmitting
         {
-            _recipe = recipeStore.CurrentRecipe;
-            _category = recipeStore.CurrentCategory;
+            get
+            {
+                return _isSubmitting;
+            }
+            set
+            {
+                _isSubmitting = value;
+                OnPropertyChanged(nameof(IsSubmitting));
+            }
+        }
 
-            SubmitCommand = new NavigateCommand<RecipeDisplayViewModel>(navigationService, recipeStore);
+        public ICommand SubmitCommand { get; }
+        public ICommand CancelCommand { get; }
+
+        public CreateRecipeViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
+            NavigationService<RecipeListingViewModel> recipeListingNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
+        {
+            Recipe = recipeStore.CurrentRecipe;
+            Category = recipeStore.CurrentCategory;
+
+            SubmitCommand = new CreateRecipeCommand(this, recipeBookStore, recipeStore, recipeDisplayNavigationService);
+            CancelCommand = new NavigateCommand<RecipeListingViewModel>(recipeListingNavigationService, recipeStore);
         }
     }
 }

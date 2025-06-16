@@ -15,14 +15,14 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Back" Command="{Binding BackCommand}" Margin="0 0 30 0" Padding="5" />
-            <TextBlock FontSize="24" Text="{Binding Recipe.Name}" />
+            <TextBlock FontSize="24" Text="{Binding RecipeViewModel.Name}" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0 10 0 0" Orientation="Horizontal">
             <TextBlock Text="Time:" />
-            <TextBlock Margin="5 0 0 0" Text="{Binding Recipe.Minutes}" />
+            <TextBlock Margin="5 0 0 0" Text="{Binding RecipeViewModel.Minutes}" />
             <TextBlock Margin="30 0 0 0" Text="Servings:" />
-            <TextBlock Margin="5 0 0 0" Text="{Binding Recipe.Servings}" />
+            <TextBlock Margin="5 0 0 0" Text="{Binding RecipeViewModel.Servings}" />
         </StackPanel>
 
         <Grid Grid.Row="2" Margin="0 20 0 0">
@@ -41,7 +41,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Text="Ingredients" />
-            <ListView ItemsSource="{Binding Recipe.Ingredients}" Grid.Row="1" Grid.Column="0">
+            <ListView ItemsSource="{Binding RecipeViewModel.Ingredients}" Grid.Row="1" Grid.Column="0">
               
             </ListView>
 
@@ -51,7 +51,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Text="Directions" />
-            <ListView ItemsSource="{Binding Recipe.Directions}" Grid.Row="1" Grid.Column="1">
+            <ListView ItemsSource="{Binding RecipeViewModel.Directions}" Grid.Row="1" Grid.Column="1">
                 
             </ListView>
 

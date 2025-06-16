@@ -15,13 +15,26 @@ namespace MyCookBook.ViewModels
 {
     public class RecipeDisplayViewModel : ViewModelBase
     {
-        public RecipeViewModel? Recipe { get; set; }
-        public RecipeCategory? Category { get; set; }
-        public ICommand BackCommand { get; }
+		private RecipeViewModel? _recipeViewModel;
+		public RecipeViewModel? RecipeViewModel
+        {
+			get
+			{
+				return _recipeViewModel;
+			}
+			set
+			{
+				_recipeViewModel = value;
+				OnPropertyChanged(nameof(RecipeViewModel));
+			}
+		}
+		public ICommand BackCommand { get; }
 
         public RecipeDisplayViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, NavigationService<CreateRecipeViewModel> navigationService)
         {
             BackCommand = new NavigateCommand<CreateRecipeViewModel>(navigationService, recipeStore);
+
+            RecipeViewModel = new RecipeViewModel(recipeStore.CurrentRecipe);
         }
 
     }

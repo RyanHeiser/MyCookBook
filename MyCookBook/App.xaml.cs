@@ -24,9 +24,12 @@ public partial class App : Application
         _host = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
+                // Model
                 services.AddSingleton((s) => new RecipeBook(new List<RecipeCategory>()));
 
                 // View Models
+                services.AddTransient<RecipeListingViewModel>();
+                services.AddSingleton<Func<RecipeListingViewModel>>(services => () => services.GetRequiredService<RecipeListingViewModel>()); // function to navigate to RecipeListingViewModel
                 services.AddTransient<CreateRecipeViewModel>();
                 services.AddSingleton<Func<CreateRecipeViewModel>>(services => () => services.GetRequiredService<CreateRecipeViewModel>()); // function to navigate to CreateRecipeViewModel
                 services.AddTransient<RecipeDisplayViewModel>();
@@ -34,13 +37,16 @@ public partial class App : Application
                 services.AddSingleton<MainViewModel>();
 
                 // Navigation Services
+                services.AddSingleton<NavigationService<RecipeListingViewModel>>();
                 services.AddSingleton<NavigationService<RecipeDisplayViewModel>>();
                 services.AddSingleton<NavigationService<CreateRecipeViewModel>>();
                 
+                // Stores
                 services.AddSingleton<NavigationStore>();
                 services.AddSingleton<RecipeBookStore>();
                 services.AddSingleton<RecipeStore>();
 
+                // MainWindow
                 services.AddSingleton(s => new MainWindow()
                 {
                     DataContext = s.GetRequiredService<MainViewModel>()
@@ -52,7 +58,15 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         _host.Start();
-        NavigationService<CreateRecipeViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<CreateRecipeViewModel>>();
+
+        // temp scaffolding
+        RecipeStore recipeStore = _host.Services.GetRequiredService<RecipeStore>();
+        RecipeBookStore recipeBookStore = _host.Services.GetRequiredService<RecipeBookStore>();
+        RecipeCategory category = new RecipeCategory("My Category", new List<Recipe>());
+        recipeStore.CurrentCategory = category;
+        recipeBookStore.CreateRecipeCategory(category);
+
+        NavigationService<RecipeListingViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<RecipeListingViewModel>>();
         navigationService.Navigate();
 
         MainWindow wnd = _host.Services.GetRequiredService<MainWindow>();

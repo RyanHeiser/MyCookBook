@@ -10,10 +10,8 @@ namespace MyCookBook.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        protected Recipe? _recipe;
-        public Recipe? Recipe => _recipe;
-        protected RecipeCategory? _category;
-        public RecipeCategory? Category => _category;
+        public Recipe? Recipe;
+        public RecipeCategory? Category;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

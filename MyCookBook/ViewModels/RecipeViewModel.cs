@@ -9,17 +9,17 @@ namespace MyCookBook.ViewModels
 {
     public class RecipeViewModel
     {
-        public Recipe _recipe { get; }
+        public Recipe Recipe { get; }
 
-        public string Name => _recipe.Name;
-        public string Minutes => _recipe.Minutes != 0 ? _recipe.Minutes.ToString() : String.Empty;
-        public string Servings => _recipe.Servings != 0 ? _recipe.Servings.ToString() : String.Empty;
-        public IEnumerable<string> Ingredients => _recipe.Ingredients;
-        public IEnumerable<string> Directions => _recipe.Directions;
+        public string Name => Recipe.Name;
+        public string Minutes => Recipe.Minutes != 0 ? Recipe.Minutes.ToString() : String.Empty;
+        public string Servings => Recipe.Servings != 0 ? Recipe.Servings.ToString() : String.Empty;
+        public IEnumerable<string> Ingredients => Recipe.Ingredients;
+        public IEnumerable<string> Directions => Recipe.Directions;
 
         public RecipeViewModel(Recipe recipe)
         {
-            _recipe = recipe;
+            Recipe = recipe;
         }
     }
 }

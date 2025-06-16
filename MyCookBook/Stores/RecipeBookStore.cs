@@ -34,7 +34,12 @@ namespace MyCookBook.Stores
             OnCategoryCreated(category);
         }
 
-        public void CreateRecipe(Recipe recipe, RecipeCategory category)
+        /// <summary>
+        /// Add a recipe
+        /// </summary>
+        /// <param name="recipe">The recipe to add</param>
+        /// <param name="category">The category of the recipe</param>
+        public async Task CreateRecipe(Recipe recipe, RecipeCategory category)
         {
             int categoryIndex = -1;
             for (int i = 0; i < _recipeBook.Categories.Count(); i++)
