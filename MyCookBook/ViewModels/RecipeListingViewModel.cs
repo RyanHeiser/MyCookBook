@@ -1,9 +1,11 @@
 ﻿using MyCookBook.Commands;
+using MyCookBook.Models;
 using MyCookBook.Services.Navigation;
 using MyCookBook.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,8 @@ namespace MyCookBook.ViewModels
         private readonly RecipeStore _recipeStore;
 
         public IEnumerable<RecipeViewModel> Recipes => _recipes;
+
+        public bool HasRecipes => Recipes.Any();
 
         private RecipeViewModel? _selectedRecipe;
         public RecipeViewModel? SelectedRecipe
@@ -49,6 +53,20 @@ namespace MyCookBook.ViewModels
             }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+
         public ICommand BackCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand SelectRecipeCommand { get; }
@@ -58,13 +76,39 @@ namespace MyCookBook.ViewModels
         {
             _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
-            _recipes = new ObservableCollection<RecipeViewModel>();
+            _recipes = new ObservableCollection<RecipeViewModel>(_recipeStore.CurrentCategory?.GetAllRecipes().Select(r => new RecipeViewModel(r)));
 
             Category = recipeStore.CurrentCategory;
             Name = Category?.Name ?? "New Category";
 
             AddCommand = new NavigateCommand<CreateRecipeViewModel>(createRecipeNavigationService, recipeStore);
             SelectRecipeCommand = new NavigateCommand<RecipeDisplayViewModel>(recipeDisplayNavigationService, recipeStore);
+
+            _recipeBookStore.RecipeCreated += OnRecipeCreated;
+            _recipes.CollectionChanged += OnRecipeCreated;
         }
+
+        public override void Dispose()
+        {
+            _recipeBookStore.RecipeCreated -= OnRecipeCreated;
+            base.Dispose();
+        }
+
+        private void OnRecipeCreated(Recipe recipe, RecipeCategory category)
+        {
+            RecipeViewModel viewModel = new RecipeViewModel(recipe);
+            _recipes.Add(viewModel);
+        }
+
+        private void OnRecipeCreated(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(HasRecipes));
+        }
+
+        //public static RecipeListingViewModel LoadViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
+        //    NavigationService<CreateRecipeViewModel> createRecipeNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
+        //{
+
+        //}
     }
 }

@@ -23,10 +23,23 @@ namespace MyCookBook.Stores
         {
             _recipeBook = recipeBook;
             _recipeCategories = new List<RecipeCategory>(recipeBook.Categories);
-            //_initLazy = new Lazy<Task>(Initialize);
+            _initLazy = new Lazy<Task>(Initialize);
         }
 
-        public void CreateRecipeCategory(RecipeCategory category)
+        public async Task Load()
+        {
+            try
+            {
+                await _initLazy.Value;
+            }
+            catch
+            {
+                _initLazy = new Lazy<Task>(Initialize);
+                throw;
+            }
+        }
+
+        public async Task CreateRecipeCategory(RecipeCategory category)
         {
             int index = _recipeBook.AddRecipeCategory(category);
             _recipeCategories.Insert(index, category);
@@ -54,12 +67,8 @@ namespace MyCookBook.Stores
             }
             if (categoryIndex == -1)
             {
-                CreateRecipeCategory(category);
-                category.AddRecipe(recipe);
-            }
-            else
-            {
-                _recipeCategories.ElementAt(categoryIndex).AddRecipe(recipe);
+                await CreateRecipeCategory(category);
+                await CreateRecipe(recipe, category);
             }
 
             OnRecipeCreated(recipe, category);
@@ -75,12 +84,12 @@ namespace MyCookBook.Stores
             RecipeCreated?.Invoke(recipe, category);
         }
 
-        //private async Task Initialize()
-        //{
-        //    IEnumerable<RecipeCategory> recipeCategories = await _recipeBook.GetAllCategories();
+        private async Task Initialize()
+        {
+            IEnumerable<RecipeCategory> recipeCategories = _recipeBook.GetAllCategories();
 
-        //    _recipeCategories.Clear();
-        //    _recipeCategories.AddRange(recipeCategories);
-        //}
+            _recipeCategories.Clear();
+            _recipeCategories.AddRange(recipeCategories);
+        }
     }
 }
