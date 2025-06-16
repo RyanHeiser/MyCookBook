@@ -30,9 +30,9 @@ namespace MyCookBook.ViewModels
 		}
 		public ICommand BackCommand { get; }
 
-        public RecipeDisplayViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, NavigationService<CreateRecipeViewModel> navigationService)
+        public RecipeDisplayViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, NavigationService<RecipeListingViewModel> navigationService)
         {
-            BackCommand = new NavigateCommand<CreateRecipeViewModel>(navigationService, recipeStore);
+            BackCommand = new NavigateCommand<RecipeListingViewModel>(navigationService, recipeStore);
 
             RecipeViewModel = new RecipeViewModel(recipeStore.CurrentRecipe);
         }

@@ -42,8 +42,8 @@ namespace MyCookBook.Commands
                 _createRecipeViewModel.Name,
                 _createRecipeViewModel.Minutes,
                 _createRecipeViewModel.Servings,
-                new List<string>(_createRecipeViewModel.Ingredients),
-                new List<string>(_createRecipeViewModel.Directions));
+                new List<string>(_createRecipeViewModel.Ingredients.Select(i => i.Text)),
+                new List<string>(_createRecipeViewModel.Directions.Select(d => d.Text)));
 
             _recipeStore.CurrentRecipe = recipe;
 

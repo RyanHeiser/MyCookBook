@@ -63,7 +63,7 @@
                 Name="IngredientList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding Ingredients}" />
+                        <TextBox Text="{Binding Path=Text}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -77,7 +77,7 @@
                 Name="DirectionList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding Directions}" />
+                        <TextBox Text="{Binding Path=Text}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

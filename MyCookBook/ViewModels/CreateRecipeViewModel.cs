@@ -60,11 +60,9 @@ namespace MyCookBook.ViewModels
             }
         }
 
-        protected readonly ObservableCollection<string> _ingredients;
-        public IEnumerable<string> Ingredients => _ingredients;
+        public ObservableCollection<StringViewModel> Ingredients { get; set; }
 
-        protected readonly ObservableCollection<string> _directions;
-        public IEnumerable<string> Directions => _directions;
+        public ObservableCollection<StringViewModel> Directions { get; set; }
 
         public bool CanCreateRecipe => true;
 
@@ -93,6 +91,17 @@ namespace MyCookBook.ViewModels
 
             SubmitCommand = new CreateRecipeCommand(this, recipeBookStore, recipeStore, recipeDisplayNavigationService);
             CancelCommand = new NavigateCommand<RecipeListingViewModel>(recipeListingNavigationService, recipeStore);
+
+            if (recipeStore.CurrentRecipe == null)
+            {
+                Ingredients = new ObservableCollection<StringViewModel>() { new StringViewModel("I") };
+                Directions = new ObservableCollection<StringViewModel>() { new StringViewModel("D") };
+            } 
+            else
+            {
+                Ingredients = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Ingredients.Select(i => new StringViewModel(i)));
+                Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
+            }
         }
     }
 }
