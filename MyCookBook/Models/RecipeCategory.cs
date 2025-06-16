@@ -37,6 +37,7 @@ namespace MyCookBook.Models
         /// <param name="recipe">The recipe to add.</param>
         public int AddRecipe(Recipe recipe)
         {   
+            // searches for position to add new recipe
             for (int i = 0; i < _recipes.Count; i++)
             {
                 if (string.Compare(_recipes[i].Name, recipe.Name, StringComparison.OrdinalIgnoreCase) > 0)
@@ -46,6 +47,7 @@ namespace MyCookBook.Models
                 }
             }
 
+            // adds recipe to end of list if it is last in alphabetical order
             _recipes.Add(recipe);
             return _recipes.Count - 1;
         }

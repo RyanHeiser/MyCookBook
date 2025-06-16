@@ -34,7 +34,7 @@ namespace MyCookBook.ViewModels
             set
             {
                 _selectedRecipe = value;
-                _recipeStore.CurrentRecipe = _selectedRecipe?.Recipe;
+                _recipeStore.CurrentRecipe = _selectedRecipe?.Recipe; // updates the current recipe store when list selection is changed
                 OnPropertyChanged(nameof(SelectedRecipe));
             }
         }
@@ -88,12 +88,16 @@ namespace MyCookBook.ViewModels
             _recipes.CollectionChanged += OnRecipeCreated;
         }
 
+        /// <summary>
+        /// Unsubscribe from RecipeCreated event so that this view model can properly be disposed
+        /// </summary>
         public override void Dispose()
         {
             _recipeBookStore.RecipeCreated -= OnRecipeCreated;
             base.Dispose();
         }
 
+        // NOT CURRENTLY IN USE
         private void OnRecipeCreated(Recipe recipe, RecipeCategory category)
         {
             RecipeViewModel viewModel = new RecipeViewModel(recipe);

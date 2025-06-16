@@ -31,7 +31,7 @@ namespace MyCookBook.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return base.CanExecute(parameter);
+            return _createRecipeViewModel.CanCreateRecipe && base.CanExecute(parameter);
         }
 
         public override async Task ExecuteAsync(object? parameter)

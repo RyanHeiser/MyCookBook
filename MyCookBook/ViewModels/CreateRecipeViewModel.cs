@@ -29,6 +29,7 @@ namespace MyCookBook.ViewModels
             {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(CanCreateRecipe));
             }
         }
 
@@ -43,6 +44,7 @@ namespace MyCookBook.ViewModels
             {
                 _minutes = value;
                 OnPropertyChanged(nameof(Minutes));
+                OnPropertyChanged(nameof(CanCreateRecipe));
             }
         }
 
@@ -57,6 +59,7 @@ namespace MyCookBook.ViewModels
             {
                 _servings = value;
                 OnPropertyChanged(nameof(Servings));
+                OnPropertyChanged(nameof(CanCreateRecipe));
             }
         }
 
@@ -64,7 +67,10 @@ namespace MyCookBook.ViewModels
 
         public ObservableCollection<StringViewModel> Directions { get; set; }
 
-        public bool CanCreateRecipe => true;
+        public bool CanCreateRecipe => HasName && MinutesGreaterThanZero && ServingsGreaterThanZero;
+        private bool HasName => !string.IsNullOrEmpty(Name);
+        private bool MinutesGreaterThanZero => Minutes > 0;
+        private bool ServingsGreaterThanZero => Servings > 0;
 
         private bool _isSubmitting;
         public bool IsSubmitting
