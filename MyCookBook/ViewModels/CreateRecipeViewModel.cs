@@ -89,25 +89,31 @@ namespace MyCookBook.ViewModels
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
 
+        public ICommand AddIngredient {  get; }
+        public ICommand AddDirection { get; }
+
         public CreateRecipeViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
             NavigationService<RecipeListingViewModel> recipeListingNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
         {
             Recipe = recipeStore.CurrentRecipe;
             Category = recipeStore.CurrentCategory;
 
-            SubmitCommand = new CreateRecipeCommand(this, recipeBookStore, recipeStore, recipeDisplayNavigationService);
-            CancelCommand = new NavigateCommand<RecipeListingViewModel>(recipeListingNavigationService, recipeStore);
-
             if (recipeStore.CurrentRecipe == null)
             {
-                Ingredients = new ObservableCollection<StringViewModel>() { new StringViewModel("I") };
-                Directions = new ObservableCollection<StringViewModel>() { new StringViewModel("D") };
+                Ingredients = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
+                Directions = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
             } 
             else
             {
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
             }
+
+            SubmitCommand = new CreateRecipeCommand(this, recipeBookStore, recipeStore, recipeDisplayNavigationService);
+            CancelCommand = new NavigateCommand<RecipeListingViewModel>(recipeListingNavigationService, recipeStore);
+
+            AddIngredient = new AddToCollectionCommand<StringViewModel>(Ingredients, () => new StringViewModel(""));
+            AddDirection = new AddToCollectionCommand<StringViewModel>(Directions, () => new StringViewModel(""));
         }
     }
 }
