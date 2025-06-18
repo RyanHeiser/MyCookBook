@@ -12,7 +12,7 @@ namespace MyCookBook.Models
         public string Name { get; set; }
 
         public List<Recipe> _recipes;
-        public IEnumerable<Recipe> Recipes { get; set; }
+        public IEnumerable<Recipe> Recipes => _recipes;
 
         public RecipeCategory(string name, List<Recipe> recipes)
         {

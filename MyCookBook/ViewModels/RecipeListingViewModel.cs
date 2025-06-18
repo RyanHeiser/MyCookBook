@@ -72,7 +72,8 @@ namespace MyCookBook.ViewModels
         public ICommand SelectRecipeCommand { get; }
 
         public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
-            NavigationService<CreateRecipeViewModel> createRecipeNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
+            NavigationService<CreateRecipeViewModel> createRecipeNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService,
+            NavigationService<CategoryListingViewModel> categoryListingNavigationService)
         {
             _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
@@ -81,10 +82,11 @@ namespace MyCookBook.ViewModels
             Category = recipeStore.CurrentCategory;
             Name = Category?.Name ?? "New Category";
 
+            BackCommand = new NavigateCommand<CategoryListingViewModel>(categoryListingNavigationService, recipeStore);
             AddCommand = new NavigateCommand<CreateRecipeViewModel>(createRecipeNavigationService, recipeStore);
             SelectRecipeCommand = new NavigateCommand<RecipeDisplayViewModel>(recipeDisplayNavigationService, recipeStore);
 
-            _recipeBookStore.RecipeCreated += OnRecipeCreated;
+            //_recipeBookStore.RecipeCreated += OnRecipeCreated;
             _recipes.CollectionChanged += OnRecipeCreated;
         }
 
@@ -93,26 +95,20 @@ namespace MyCookBook.ViewModels
         /// </summary>
         public override void Dispose()
         {
-            _recipeBookStore.RecipeCreated -= OnRecipeCreated;
+            //_recipeBookStore.RecipeCreated -= OnRecipeCreated;
             base.Dispose();
         }
 
         // NOT CURRENTLY IN USE
-        private void OnRecipeCreated(Recipe recipe, RecipeCategory category)
-        {
-            RecipeViewModel viewModel = new RecipeViewModel(recipe);
-            _recipes.Add(viewModel);
-        }
+        //private void OnRecipeCreated(Recipe recipe, RecipeCategory category)
+        //{
+        //    RecipeViewModel viewModel = new RecipeViewModel(recipe);
+        //    _recipes.Add(viewModel);
+        //}
 
         private void OnRecipeCreated(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(HasRecipes));
         }
-
-        //public static RecipeListingViewModel LoadViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
-        //    NavigationService<CreateRecipeViewModel> createRecipeNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
-        //{
-
-        //}
     }
 }

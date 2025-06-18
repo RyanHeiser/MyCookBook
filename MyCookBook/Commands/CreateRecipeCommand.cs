@@ -39,17 +39,17 @@ namespace MyCookBook.Commands
             _createRecipeViewModel.IsSubmitting = true;
 
             Recipe recipe = new Recipe(
-                _createRecipeViewModel.Name,
+                _createRecipeViewModel.Name ?? "New Recipe",
                 _createRecipeViewModel.Minutes,
                 _createRecipeViewModel.Servings,
-                new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)),
-                new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)));
+                new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
+                new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text))); // Convert non-empty Direction StringViewModels to Strings
 
             _recipeStore.CurrentRecipe = recipe;
 
             try
             {
-                await _recipeBookStore.CreateRecipe(recipe, _createRecipeViewModel.Category);
+                await _recipeBookStore.CreateRecipe(recipe, _createRecipeViewModel.Category ?? new RecipeCategory("New Category", new List<Recipe>()));
                 MessageBox.Show("Created recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _recipeDisplayNavigationService.Navigate();
             } 

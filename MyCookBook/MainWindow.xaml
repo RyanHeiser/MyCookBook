@@ -7,7 +7,8 @@
         xmlns:views="clr-namespace:MyCookBook.Views" xmlns:vms="clr-namespace:MyCookBook.ViewModels"
         mc:Ignorable="d"
         FontSize="14"
-        Title="My Cook Book" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="My Cook Book" Height="700" Width="1000">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid MaxWidth="600" Margin="20 10">
             <Grid.Resources>
@@ -19,6 +20,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:RecipeDisplayViewModel}">
                     <views:RecipeDisplayView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vms:CategoryListingViewModel}">
+                    <views:CategoryListingView />
                 </DataTemplate>
             </Grid.Resources>
             <ContentControl Content="{Binding CurrentViewModel}" />

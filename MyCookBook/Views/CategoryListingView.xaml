@@ -1,19 +1,18 @@
-﻿<UserControl x:Class="MyCookBook.Views.RecipeListingView"
+﻿<UserControl x:Class="MyCookBook.Views.CategoryListingView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyCookBook.Views"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:MyCookBook.Views" 
              xmlns:converters="clr-namespace:MyCookBook.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -26,40 +25,32 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock 
-            Grid.Row="0" 
-            Grid.Column="1" 
-            FontSize="24" 
-            Text="{Binding Name}" />
+        Grid.Row="0" 
+        Grid.Column="1" 
+        FontSize="24" 
+        Text="My Cook Book" />
 
         <Button 
-            Grid.Row="0"
-            Grid.Column="0"
-            Content="Back" 
-            Command="{Binding BackCommand}"
-            Padding="5"
-            Margin="0 0 20 0"/>
-
-        <Button 
-            Grid.Row="0"
-            Grid.Column="2"
-            Content="Add" 
-            Command="{Binding AddCommand}"
-            Padding="5"
-            Margin="20 0 0 0"/>
+        Grid.Row="0"
+        Grid.Column="2"
+        Content="Add" 
+        Command="{Binding AddCommand}"
+        Padding="5"
+        Margin="20 0 0 0"/>
 
         <Grid Margin="0 20 0 0" Grid.Row="1" Grid.Column="1">
             <TextBlock 
-                Text="No recipes have been created yet. Click &quot;Add&quot; to add a recipe." 
-                Visibility="{Binding HasRecipes, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+            Text="No categories have been created yet. Click &quot;Add&quot; to add a category." 
+            Visibility="{Binding HasCategories, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
 
             <ListView 
-                ItemsSource="{Binding Recipes}"
-                SelectedItem="{Binding SelectedRecipe, Mode=OneWayToSource}"
-                Visibility="{Binding HasRecipes, Converter={StaticResource BooleanToVisibilityConverter}}">
+            ItemsSource="{Binding Categories}"
+            SelectedItem="{Binding SelectedCategory, Mode=OneWayToSource}"
+            Visibility="{Binding HasCategories, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectRecipeCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding SelectCategoryCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -78,34 +69,23 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock 
-                            Grid.Row="0" 
-                            Grid.Column="0" 
-                            Grid.ColumnSpan="4"
-                            Margin="0 5"
-                            FontSize="18"
-                            Text="{Binding Name}" />
+                                Grid.Row="0" 
+                                Grid.Column="0" 
+                                Grid.ColumnSpan="4"
+                                Margin="0 5"
+                                FontSize="18"
+                                Text="{Binding Name}" />
 
                             <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Margin="0 0 5 0"
-                            Text="Time:" />
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0 0 5 0"
+                                Text="Recipes:" />
                             <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="0 0 20 0"
-                            Text="{Binding Minutes}" />
-
-                            <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            Margin="0 0 5 0"
-                            Text="Time:" />
-                            <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Margin="0 0 20 0"
-                            Text="{Binding Servings}" />
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0 0 20 0"
+                                Text="{Binding Count}" />
 
                         </Grid>
                     </DataTemplate>

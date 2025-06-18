@@ -28,6 +28,8 @@ public partial class App : Application
                 services.AddSingleton((s) => new RecipeBook(new List<RecipeCategory>()));
 
                 // View Models
+                services.AddTransient<CategoryListingViewModel>();
+                services.AddSingleton<Func<CategoryListingViewModel>>(services => () => services.GetRequiredService<CategoryListingViewModel>()); // function to navigate to RecipeListingViewModel
                 services.AddTransient<RecipeListingViewModel>();
                 services.AddSingleton<Func<RecipeListingViewModel>>(services => () => services.GetRequiredService<RecipeListingViewModel>()); // function to navigate to RecipeListingViewModel
                 services.AddTransient<CreateRecipeViewModel>();
@@ -37,6 +39,7 @@ public partial class App : Application
                 services.AddSingleton<MainViewModel>();
 
                 // Navigation Services
+                services.AddSingleton<NavigationService<CategoryListingViewModel>>();
                 services.AddSingleton<NavigationService<RecipeListingViewModel>>();
                 services.AddSingleton<NavigationService<RecipeDisplayViewModel>>();
                 services.AddSingleton<NavigationService<CreateRecipeViewModel>>();
@@ -59,12 +62,13 @@ public partial class App : Application
     {
         _host.Start();
 
-        // temp scaffolding
+        #region Temp Scaffolding
         RecipeStore recipeStore = _host.Services.GetRequiredService<RecipeStore>();
         RecipeBookStore recipeBookStore = _host.Services.GetRequiredService<RecipeBookStore>();
         RecipeCategory category = new RecipeCategory("My Category", new List<Recipe>());
         recipeStore.CurrentCategory = category;
-        recipeBookStore.CreateRecipeCategory(category);
+        recipeBookStore.CreateRecipeCategory(category); 
+        #endregion
 
         NavigationService<RecipeListingViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<RecipeListingViewModel>>();
         navigationService.Navigate();
