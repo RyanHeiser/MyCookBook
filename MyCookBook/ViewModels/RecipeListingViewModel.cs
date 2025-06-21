@@ -72,8 +72,8 @@ namespace MyCookBook.ViewModels
         public ICommand SelectRecipeCommand { get; }
 
         public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
-            NavigationService<CreateRecipeViewModel> createRecipeNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService,
-            NavigationService<CategoryListingViewModel> categoryListingNavigationService)
+            INavigationService createRecipeNavigationService, INavigationService recipeDisplayNavigationService,
+            INavigationService categoryListingNavigationService)
         {
             _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
@@ -82,9 +82,9 @@ namespace MyCookBook.ViewModels
             Category = recipeStore.CurrentCategory;
             Name = Category?.Name ?? "New Category";
 
-            BackCommand = new NavigateCommand<CategoryListingViewModel>(categoryListingNavigationService, recipeStore);
-            AddCommand = new NavigateCommand<CreateRecipeViewModel>(createRecipeNavigationService, recipeStore);
-            SelectRecipeCommand = new NavigateCommand<RecipeDisplayViewModel>(recipeDisplayNavigationService, recipeStore);
+            BackCommand = new NavigateCommand(categoryListingNavigationService);
+            AddCommand = new NavigateCommand(createRecipeNavigationService);
+            SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
 
             //_recipeBookStore.RecipeCreated += OnRecipeCreated;
             _recipes.CollectionChanged += OnRecipeCreated;

@@ -15,7 +15,7 @@ namespace MyCookBook.ViewModels
         public IEnumerable<string> Ingredients => Recipe?.Ingredients ?? new List<string>();
         public IEnumerable<string> Directions => Recipe?.Directions ?? new List<string>();
 
-        public RecipeViewModel(Recipe recipe)
+        public RecipeViewModel(Recipe? recipe)
         {
             Recipe = recipe;
         }

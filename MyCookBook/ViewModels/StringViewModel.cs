@@ -8,21 +8,21 @@ namespace MyCookBook.ViewModels
 {
     public class StringViewModel : ViewModelBase
     {
-		private string _text;
-		public string Text
-		{
-			get
-			{
-				return _text;
-			}
-			set
-			{
-				_text = value;
-				OnPropertyChanged(nameof(Text));
-			}
-		}
+        private string _text;
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                OnPropertyChanged(nameof(Text));
+            }
+        }
 
-		public StringViewModel(string str)
+        public StringViewModel(string str)
         {
             Text = str;
         }

@@ -11,7 +11,7 @@ namespace MyCookBook.Converters
 {
     public class PercentageConverter : MarkupExtension, IValueConverter
     {
-        private static PercentageConverter _instance;
+        private static PercentageConverter? _instance;
 
         #region IValueConverter Members
 

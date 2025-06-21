@@ -93,7 +93,7 @@ namespace MyCookBook.ViewModels
         public ICommand AddDirection { get; }
 
         public CreateRecipeViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
-            NavigationService<RecipeListingViewModel> recipeListingNavigationService, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
+            INavigationService recipeListingNavigationService, INavigationService recipeDisplayNavigationService)
         {
             Recipe = recipeStore.CurrentRecipe;
             Category = recipeStore.CurrentCategory;
@@ -110,7 +110,7 @@ namespace MyCookBook.ViewModels
             }
 
             SubmitCommand = new CreateRecipeCommand(this, recipeBookStore, recipeStore, recipeDisplayNavigationService);
-            CancelCommand = new NavigateCommand<RecipeListingViewModel>(recipeListingNavigationService, recipeStore);
+            CancelCommand = new NavigateCommand(recipeListingNavigationService);
 
             AddIngredient = new AddToCollectionCommand<StringViewModel>(Ingredients, () => new StringViewModel(""));
             AddDirection = new AddToCollectionCommand<StringViewModel>(Directions, () => new StringViewModel(""));

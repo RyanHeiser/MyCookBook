@@ -18,9 +18,9 @@ namespace MyCookBook.Commands
         private readonly CreateRecipeViewModel _createRecipeViewModel;
         private readonly RecipeBookStore _recipeBookStore;
         private readonly RecipeStore _recipeStore;
-        private readonly NavigationService<RecipeDisplayViewModel> _recipeDisplayNavigationService;
+        private readonly INavigationService _recipeDisplayNavigationService;
 
-        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeBookStore recipeBookStore, RecipeStore recipeStore, NavigationService<RecipeDisplayViewModel> recipeDisplayNavigationService)
+        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeBookStore recipeBookStore, RecipeStore recipeStore, INavigationService recipeDisplayNavigationService)
         {
             _createRecipeViewModel = createRecipeViewModel;
             _recipeBookStore = recipeBookStore;

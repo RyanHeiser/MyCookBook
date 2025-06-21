@@ -9,8 +9,8 @@ namespace MyCookBook.Stores
 {
     public class NavigationStore
     {
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
+        protected ViewModelBase? _currentViewModel;
+        public ViewModelBase? CurrentViewModel
         {
             get => _currentViewModel;
 
@@ -24,7 +24,7 @@ namespace MyCookBook.Stores
 
         public event Action? CurrentViewModelChanged;
 
-        private void OnCurrentViewModelChanged()
+        protected void OnCurrentViewModelChanged()
         {
             CurrentViewModelChanged?.Invoke();
         }

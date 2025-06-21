@@ -24,30 +24,20 @@ public partial class App : Application
         _host = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
-                // Model
+                // RecipeBook Model
                 services.AddSingleton((s) => new RecipeBook(new List<RecipeCategory>()));
 
-                // View Models
-                services.AddTransient<CategoryListingViewModel>();
-                services.AddSingleton<Func<CategoryListingViewModel>>(services => () => services.GetRequiredService<CategoryListingViewModel>()); // function to navigate to RecipeListingViewModel
-                services.AddTransient<RecipeListingViewModel>();
-                services.AddSingleton<Func<RecipeListingViewModel>>(services => () => services.GetRequiredService<RecipeListingViewModel>()); // function to navigate to RecipeListingViewModel
-                services.AddTransient<CreateRecipeViewModel>();
-                services.AddSingleton<Func<CreateRecipeViewModel>>(services => () => services.GetRequiredService<CreateRecipeViewModel>()); // function to navigate to CreateRecipeViewModel
-                services.AddTransient<RecipeDisplayViewModel>();
-                services.AddSingleton<Func<RecipeDisplayViewModel>>(services => () => services.GetRequiredService<RecipeDisplayViewModel>()); // function to navigate to RecipeDisplayViewModel
+                // MainViewModel
                 services.AddSingleton<MainViewModel>();
 
-                // Navigation Services
-                services.AddSingleton<NavigationService<CategoryListingViewModel>>();
-                services.AddSingleton<NavigationService<RecipeListingViewModel>>();
-                services.AddSingleton<NavigationService<RecipeDisplayViewModel>>();
-                services.AddSingleton<NavigationService<CreateRecipeViewModel>>();
-                
+                // Navigation service
+                services.AddSingleton<INavigationService>(services => CategoryListingNavigationService(services));
+
                 // Stores
                 services.AddSingleton<NavigationStore>();
+                services.AddSingleton<ModalNavigationStore>();
                 services.AddSingleton<RecipeBookStore>();
-                services.AddSingleton<RecipeStore>();
+                services.AddSingleton<RecipeStore>(); 
 
                 // MainWindow
                 services.AddSingleton(s => new MainWindow()
@@ -70,12 +60,81 @@ public partial class App : Application
         recipeBookStore.CreateRecipeCategory(category); 
         #endregion
 
-        NavigationService<RecipeListingViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<RecipeListingViewModel>>();
+        INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate();
 
         MainWindow wnd = _host.Services.GetRequiredService<MainWindow>();
         wnd.Show();
         base.OnStartup(e);
     }
+
+    #region Navigation Services
+    private INavigationService CategoryListingNavigationService(IServiceProvider services)
+    {
+        NavigationStore navigationStore = services.GetRequiredService<NavigationStore>();
+
+        return new NavigationService<CategoryListingViewModel>(navigationStore, () => CategoryListingViewModel(services));
+    }
+
+    private INavigationService RecipeListingNavigationService(IServiceProvider services)
+    {
+        return new NavigationService<RecipeListingViewModel>(services.GetRequiredService<NavigationStore>(), () => RecipeListingViewModel(services));
+    }
+
+    private INavigationService CreateRecipeNavigationService(IServiceProvider services)
+    {
+        return new NavigationService<CreateRecipeViewModel>(services.GetRequiredService<NavigationStore>(), () => CreateRecipeViewModel(services));
+    }
+
+    private INavigationService RecipeDisplayNavigationService(IServiceProvider services)
+    {
+        return new NavigationService<RecipeDisplayViewModel>(services.GetRequiredService<NavigationStore>(), () => RecipeDisplayViewModel(services));
+    }
+    #endregion
+
+
+    #region Modal Navigation Services
+    private INavigationService CreateCategoryNavigationService(IServiceProvider services)
+    {
+        return new ModalNavigationService<CreateCategoryViewModel>(services.GetRequiredService<ModalNavigationStore>(), () => CreateCategoryViewModel(services));
+    }
+
+    private INavigationService CloseModalNavigationService(IServiceProvider services)
+    {
+        return new CloseModalNavigationService(services.GetRequiredService<ModalNavigationStore>());
+    }
+    #endregion
+
+
+    #region View Models
+    private CategoryListingViewModel CategoryListingViewModel(IServiceProvider services)
+    {
+        return new CategoryListingViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
+            CreateCategoryNavigationService(services), RecipeListingNavigationService(services));
+    }
+
+    private RecipeListingViewModel RecipeListingViewModel(IServiceProvider services)
+    {
+        return new RecipeListingViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
+            CreateRecipeNavigationService(services), RecipeDisplayNavigationService(services), CategoryListingNavigationService(services));
+    }
+
+    private CreateRecipeViewModel CreateRecipeViewModel(IServiceProvider services)
+    {
+        return new CreateRecipeViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
+            RecipeListingNavigationService(services), RecipeDisplayNavigationService(services));
+    }
+
+    private RecipeDisplayViewModel RecipeDisplayViewModel(IServiceProvider services)
+    {
+        return new RecipeDisplayViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
+            RecipeListingNavigationService(services));
+    }
+
+    private CreateCategoryViewModel CreateCategoryViewModel(IServiceProvider services)
+    {
+        return new CreateCategoryViewModel(services.GetRequiredService<RecipeBookStore>(), CloseModalNavigationService(services));
+    } 
+    #endregion
 }
 

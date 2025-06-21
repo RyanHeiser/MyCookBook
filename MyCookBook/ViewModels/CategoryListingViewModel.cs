@@ -1,10 +1,12 @@
 ﻿using MyCookBook.Commands;
+using MyCookBook.Models;
 using MyCookBook.Services.Navigation;
 using MyCookBook.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,16 +57,28 @@ namespace MyCookBook.ViewModels
         public ICommand SelectCategoryCommand { get; }
 
         public CategoryListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
-            NavigationService<CreateRecipeViewModel> createRecipeNavigationService, NavigationService<RecipeListingViewModel> recipeListingNavigationService)
+            INavigationService createCategoryNavigationService, INavigationService recipeListingNavigationService)
         {
             _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
             _categories = new ObservableCollection<CategoryViewModel>(_recipeBookStore.RecipeCategories.Select(c => new CategoryViewModel(c)));
 
-            //AddCommand = new NavigateCommand<CreateRecipeViewModel>(createRecipeNavigationService, recipeStore);
-            SelectCategoryCommand = new NavigateCommand<RecipeListingViewModel>(recipeListingNavigationService, recipeStore);
+            AddCommand = new NavigateCommand(createCategoryNavigationService);
+            SelectCategoryCommand = new NavigateCommand(recipeListingNavigationService);
 
             _categories.CollectionChanged += OnCategoryCreated;
+            _recipeBookStore.CategoryCreated += OnCategoryCreated;
+        }
+
+        public override void Dispose()
+        {
+            _recipeBookStore.CategoryCreated -= OnCategoryCreated;
+            base.Dispose();
+        }
+
+        private void OnCategoryCreated(RecipeCategory category)
+        {
+            _categories.Add(new CategoryViewModel(category));
         }
 
         private void OnCategoryCreated(object? sender, NotifyCollectionChangedEventArgs e)

@@ -11,15 +11,13 @@ using System.Windows.Ink;
 
 namespace MyCookBook.Commands
 {
-    public class NavigateCommand<TViewModel> : CommandBase where TViewModel : ViewModelBase
+    public class NavigateCommand : CommandBase 
     {
-        private readonly NavigationService<TViewModel> _navigationService;
-        private readonly RecipeStore _recipeStore;
+        private readonly INavigationService _navigationService;
 
-        public NavigateCommand(NavigationService<TViewModel> navigationService, RecipeStore recipeStore)
+        public NavigateCommand(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _recipeStore = recipeStore;
         }
 
         /// <summary>

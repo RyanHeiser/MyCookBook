@@ -15,9 +15,9 @@ namespace MyCookBook.Stores
 
         public IEnumerable<RecipeCategory> RecipeCategories => _recipeCategories;
 
-        public event Action<RecipeCategory> CategoryCreated;
+        public event Action<RecipeCategory>? CategoryCreated;
 
-        public event Action<Recipe, RecipeCategory> RecipeCreated;
+        public event Action<Recipe, RecipeCategory>? RecipeCreated;
 
         public RecipeBookStore(RecipeBook recipeBook)
         {
