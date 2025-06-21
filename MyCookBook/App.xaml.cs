@@ -52,14 +52,6 @@ public partial class App : Application
     {
         _host.Start();
 
-        #region Temp Scaffolding
-        RecipeStore recipeStore = _host.Services.GetRequiredService<RecipeStore>();
-        RecipeBookStore recipeBookStore = _host.Services.GetRequiredService<RecipeBookStore>();
-        RecipeCategory category = new RecipeCategory("My Category", new List<Recipe>());
-        recipeStore.CurrentCategory = category;
-        recipeBookStore.CreateRecipeCategory(category); 
-        #endregion
-
         INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate();
 

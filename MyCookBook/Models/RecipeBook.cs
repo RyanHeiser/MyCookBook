@@ -33,12 +33,7 @@ namespace MyCookBook.Models
         /// <returns>The index at which the category was inserted</returns>
         public int AddRecipeCategory(RecipeCategory category)
         {
-            if (_categories.Count == 0)
-            {
-                _categories.Add(category);
-                return 0;
-            }
-
+            // Searches for position to add new category
             for (int i = 0; i < _categories.Count; i++)
             {
                 if (string.Compare(_categories[i].Name, category.Name, StringComparison.OrdinalIgnoreCase) > 0)
@@ -47,7 +42,9 @@ namespace MyCookBook.Models
                     return i;
                 }
             }
-            return -1;
+            
+            _categories.Add(category);
+            return _categories.Count - 1;
         }
 
         /// <summary>

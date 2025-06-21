@@ -15,6 +15,20 @@ namespace MyCookBook.ViewModels
         private readonly RecipeBookStore _recipeBookStore;
         private readonly INavigationService _closeNavigationService;
 
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
         public ICommand AddCommand { get; }
         public ICommand CancelCommand { get; }
 
@@ -23,7 +37,7 @@ namespace MyCookBook.ViewModels
             _recipeBookStore = recipeBookStore;
             _closeNavigationService = closeNavigationService;
 
-            //AddCommand =
+            AddCommand = new CompositeCommand(new CreateCategoryCommand(this, recipeBookStore), new NavigateCommand(closeNavigationService));
             CancelCommand = new NavigateCommand(closeNavigationService);
         }
     }

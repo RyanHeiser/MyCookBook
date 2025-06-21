@@ -37,7 +37,7 @@ namespace MyCookBook.Models
         /// <param name="recipe">The recipe to add.</param>
         public int AddRecipe(Recipe recipe)
         {   
-            // searches for position to add new recipe
+            // Searches for position to add new recipe
             for (int i = 0; i < _recipes.Count; i++)
             {
                 if (string.Compare(_recipes[i].Name, recipe.Name, StringComparison.OrdinalIgnoreCase) > 0)
