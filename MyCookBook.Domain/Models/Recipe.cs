@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCookBook.Models
+namespace MyCookBook.Domain.Models
 {
     public class Recipe
     {
-        public Guid Id { get; }
         public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
@@ -20,9 +19,17 @@ namespace MyCookBook.Models
         private List<string> _directions;
         public IEnumerable<string> Directions { get { return _directions; } }
 
+        public Recipe(string name, int minutes, int servings)
+        {
+            Name = name;
+            Minutes = minutes;
+            Servings = servings;
+            _ingredients = new List<string>();
+            _directions = new List<string>();
+        }
+
         public Recipe(string name, int minutes, int servings, List<string> ingredients, List<string> directions)
         {
-            Id = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;

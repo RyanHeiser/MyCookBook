@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCookBook.Models
+namespace MyCookBook.Domain.Models
 {
     public class RecipeBook
     {
@@ -51,11 +51,11 @@ namespace MyCookBook.Models
         /// Removes a category by id.
         /// </summary>
         /// <param name="id">The id of the recipe to remove.</param>
-        public void RemoveRecipeCategory(Guid id)
+        public void RemoveRecipeCategory(RecipeCategory target)
         {
             foreach (RecipeCategory category in _categories)
             {
-                if (category.Id == id)
+                if (category == target)
                 {
                     _categories.Remove(category);
                 }

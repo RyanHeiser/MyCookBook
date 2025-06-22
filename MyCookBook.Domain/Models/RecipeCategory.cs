@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCookBook.Models
+namespace MyCookBook.Domain.Models
 {
     public class RecipeCategory
     {
-        public Guid Id { get; }
         public string Name { get; set; }
 
         public List<Recipe> _recipes;
         public IEnumerable<Recipe> Recipes => _recipes;
 
+        public RecipeCategory(string name)
+        {
+            Name = name;
+            _recipes = new List<Recipe>();
+        }
+
         public RecipeCategory(string name, List<Recipe> recipes)
         {
-            Id = Guid.NewGuid();
             Name = name;
             _recipes = recipes;
         }
@@ -56,11 +61,11 @@ namespace MyCookBook.Models
         /// Removes a recipe by id.
         /// </summary>
         /// <param name="id">The id of the recipe to remove.</param>
-        public void RemoveRecipe(Guid id)
+        public void RemoveRecipe(Recipe target)
         {
             foreach (Recipe recipe in _recipes)
             {
-                if (recipe.Id == id)
+                if (recipe == target)
                 {
                     _recipes.Remove(recipe);
                 }
