@@ -64,32 +64,54 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<RecipeCategory> Update(Guid id, RecipeCategory entity)
+        public async Task<RecipeCategory> Update(Guid id, RecipeCategory updatedEntity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeCategory? existing = await Get(id);
+                RecipeCategory? existingEntity = context.Categories
+                    .Include(c => c.Recipes)
+                    .FirstOrDefault(c => c.Id == id);
 
-                HashSet<Guid> entityIds = entity.Recipes.Select(r => r.Id).ToHashSet();
-                List<Recipe> recipesToRemove = existing.Recipes.Where(r => !entityIds.Contains(r.Id)).ToList();
-
-                entity.Id = id;
-
-                foreach (Recipe recipe in entity.Recipes)
+                if (existingEntity == null)
                 {
+                    throw new InvalidOperationException("RecipeCategory not found");
+                }
+
+                existingEntity.Name = updatedEntity.Name; // update category name
+
+
+                //Update the Recipes Set based on changes to recipes between existing entity and updated entity
+                HashSet<Guid> entityIds = updatedEntity.Recipes.Select(r => r.Id).ToHashSet();
+                List<Recipe> recipesToRemove = existingEntity.Recipes.Where(r => !entityIds.Contains(r.Id)).ToList();
+                foreach (Recipe recipe in updatedEntity.Recipes)
+                {
+                    // remove recipe
                     if (recipesToRemove.Contains(recipe))
                     {
                         context.Set<Recipe>().Remove(recipe);
-                    } 
-                    else if (!context.Set<Recipe>().Any(r => r.Id == recipe.Id))
+                        continue;
+                    }
+
+                    Recipe? existingRecipe = context.Set<Recipe>().FirstOrDefault(r => r.Id == recipe.Id);
+
+                    // add recipe
+                    if (existingRecipe == null)
                     {
                         context.Set<Recipe>().Add(recipe);
                     }
+                    // modify recipe
+                    else
+                    {
+                        existingRecipe.Name = recipe.Name;
+                        existingRecipe.Minutes = recipe.Minutes;
+                        existingRecipe.Servings = recipe.Servings;
+                        existingRecipe.Ingredients = recipe.Ingredients;
+                        existingRecipe.Directions = recipe.Directions;
+                    }
                 }
 
-                context.Set<RecipeCategory>().Update(entity);
                 await context.SaveChangesAsync();
-                return entity;
+                return updatedEntity;
             }
         }
     }

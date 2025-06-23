@@ -12,7 +12,7 @@ namespace MyCookBook.EntityFramework
     {
 
         public DbSet<RecipeCategory> Categories { get; set; }
-        //public DbSet<RecipeDTO> Recipes { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
 
         public MyCookBookDbContext(DbContextOptions options) : base(options) 
         {
@@ -21,13 +21,11 @@ namespace MyCookBook.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<RecipeCategoryDTO>().OwnsMany(
-            //    c => c.Recipes, c =>
-            //    {
-            //        c.WithOwner().HasForeignKey("CategoryId");
-            //        c.Property<Guid>("Id");
-            //        c.HasKey("Id");
-            //    }).Property(r => r.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RecipeCategory>()
+                .HasMany(c => c.Recipes)
+                .WithOne()
+                .HasForeignKey("CategoryId")
+                .OnDelete(DeleteBehavior.Cascade);
 
             //modelBuilder.Entity<RecipeCategoryDTO>().Property(c => c.Id).ValueGeneratedNever();
 

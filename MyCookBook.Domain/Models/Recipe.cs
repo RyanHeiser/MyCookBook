@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,7 @@ namespace MyCookBook.Domain.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        public Guid CategoryId { get; set; }
         public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
@@ -25,7 +27,7 @@ namespace MyCookBook.Domain.Models
         private List<string> _directions;
         public IEnumerable<string> Directions { get { return _directions; } set { _ingredients = value.ToList(); } }
 
-        public Recipe(string name, int minutes, int servings)
+        public Recipe(string name, int minutes, int servings, Guid categoryId)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -33,9 +35,10 @@ namespace MyCookBook.Domain.Models
             Servings = servings;
             _ingredients = new List<string>();
             _directions = new List<string>();
+            CategoryId = categoryId;
         }
 
-        public Recipe(string name, int minutes, int servings, List<string> ingredients, List<string> directions)
+        public Recipe(string name, int minutes, int servings, List<string> ingredients, List<string> directions, Guid categoryId)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -43,9 +46,10 @@ namespace MyCookBook.Domain.Models
             Servings = servings;
             _ingredients = ingredients;
             _directions = directions;
+            CategoryId = categoryId;
         }
 
-        public Recipe(Guid id, string name, int minutes, int servings, List<string> ingredients, List<string> directions)
+        public Recipe(Guid id, string name, int minutes, int servings, List<string> ingredients, List<string> directions, Guid categoryId)
         {
             Id = id;
             Name = name;
@@ -53,6 +57,7 @@ namespace MyCookBook.Domain.Models
             Servings = servings;
             _ingredients = ingredients;
             _directions = directions;
+            CategoryId = categoryId;
         }
 
         /// <summary>
