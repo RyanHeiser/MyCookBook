@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,39 +11,67 @@ namespace MyCookBook.WPF.Stores
     public class RecipeBookStore
     {
         private readonly RecipeBook _recipeBook;
+        private readonly RecipeStore _recipeStore;
         private List<RecipeCategory> _recipeCategories;
-        private Lazy<Task> _initLazy;
+        private List<Recipe> _recipes;
+        private Lazy<Task> _categoryLazy;
+        private Lazy<Task> _recipeLazy;
 
         public IEnumerable<RecipeCategory> RecipeCategories => _recipeCategories;
+
+        public IEnumerable<Recipe> Recipes => _recipes;
 
         public event Action<RecipeCategory>? CategoryCreated;
 
         public event Action<Recipe, RecipeCategory>? RecipeCreated;
 
-        public RecipeBookStore(RecipeBook recipeBook)
+        public RecipeBookStore(RecipeBook recipeBook, RecipeStore recipeStore)
         {
             _recipeBook = recipeBook;
-            _recipeCategories = new List<RecipeCategory>(recipeBook.Categories);
-            _initLazy = new Lazy<Task>(Initialize);
+            _recipeStore = recipeStore;
+            _recipeCategories = new List<RecipeCategory>();
+            _recipes = new List<Recipe>();
+            _categoryLazy = new Lazy<Task>(InitializeCategories);
+            _recipeLazy = new Lazy<Task>(InitializeRecipes);
+
+            _recipeStore.CategoryChanged += OnCurrentCategoryChanged;
         }
 
-        public async Task Load()
+        private void OnCurrentCategoryChanged(RecipeCategory category)
+        {
+            _recipeLazy = new Lazy<Task>(InitializeRecipes);
+        }
+
+        public async Task LoadCategories()
         {
             try
             {
-                await _initLazy.Value;
+                await _categoryLazy.Value;
             }
             catch
             {
-                _initLazy = new Lazy<Task>(Initialize);
+                _categoryLazy = new Lazy<Task>(InitializeCategories);
+                throw;
+            }
+        }
+
+        public async Task LoadRecipes()
+        {
+            try
+            {
+                await _recipeLazy.Value;
+            }
+            catch
+            {
+                _recipeLazy = new Lazy<Task>(InitializeRecipes);
                 throw;
             }
         }
 
         public async Task CreateRecipeCategory(RecipeCategory category)
         {
-            int index = _recipeBook.AddRecipeCategory(category);
-            _recipeCategories.Insert(index, category);
+            await _recipeBook.AddRecipeCategory(category);
+            _recipeCategories.Add(category);
 
             OnCategoryCreated(category);
         }
@@ -54,22 +83,13 @@ namespace MyCookBook.WPF.Stores
         /// <param name="category">The category of the recipe</param>
         public async Task CreateRecipe(Recipe recipe, RecipeCategory category)
         {
-            int categoryIndex = -1;
-            for (int i = 0; i < _recipeBook.Categories.Count(); i++)
-            {
-                RecipeCategory c = _recipeBook.Categories.ElementAt(i);
-                if (c == category)
-                {
-                    c.AddRecipe(recipe);
-                    categoryIndex = i;
-                    break;
-                }
-            }
-            if (categoryIndex == -1)
+            if (!_recipeCategories.Contains(category))
             {
                 await CreateRecipeCategory(category);
-                await CreateRecipe(recipe, category);
             }
+            category.AddRecipe(recipe);
+            _recipes.Add(recipe);
+            await _recipeBook.UpdateRecipeCategory(category.Id, category);
 
             OnRecipeCreated(recipe, category);
         }
@@ -84,12 +104,21 @@ namespace MyCookBook.WPF.Stores
             RecipeCreated?.Invoke(recipe, category);
         }
 
-        private async Task Initialize()
+        private async Task InitializeCategories()
         {
-            IEnumerable<RecipeCategory> recipeCategories = _recipeBook.GetAllCategories();
+            IEnumerable<RecipeCategory> recipeCategories = await _recipeBook.GetAllCategories();
 
             _recipeCategories.Clear();
             _recipeCategories.AddRange(recipeCategories);
+        }
+
+        private async Task InitializeRecipes()
+        {
+            RecipeCategory category = await _recipeBook.GetCategory(_recipeStore.CurrentCategory.Id);
+            IEnumerable<Recipe> recipes = category.Recipes;
+
+            _recipes.Clear();
+            _recipes.AddRange(recipes);
         }
     }
 }

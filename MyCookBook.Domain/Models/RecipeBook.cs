@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MyCookBook.Domain.Services.DTOConverters;
+using MyCookBook.EntityFramework.DTOs;
+using MyCookBook.EntityFramework.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +11,37 @@ namespace MyCookBook.Domain.Models
 {
     public class RecipeBook
     {
+        private readonly IDataService<RecipeCategoryDTO> _categoryDataService;
+        private readonly RecipeCategoryDTOConverter _categoryDTOConverter;
         public List<RecipeCategory> _categories;
         public IEnumerable<RecipeCategory> Categories => _categories;
 
-        public RecipeBook(List<RecipeCategory> categories)
+        public RecipeBook(IDataService<RecipeCategoryDTO> categoryDataService, RecipeCategoryDTOConverter categortyDTOConverter)
         {
-            _categories = categories;
+            _categories = new List<RecipeCategory>();
+            _categoryDataService = categoryDataService;
+            _categoryDTOConverter = categortyDTOConverter;
+        }
+
+        /// <summary>
+        /// Gets a category by Id
+        /// </summary>
+        /// <param name="Id">The Id of the category</param>
+        /// <returns></returns>
+        public async Task<RecipeCategory> GetCategory(Guid Id)
+        {
+            return _categoryDTOConverter.ConvertFromDTO(await _categoryDataService.Get(Id));
         }
 
         /// <summary>
         /// Gets all the categories in the ReservationBook.
-        /// TODO: Implement database to pull from
         /// </summary>
         /// <returns>An IEnumerable comtaining the categories</returns>
-        public IEnumerable<RecipeCategory> GetAllCategories()
+        public async Task<IEnumerable<RecipeCategory>> GetAllCategories()
         {
-            return _categories;
+            IEnumerable<RecipeCategoryDTO> dtos = await _categoryDataService.GetAll();
+            
+            return new List<RecipeCategory>(dtos.Select(d => _categoryDTOConverter.ConvertFromDTO(d)));
         }
 
         /// <summary>
@@ -31,39 +49,36 @@ namespace MyCookBook.Domain.Models
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
         /// <returns>The index at which the category was inserted</returns>
-        public int AddRecipeCategory(RecipeCategory category)
+        public async Task AddRecipeCategory(RecipeCategory category)
         {
-            // Searches for position to add new category
-            for (int i = 0; i < _categories.Count; i++)
-            {
-                if (string.Compare(_categories[i].Name, category.Name, StringComparison.OrdinalIgnoreCase) > 0)
-                {
-                    _categories.Insert(i, category);
-                    return i;
-                }
-            }
-            
-            _categories.Add(category);
-            return _categories.Count - 1;
+            RecipeCategoryDTO dto = _categoryDTOConverter.ConvertToDTO(category);
+            await _categoryDataService.Create(dto);
+        }
+
+        /// <summary>
+        /// Updates a category.
+        /// </summary>
+        /// <param name="Id">The Id of the category to update.</param>
+        /// <param name="category">The new category replacing the old value</param>
+        /// <returns>True if successful.</returns>
+        public async Task<bool> UpdateRecipeCategory(Guid Id, RecipeCategory category)
+        {
+            RecipeCategoryDTO dto = _categoryDTOConverter.ConvertToDTO(category);
+            return _categoryDTOConverter.UpdateFromDTO(await _categoryDataService.Update(Id, dto), category);
         }
 
         /// <summary>
         /// Removes a category by id.
         /// </summary>
-        /// <param name="id">The id of the recipe to remove.</param>
-        public void RemoveRecipeCategory(RecipeCategory target)
+        /// <param name="Id">The id of the recipe to remove.</param>
+        public async Task<bool> RemoveRecipeCategory(Guid Id)
         {
-            foreach (RecipeCategory category in _categories)
-            {
-                if (category == target)
-                {
-                    _categories.Remove(category);
-                }
-            }
+            return await _categoryDataService.Delete(Id);
         }
 
         /// <summary>
-        /// Clears the recipes.
+        /// Clears the categories.
+        /// TODO implement with database
         /// </summary>
         public void ClearRecipeCategories()
         {

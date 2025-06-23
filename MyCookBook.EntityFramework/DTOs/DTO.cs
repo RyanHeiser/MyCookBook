@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.EntityFramework.DTOs
 {
-    public class RecipeCategoryDTO : DTO
+    public class DTO
     {
-        public string Name { get; set; }
-
-        public required List<RecipeDTO> Recipes { get; set; }
+        [Key]
+        public Guid Id { get; set; }
     }
 }

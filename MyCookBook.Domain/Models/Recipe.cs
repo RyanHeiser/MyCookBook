@@ -9,6 +9,7 @@ namespace MyCookBook.Domain.Models
 {
     public class Recipe
     {
+        public Guid Id { get; }
         public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
@@ -21,6 +22,7 @@ namespace MyCookBook.Domain.Models
 
         public Recipe(string name, int minutes, int servings)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
@@ -30,6 +32,17 @@ namespace MyCookBook.Domain.Models
 
         public Recipe(string name, int minutes, int servings, List<string> ingredients, List<string> directions)
         {
+            Id = Guid.NewGuid();
+            Name = name;
+            Minutes = minutes;
+            Servings = servings;
+            _ingredients = ingredients;
+            _directions = directions;
+        }
+
+        public Recipe(Guid id, string name, int minutes, int servings, List<string> ingredients, List<string> directions)
+        {
+            Id = id;
             Name = name;
             Minutes = minutes;
             Servings = servings;
@@ -44,6 +57,15 @@ namespace MyCookBook.Domain.Models
         public void AddIngredient(string ingredient)
         {
             _ingredients.Add(ingredient);
+        }
+
+        /// <summary>
+        /// Adds a range of ingredients.
+        /// </summary>
+        /// <param name="ingredients">The ingredients to add.</param>
+        public void AddIngredients(IEnumerable<string> ingredients)
+        {
+            _ingredients.AddRange(ingredients);
         }
 
         /// <summary>
@@ -80,6 +102,15 @@ namespace MyCookBook.Domain.Models
         public void AddDirection(string direction)
         {
             _directions.Add(direction);
+        }
+
+        /// <summary>
+        /// Adds a range of directions
+        /// </summary>
+        /// <param name="directions">The directions to add</param>
+        public void AddDirections(IEnumerable<string> directions)
+        {
+            _directions.AddRange(directions);
         }
 
         /// <summary>

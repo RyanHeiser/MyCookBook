@@ -1,4 +1,8 @@
-﻿using System;
+﻿using MyCookBook.Domain.Services.DTOConverters;
+using MyCookBook.EntityFramework;
+using MyCookBook.EntityFramework.DTOs;
+using MyCookBook.EntityFramework.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,6 +13,10 @@ namespace MyCookBook.Domain.Models
 {
     public class RecipeCategory
     {
+        //private readonly RecipeDataService _recipeDataService;
+        //private readonly RecipeDTOConverter _recipeDTOConverter;
+
+        public Guid Id { get; }
         public string Name { get; set; }
 
         public List<Recipe> _recipes;
@@ -16,64 +24,92 @@ namespace MyCookBook.Domain.Models
 
         public RecipeCategory(string name)
         {
+            Id = Guid.NewGuid();
             Name = name;
             _recipes = new List<Recipe>();
         }
 
         public RecipeCategory(string name, List<Recipe> recipes)
         {
+            Id = Guid.NewGuid();
             Name = name;
             _recipes = recipes;
+
+            //// !!!!! TODO move to dependency injection (factory?) !!!!
+            //_recipeDataService = new RecipeDataService(Id, new CategoryDataService(new MyCookBookDbContextFactory()));
+            //_recipeDTOConverter = new RecipeDTOConverter();
+        }
+
+        public RecipeCategory(Guid id, string name, List<Recipe> recipes)
+        {
+            Id = id;
+            Name = name;
+            _recipes = recipes;
+
+            //// !!!! TODO move to dependency injection (factory?) !!!!
+            //_recipeDataService = new RecipeDataService(Id, new CategoryDataService(new MyCookBookDbContextFactory()));
+            //_recipeDTOConverter = new RecipeDTOConverter();
         }
 
         /// <summary>
         /// Gets all the categories in the ReservationBook.
-        /// TODO: Implement database to pull from
         /// </summary>
         /// <returns>An IEnumerable comtaining the categories</returns>
-        public IEnumerable<Recipe> GetAllRecipes()
-        {
-            return _recipes;
-        }
+        //public async Task<IEnumerable<Recipe>> GetAllRecipes()
+        //{
+        //    IEnumerable<RecipeDTO> dtos = await _recipeDataService.GetAll();
+
+        //    return new List<Recipe>(dtos.Select(d => _recipeDTOConverter.ConvertFromDTO(d)));
+        //}
 
         /// <summary>
         /// Adds a recipe in alphabetical order.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
-        public int AddRecipe(Recipe recipe)
+        public void AddRecipe(Recipe recipe)
         {   
-            // Searches for position to add new recipe
-            for (int i = 0; i < _recipes.Count; i++)
-            {
-                if (string.Compare(_recipes[i].Name, recipe.Name, StringComparison.OrdinalIgnoreCase) > 0)
-                {
-                    _recipes.Insert(i, recipe);
-                    return i;
-                }
-            }
-
-            // adds recipe to end of list if it is last in alphabetical order
             _recipes.Add(recipe);
-            return _recipes.Count - 1;
+
+            //RecipeDTO dto = _recipeDTOConverter.ConvertToDTO(recipe);
+            //await _recipeDataService.Create(dto);
         }
+
+        /// <summary>
+        /// Adds a range of recipes in alphabetical order
+        /// </summary>
+        /// <param name="recipes">The recipes to add</param>
+        public void AddRecipes(IEnumerable<Recipe> recipes)
+        {
+            foreach (Recipe recipe in recipes)
+            {
+                AddRecipe(recipe);
+            }
+        }
+
+        /// <summary>
+        /// Updates a recipe.
+        /// </summary>
+        /// <param name="Id">The Id of the recipe to update.</param>
+        /// <param name="recipe">The new recipe replacing the old value</param>
+        /// <returns>True if successful</returns>
+        //public async Task<bool> UpdateRecipe(Guid Id, Recipe recipe)
+        //{
+        //    RecipeDTO dto = _recipeDTOConverter.ConvertToDTO(recipe);
+        //    return _recipeDTOConverter.UpdateFromDTO(await _recipeDataService.Update(Id, dto), recipe);
+        //}
 
         /// <summary>
         /// Removes a recipe by id.
         /// </summary>
         /// <param name="id">The id of the recipe to remove.</param>
-        public void RemoveRecipe(Recipe target)
-        {
-            foreach (Recipe recipe in _recipes)
-            {
-                if (recipe == target)
-                {
-                    _recipes.Remove(recipe);
-                }
-            }
-        }
+        //public async Task<bool> RemoveRecipe(Recipe target)
+        //{
+        //    return await _recipeDataService.Delete(Id);
+        //}
 
         /// <summary>
         /// Clears the recipes.
+        /// TODO implement with database
         /// </summary>
         public void ClearRecipes()
         {

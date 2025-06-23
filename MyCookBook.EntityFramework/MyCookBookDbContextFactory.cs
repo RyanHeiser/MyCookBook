@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.EntityFramework
 {
-    public class DeignTimeDbContextOptionsFactory : IDesignTimeDbContextFactory<MyCookBookDbContext>
+    public class MyCookBookDbContextFactory : IDesignTimeDbContextFactory<MyCookBookDbContext>
     {
-        public MyCookBookDbContext CreateDbContext(string[] args)
+        public MyCookBookDbContext CreateDbContext(string[] args = null)
         {
             DbContextOptionsBuilder options = new DbContextOptionsBuilder<MyCookBookDbContext>();
             options.UseSqlite("Data Source=MyCookBook.db");

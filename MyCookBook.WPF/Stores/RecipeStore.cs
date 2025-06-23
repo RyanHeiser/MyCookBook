@@ -26,7 +26,15 @@ namespace MyCookBook.WPF.Stores
             set
             {
                 _currentCategory = value;
+                OnCategoryChanged(CurrentCategory);
             }
+        }
+
+        public event Action<RecipeCategory>? CategoryChanged;
+
+        private void OnCategoryChanged(RecipeCategory category)
+        {
+            CategoryChanged?.Invoke(category);
         }
     }
 }

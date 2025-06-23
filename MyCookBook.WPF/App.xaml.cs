@@ -10,6 +10,10 @@ using MyCookBook.WPF.Views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using MyCookBook.Domain.Services.DTOConverters;
+using MyCookBook.EntityFramework.Services;
+using MyCookBook.EntityFramework.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyCookBook.WPF;
 
@@ -26,13 +30,22 @@ public partial class App : Application
             .ConfigureServices((context, services) =>
             {
                 // RecipeBook Model
-                services.AddSingleton((s) => new RecipeBook(new List<RecipeCategory>()));
+                services.AddSingleton<RecipeBook>();
 
                 // MainViewModel
                 services.AddSingleton<MainViewModel>();
 
                 // Navigation service
                 services.AddSingleton<INavigationService>(services => CategoryListingNavigationService(services));
+
+                // Services
+                services.AddSingleton<RecipeCategoryDTOConverter>();
+                services.AddSingleton<RecipeDTOConverter>();
+                services.AddTransient<IDataService<RecipeCategoryDTO>, CategoryDataService>();
+                services.AddSingleton<IDataService<RecipeDTO>, RecipeDataService>();
+
+                // DB Context Factory
+                services.AddSingleton<MyCookBookDbContextFactory>();
 
                 // Stores
                 services.AddSingleton<NavigationStore>();
@@ -52,6 +65,13 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         _host.Start();
+
+        MyCookBookDbContextFactory contextFactory = _host.Services.GetRequiredService<MyCookBookDbContextFactory>();
+        using (MyCookBookDbContext context = contextFactory.CreateDbContext())
+        {
+            context.Database.EnsureCreated();
+            context.Database.Migrate();
+        }
 
         INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate();
