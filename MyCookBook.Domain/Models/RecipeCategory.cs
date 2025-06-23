@@ -33,10 +33,6 @@ namespace MyCookBook.Domain.Models
             Id = Guid.NewGuid();
             Name = name;
             _recipes = recipes;
-
-            //// !!!!! TODO move to dependency injection (factory?) !!!!
-            //_recipeDataService = new RecipeDataService(Id, new CategoryDataService(new MyCookBookDbContextFactory()));
-            //_recipeDTOConverter = new RecipeDTOConverter();
         }
 
         public RecipeCategory(Guid id, string name, List<Recipe> recipes)
@@ -44,22 +40,7 @@ namespace MyCookBook.Domain.Models
             Id = id;
             Name = name;
             _recipes = recipes;
-
-            //// !!!! TODO move to dependency injection (factory?) !!!!
-            //_recipeDataService = new RecipeDataService(Id, new CategoryDataService(new MyCookBookDbContextFactory()));
-            //_recipeDTOConverter = new RecipeDTOConverter();
         }
-
-        /// <summary>
-        /// Gets all the categories in the ReservationBook.
-        /// </summary>
-        /// <returns>An IEnumerable comtaining the categories</returns>
-        //public async Task<IEnumerable<Recipe>> GetAllRecipes()
-        //{
-        //    IEnumerable<RecipeDTO> dtos = await _recipeDataService.GetAll();
-
-        //    return new List<Recipe>(dtos.Select(d => _recipeDTOConverter.ConvertFromDTO(d)));
-        //}
 
         /// <summary>
         /// Adds a recipe in alphabetical order.
@@ -68,22 +49,8 @@ namespace MyCookBook.Domain.Models
         public void AddRecipe(Recipe recipe)
         {   
             _recipes.Add(recipe);
-
-            //RecipeDTO dto = _recipeDTOConverter.ConvertToDTO(recipe);
-            //await _recipeDataService.Create(dto);
         }
 
-        /// <summary>
-        /// Adds a range of recipes in alphabetical order
-        /// </summary>
-        /// <param name="recipes">The recipes to add</param>
-        public void AddRecipes(IEnumerable<Recipe> recipes)
-        {
-            foreach (Recipe recipe in recipes)
-            {
-                AddRecipe(recipe);
-            }
-        }
 
         /// <summary>
         /// Updates a recipe.
@@ -91,20 +58,35 @@ namespace MyCookBook.Domain.Models
         /// <param name="Id">The Id of the recipe to update.</param>
         /// <param name="recipe">The new recipe replacing the old value</param>
         /// <returns>True if successful</returns>
-        //public async Task<bool> UpdateRecipe(Guid Id, Recipe recipe)
-        //{
-        //    RecipeDTO dto = _recipeDTOConverter.ConvertToDTO(recipe);
-        //    return _recipeDTOConverter.UpdateFromDTO(await _recipeDataService.Update(Id, dto), recipe);
-        //}
+        public bool UpdateRecipe(Guid Id, Recipe updatedRecipe)
+        {
+            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
+
+            if (existing != null)
+            {
+                _recipes.Remove(existing);
+                updatedRecipe.Id = Id;
+                _recipes.Add(updatedRecipe);
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Removes a recipe by id.
         /// </summary>
         /// <param name="id">The id of the recipe to remove.</param>
-        //public async Task<bool> RemoveRecipe(Recipe target)
-        //{
-        //    return await _recipeDataService.Delete(Id);
-        //}
+        public bool RemoveRecipe(Recipe target)
+        {
+            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
+
+            if (existing != null)
+            {
+                _recipes.Remove(existing);
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Clears the recipes.
