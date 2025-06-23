@@ -10,9 +10,7 @@ using MyCookBook.WPF.Views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
-using MyCookBook.Domain.Services.DTOConverters;
 using MyCookBook.EntityFramework.Services;
-using MyCookBook.EntityFramework.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyCookBook.WPF;
@@ -39,10 +37,8 @@ public partial class App : Application
                 services.AddSingleton<INavigationService>(services => CategoryListingNavigationService(services));
 
                 // Services
-                services.AddSingleton<RecipeCategoryDTOConverter>();
-                services.AddSingleton<RecipeDTOConverter>();
-                services.AddTransient<IDataService<RecipeCategoryDTO>, CategoryDataService>();
-                services.AddSingleton<IDataService<RecipeDTO>, RecipeDataService>();
+                services.AddTransient<CategoryDataService>();
+                //services.AddSingleton<IDataService<RecipeDTO>, RecipeDataService>();
 
                 // DB Context Factory
                 services.AddSingleton<MyCookBookDbContextFactory>();

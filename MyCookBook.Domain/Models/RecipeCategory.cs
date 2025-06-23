@@ -1,10 +1,8 @@
-﻿using MyCookBook.Domain.Services.DTOConverters;
-using MyCookBook.EntityFramework;
-using MyCookBook.EntityFramework.DTOs;
-using MyCookBook.EntityFramework.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +13,9 @@ namespace MyCookBook.Domain.Models
     {
         //private readonly RecipeDataService _recipeDataService;
         //private readonly RecipeDTOConverter _recipeDTOConverter;
-
-        public Guid Id { get; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public List<Recipe> _recipes;

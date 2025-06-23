@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyCookBook.Domain\MyCookBook.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

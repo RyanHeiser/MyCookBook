@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Linq;
 using System.Text;
@@ -9,16 +11,19 @@ namespace MyCookBook.Domain.Models
 {
     public class Recipe
     {
-        public Guid Id { get; }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
 
         private List<string> _ingredients;
-        public IEnumerable<string> Ingredients { get { return _ingredients; } }
+        public IEnumerable<string> Ingredients { get { return _ingredients; } set { _ingredients = value.ToList(); } }
 
         private List<string> _directions;
-        public IEnumerable<string> Directions { get { return _directions; } }
+        public IEnumerable<string> Directions { get { return _directions; } set { _ingredients = value.ToList(); } }
 
         public Recipe(string name, int minutes, int servings)
         {

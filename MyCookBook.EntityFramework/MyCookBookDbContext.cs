@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCookBook.EntityFramework.DTOs;
+using MyCookBook.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace MyCookBook.EntityFramework
     public class MyCookBookDbContext : DbContext
     {
 
-        public DbSet<RecipeCategoryDTO> Categories { get; set; }
+        public DbSet<RecipeCategory> Categories { get; set; }
         //public DbSet<RecipeDTO> Recipes { get; set; }
 
         public MyCookBookDbContext(DbContextOptions options) : base(options) 
@@ -32,7 +32,6 @@ namespace MyCookBook.EntityFramework
             //modelBuilder.Entity<RecipeCategoryDTO>().Property(c => c.Id).ValueGeneratedNever();
 
             //modelBuilder.Entity<RecipeCategoryDTO>().Property(c => c.Id).ValueGeneratedOnAdd();
-
 
             base.OnModelCreating(modelBuilder);
         }
