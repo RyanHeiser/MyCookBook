@@ -17,7 +17,6 @@ namespace MyCookBook.WPF.Stores
         private List<RecipeCategory> _recipeCategories;
         private List<Recipe> _recipes;
         private Lazy<Task> _categoryLazy;
-        //private Lazy<Task> _recipeLazy;
 
         public IEnumerable<RecipeCategory> RecipeCategories => _recipeCategories;
 
@@ -35,14 +34,6 @@ namespace MyCookBook.WPF.Stores
             _recipeCategories = new List<RecipeCategory>();
             _recipes = new List<Recipe>();
             _categoryLazy = new Lazy<Task>(InitializeCategories);
-            //_recipeLazy = new Lazy<Task>(InitializeRecipes);
-
-            _recipeStore.CategoryChanged += OnCurrentCategoryChanged;
-        }
-
-        private void OnCurrentCategoryChanged(RecipeCategory category)
-        {
-            //_recipeLazy = new Lazy<Task>(InitializeRecipes);
         }
 
         public async Task LoadCategories()
@@ -73,7 +64,7 @@ namespace MyCookBook.WPF.Stores
 
         public async Task LoadRecipes()
         {
-            await InitializeRecipes();
+            _recipes = _recipeStore.CurrentCategory?.Recipes.ToList() ?? new List<Recipe>();
         }
 
         public async Task CreateRecipeCategory(RecipeCategory category)
@@ -118,15 +109,6 @@ namespace MyCookBook.WPF.Stores
 
             _recipeCategories.Clear();
             _recipeCategories.AddRange(recipeCategories);
-        }
-
-        private async Task InitializeRecipes()
-        {
-            RecipeCategory category = await _dataService.Get(_recipeStore.CurrentCategory.Id);
-            IEnumerable<Recipe> recipes = category.Recipes;
-
-            _recipes.Clear();
-            _recipes.AddRange(recipes);
         }
     }
 }
