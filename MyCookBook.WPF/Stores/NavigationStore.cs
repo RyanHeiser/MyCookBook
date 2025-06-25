@@ -45,7 +45,7 @@ namespace MyCookBook.WPF.Stores
         {
             _currentViewModel?.Dispose();
 
-            // Pop the current view model factory from the stack and continue to do so if the next factory returns a CreateRecipeViewModel
+            // Pop the current view model factory from the stack and continue to do so while the next factory returns a CreateRecipeViewModel
             do
             {
                 _previousViewModels.Pop();
