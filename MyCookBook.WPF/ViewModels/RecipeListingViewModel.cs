@@ -33,9 +33,14 @@ namespace MyCookBook.WPF.ViewModels
             }
             set
             {
+                if (_selectedRecipe == value) 
+                    return;
+
                 _selectedRecipe = value;
                 _recipeStore.CurrentRecipe = _selectedRecipe?.Recipe; // updates the current recipe store when list selection is changed
                 OnPropertyChanged(nameof(SelectedRecipe));
+
+                SelectRecipeCommand.Execute(null);
             }
         }
 
@@ -74,7 +79,7 @@ namespace MyCookBook.WPF.ViewModels
 
         public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
             INavigationService createRecipeNavigationService, INavigationService recipeDisplayNavigationService,
-            INavigationService categoryListingNavigationService)
+            INavigationService previousNavigationService)
         {
             _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
@@ -84,7 +89,7 @@ namespace MyCookBook.WPF.ViewModels
             Name = Category?.Name ?? "New Category";
 
             LoadRecipesCommand = new LoadRecipesCommand(this, recipeBookStore);
-            BackCommand = new NavigateCommand(categoryListingNavigationService);
+            BackCommand = new NavigateCommand(previousNavigationService);
             AddCommand = new NavigateCommand(createRecipeNavigationService);
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
 

@@ -46,15 +46,10 @@
 
             <ListView 
             ItemsSource="{Binding Categories}"
-            SelectedItem="{Binding SelectedCategory, Mode=OneWayToSource}"
+            SelectedItem="{Binding SelectedCategory, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
             Visibility="{Binding HasCategories, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectCategoryCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid MaxWidth="{Binding ActualWidth, ElementName=UserControl, Converter={StaticResource PercentageConverter}, ConverterParameter=0.8}">

@@ -99,6 +99,11 @@ public partial class App : Application
     {
         return new NavigationService<RecipeDisplayViewModel>(services.GetRequiredService<NavigationStore>(), () => RecipeDisplayViewModel(services));
     }
+
+    private INavigationService PreviousNavigationService(IServiceProvider services)
+    {
+        return new PreviousNavigationService(services.GetRequiredService<NavigationStore>());
+    }
     #endregion
 
 
@@ -125,19 +130,19 @@ public partial class App : Application
     private RecipeListingViewModel RecipeListingViewModel(IServiceProvider services)
     {
         return new RecipeListingViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
-            CreateRecipeNavigationService(services), RecipeDisplayNavigationService(services), CategoryListingNavigationService(services));
+            CreateRecipeNavigationService(services), RecipeDisplayNavigationService(services), PreviousNavigationService(services));
     }
 
     private CreateRecipeViewModel CreateRecipeViewModel(IServiceProvider services)
     {
         return new CreateRecipeViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
-            RecipeListingNavigationService(services), RecipeDisplayNavigationService(services));
+            RecipeDisplayNavigationService(services), PreviousNavigationService(services));
     }
 
     private RecipeDisplayViewModel RecipeDisplayViewModel(IServiceProvider services)
     {
         return new RecipeDisplayViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
-            RecipeListingNavigationService(services));
+            PreviousNavigationService(services));
     }
 
     private CreateCategoryViewModel CreateCategoryViewModel(IServiceProvider services)

@@ -33,9 +33,14 @@ namespace MyCookBook.WPF.ViewModels
             }
             set
             {
+                if (_selectedCategory == value)
+                    return;
+
                 _selectedCategory = value;
                 _recipeStore.CurrentCategory = _selectedCategory?.Category; // updates the current category store when list selection is changed
                 OnPropertyChanged(nameof(SelectedCategory));
+
+                SelectCategoryCommand.Execute(null);
             }
         }
 

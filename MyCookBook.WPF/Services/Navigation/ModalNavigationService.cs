@@ -20,7 +20,7 @@ namespace MyCookBook.WPF.Services.Navigation
         }
         public void Navigate()
         {
-            _navigationStore.CurrentViewModel = _createViewModel();
+            _navigationStore.Navigate(_createViewModel);
         }
     }
 }

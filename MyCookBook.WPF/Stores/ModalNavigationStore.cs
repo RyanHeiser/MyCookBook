@@ -8,11 +8,15 @@ namespace MyCookBook.WPF.Stores
 {
     public class ModalNavigationStore : NavigationStore
     {
+        public ModalNavigationStore(RecipeStore recipeStore) : base(recipeStore)
+        {
+        }
+
         public bool IsOpen => CurrentViewModel != null;
 
         public void Close()
         {
-            CurrentViewModel = null;
+            Navigate(() => null);
         }
     }
 }

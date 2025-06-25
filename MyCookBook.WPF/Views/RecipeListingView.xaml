@@ -60,12 +60,6 @@
                 SelectedItem="{Binding SelectedRecipe, Mode=OneWayToSource}"
                 Visibility="{Binding HasRecipes, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectRecipeCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel MaxWidth="{Binding ActualWidth, ElementName=UserControl, Converter={StaticResource PercentageConverter}, ConverterParameter=0.75}">
