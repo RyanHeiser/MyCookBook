@@ -76,6 +76,7 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand BackCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand SelectRecipeCommand { get; }
+        public ICommand DeleteRecipeCommand { get; }
 
         public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
             INavigationService createRecipeNavigationService, INavigationService recipeDisplayNavigationService,
@@ -92,10 +93,10 @@ namespace MyCookBook.WPF.ViewModels
             BackCommand = new NavigateCommand(previousNavigationService);
             AddCommand = new NavigateCommand(createRecipeNavigationService);
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
+            DeleteRecipeCommand = new CompositeCommand(new DeleteRecipeCommand(recipeBookStore, Category), LoadRecipesCommand);
 
             LoadRecipesCommand.Execute(null);
 
-            //_recipeBookStore.RecipeCreated += OnRecipeCreated;
             _recipes.CollectionChanged += OnRecipeCreated;
         }
 
@@ -109,22 +110,6 @@ namespace MyCookBook.WPF.ViewModels
                 _recipes.Add(recipeViewModel);
             }
         }
-
-        /// <summary>
-        /// Unsubscribe from RecipeCreated event so that this view model can properly be disposed
-        /// </summary>
-        public override void Dispose()
-        {
-            //_recipeBookStore.RecipeCreated -= OnRecipeCreated;
-            base.Dispose();
-        }
-
-        // NOT CURRENTLY IN USE
-        //private void OnRecipeCreated(Recipe recipe, RecipeCategory category)
-        //{
-        //    RecipeViewModel viewModel = new RecipeViewModel(recipe);
-        //    _recipes.Add(viewModel);
-        //}
 
         private void OnRecipeCreated(object? sender, NotifyCollectionChangedEventArgs e)
         {

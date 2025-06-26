@@ -23,8 +23,15 @@
             <TextBlock Grid.Column="1" FontSize="24" Margin="30 0 0 0" Text="{Binding RecipeViewModel.Name}" />
             
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="30 0 0 0">
-                <Button Content="Edit" Padding="5" />
-                <Button Content="Delete" Margin="10 0 0 0" Padding="5" />
+                <Button 
+                    Content="Edit" 
+                    Padding="5" />
+                <Button 
+                    Content="Delete" 
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding Recipe}"
+                    Margin="10 0 0 0" 
+                    Padding="5" />
             </StackPanel>
         </Grid>
 

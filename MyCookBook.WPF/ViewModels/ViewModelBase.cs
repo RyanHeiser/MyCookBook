@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.WPF.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
-        public Recipe? Recipe;
-        public RecipeCategory? Category;
+        public Recipe? Recipe { get; protected set; }
+        public RecipeCategory? Category { get; protected set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

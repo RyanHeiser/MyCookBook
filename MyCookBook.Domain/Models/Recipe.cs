@@ -49,17 +49,6 @@ namespace MyCookBook.Domain.Models
             CategoryId = categoryId;
         }
 
-        public Recipe(Guid id, string name, int minutes, int servings, List<string> ingredients, List<string> directions, Guid categoryId)
-        {
-            Id = id;
-            Name = name;
-            Minutes = minutes;
-            Servings = servings;
-            _ingredients = ingredients;
-            _directions = directions;
-            CategoryId = categoryId;
-        }
-
         /// <summary>
         /// Adds an ingredient to end of _ingredients list.
         /// </summary>

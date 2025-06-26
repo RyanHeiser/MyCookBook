@@ -15,7 +15,7 @@ namespace MyCookBook.Domain.Models
         //private readonly RecipeDTOConverter _recipeDTOConverter;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid CategoryId { get; set; }
         public string Name { get; set; }
 
         public List<Recipe> _recipes;
@@ -23,21 +23,14 @@ namespace MyCookBook.Domain.Models
 
         public RecipeCategory(string name)
         {
-            Id = Guid.NewGuid();
+            CategoryId = Guid.NewGuid();
             Name = name;
             _recipes = new List<Recipe>();
         }
 
         public RecipeCategory(string name, List<Recipe> recipes)
         {
-            Id = Guid.NewGuid();
-            Name = name;
-            _recipes = recipes;
-        }
-
-        public RecipeCategory(Guid id, string name, List<Recipe> recipes)
-        {
-            Id = id;
+            CategoryId = Guid.NewGuid();
             Name = name;
             _recipes = recipes;
         }
@@ -76,7 +69,7 @@ namespace MyCookBook.Domain.Models
         /// Removes a recipe by id.
         /// </summary>
         /// <param name="id">The id of the recipe to remove.</param>
-        public bool RemoveRecipe(Recipe target)
+        public bool RemoveRecipe(Guid Id)
         {
             Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
 

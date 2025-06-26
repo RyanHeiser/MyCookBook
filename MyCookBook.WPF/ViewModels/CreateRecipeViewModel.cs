@@ -109,7 +109,7 @@ namespace MyCookBook.WPF.ViewModels
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
             }
 
-            SubmitCommand = new CreateRecipeCommand(this, recipeBookStore, recipeStore, recipeDisplayNavigationService);
+            SubmitCommand = new CompositeCommand(new CreateRecipeCommand(this, recipeBookStore, recipeStore), new NavigateCommand(recipeDisplayNavigationService));
             CancelCommand = new NavigateCommand(previousNavigationService);
 
             AddIngredient = new AddToCollectionCommand<StringViewModel>(Ingredients, () => new StringViewModel(""));

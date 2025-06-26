@@ -18,14 +18,12 @@ namespace MyCookBook.WPF.Commands
         private readonly CreateRecipeViewModel _createRecipeViewModel;
         private readonly RecipeBookStore _recipeBookStore;
         private readonly RecipeStore _recipeStore;
-        private readonly INavigationService _recipeDisplayNavigationService;
 
-        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeBookStore recipeBookStore, RecipeStore recipeStore, INavigationService recipeDisplayNavigationService)
+        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeBookStore recipeBookStore, RecipeStore recipeStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
             _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
-            _recipeDisplayNavigationService = recipeDisplayNavigationService;
             _createRecipeViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
@@ -44,7 +42,7 @@ namespace MyCookBook.WPF.Commands
                 _createRecipeViewModel.Servings,
                 new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
                 new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)),
-                _recipeStore.CurrentCategory.Id); // Convert non-empty Direction StringViewModels to Strings
+                _recipeStore.CurrentCategory.CategoryId); // Convert non-empty Direction StringViewModels to Strings
 
             _recipeStore.CurrentRecipe = recipe;
 
@@ -52,7 +50,6 @@ namespace MyCookBook.WPF.Commands
             {
                 await _recipeBookStore.CreateRecipe(recipe, _createRecipeViewModel.Category ?? new RecipeCategory("New Category", new List<Recipe>()));
                 MessageBox.Show("Created recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                _recipeDisplayNavigationService.Navigate();
             } 
             catch (NullReferenceException)
             {

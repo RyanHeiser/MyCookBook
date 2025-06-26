@@ -31,6 +31,8 @@ namespace MyCookBook.WPF.Stores
         /// <param name="createVM">A factory function which returns the new view model.</param>
         public void Navigate(Func<ViewModelBase> createVM)
         {
+            _currentViewModel?.Dispose();
+
             // Add the new view model factory to the stack of previous view models and invoke it to set current view model.
             _previousViewModels.Push(createVM);
             _currentViewModel = createVM();

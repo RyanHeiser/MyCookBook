@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MyCookBook.WPF.Commands
 {
     public class CompositeCommand : CommandBase
     {
-        private readonly IEnumerable<CommandBase> _commands;
+        private readonly IEnumerable<ICommand> _commands;
 
-        public CompositeCommand(params CommandBase[] commands)
+        public CompositeCommand(params ICommand[] commands)
         {
             _commands = commands;
         }
 
         public override void Execute(object? parameter)
         {
-            foreach (CommandBase command in _commands)
+            foreach (ICommand command in _commands)
             {
                 command.Execute(parameter);
             }

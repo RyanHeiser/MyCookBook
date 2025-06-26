@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:MyCookBook.WPF.Views" 
              xmlns:converters="clr-namespace:MyCookBook.WPF.Converters"
              mc:Ignorable="d" 
-             Name="UserControl"
+             Name="Root"
              d:DesignHeight="600" d:DesignWidth="1000">
     
     <UserControl.Resources>
@@ -31,7 +31,7 @@
             Grid.Row="0" 
             Grid.Column="1" 
             FontSize="24" 
-            MaxWidth="{Binding ActualWidth, ElementName=UserControl, Converter={StaticResource PercentageConverter}, ConverterParameter=0.7}"
+            MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.7}"
             Text="{Binding Name}" />
 
         <Button 
@@ -68,7 +68,7 @@
                 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid MaxWidth="{Binding ActualWidth, ElementName=UserControl, Converter={StaticResource PercentageConverter}, ConverterParameter=0.75}">
+                        <Grid MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.75}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
@@ -94,6 +94,8 @@
                                     Padding="5" />
                                 <Button
                                     Content="Delete"
+                                    Command="{Binding DataContext.DeleteRecipeCommand, ElementName=Root}"
+                                    CommandParameter="{Binding Recipe}"
                                     Margin="10 0 0 0"
                                     Padding="5" />      
                             </StackPanel>

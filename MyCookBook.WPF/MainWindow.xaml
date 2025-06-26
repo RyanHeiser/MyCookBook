@@ -11,6 +11,7 @@
         FontSize="14"
         WindowStartupLocation="CenterScreen"
         Title="My Cook Book" Height="700" Width="1000">
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.Resources>

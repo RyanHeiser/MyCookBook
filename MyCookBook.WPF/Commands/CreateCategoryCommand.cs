@@ -24,7 +24,7 @@ namespace MyCookBook.WPF.Commands
         {
             RecipeCategory category = new RecipeCategory(_viewModel.Name, new List<Recipe>());
 
-            await _recipeBookStore.CreateRecipeCategory(category);
+            await _recipeBookStore.CreateCategory(category);
         }
     }
 }
