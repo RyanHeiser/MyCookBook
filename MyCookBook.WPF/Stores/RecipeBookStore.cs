@@ -82,7 +82,11 @@ namespace MyCookBook.WPF.Stores
 
         public async Task<bool> DeleteCategory(Guid Id)
         {
-            return await _dataService.Delete(Id);
+            if (await _dataService.Delete(Id)) {
+                _categories.Remove(_categories.First(c => c.CategoryId == Id));
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> DeleteRecipe(Guid Id, RecipeCategory category)

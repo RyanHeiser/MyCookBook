@@ -58,9 +58,10 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
-        public ICommand LoadRecipeCategoriesCommand { get; }
+        public ICommand LoadCategoriesCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand SelectCategoryCommand { get; }
+        public ICommand DeleteCategoryCommand { get; }
 
         public CategoryListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
             INavigationService createCategoryNavigationService, INavigationService recipeListingNavigationService)
@@ -69,11 +70,12 @@ namespace MyCookBook.WPF.ViewModels
             _recipeStore = recipeStore;
             _categories = new ObservableCollection<CategoryViewModel>();
 
-            LoadRecipeCategoriesCommand = new LoadRecipeCategoriesCommand(this, recipeBookStore);
+            LoadCategoriesCommand = new LoadRecipeCategoriesCommand(this, recipeBookStore);
             AddCommand = new NavigateCommand(createCategoryNavigationService);
             SelectCategoryCommand = new NavigateCommand(recipeListingNavigationService);
+            DeleteCategoryCommand = new CompositeCommand(new DeleteCategoryCommand(recipeBookStore), LoadCategoriesCommand);
 
-            LoadRecipeCategoriesCommand.Execute(null);
+            LoadCategoriesCommand.Execute(null);
 
             _categories.CollectionChanged += OnCategoryCreated;
             _recipeBookStore.CategoryCreated += OnCategoryCreated;
@@ -98,7 +100,7 @@ namespace MyCookBook.WPF.ViewModels
 
         private void OnCategoryCreated(RecipeCategory category)
         {
-            LoadRecipeCategoriesCommand.Execute(null);
+            LoadCategoriesCommand.Execute(null);
         }
 
         private void OnCategoryCreated(object? sender, NotifyCollectionChangedEventArgs e)

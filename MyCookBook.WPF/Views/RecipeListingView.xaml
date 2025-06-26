@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -42,15 +43,28 @@
             Padding="5"
             Margin="0 0 20 0"/>
 
-        <Button 
+        <StackPanel 
             Grid.Row="0"
             Grid.Column="2"
-            Content="Add" 
-            Command="{Binding AddCommand}"
-            Padding="5"
-            Margin="20 0 0 0"/>
+            Orientation="Horizontal">
+            <Button 
+                Content="Rename" 
+                Padding="5" />
+            <Button 
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="Delete" 
+                Command="{Binding DeleteCategoryCommand}"
+                CommandParameter="{Binding Category}"
+                Padding="5"
+                Margin="10 0 0 0"/>
+        </StackPanel>
 
-        <Grid Margin="0 20 0 0" Grid.Row="1" Grid.Column="1">
+        <Grid 
+            Margin="0 40 0 0" 
+            Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="3">
             <TextBlock 
                 Text="No recipes have been created yet. Click &quot;Add&quot; to add a recipe." 
                 Visibility="{Binding HasRecipes, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
@@ -68,7 +82,7 @@
                 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.75}">
+                        <Grid MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.9}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
@@ -125,6 +139,15 @@
 
             </ListView>
         </Grid>
+
+        <Button 
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Content="Add" 
+            Command="{Binding AddCommand}"
+            Padding="5"
+            Margin="0 15 0 0"/>
 
     </Grid>
 </UserControl>
