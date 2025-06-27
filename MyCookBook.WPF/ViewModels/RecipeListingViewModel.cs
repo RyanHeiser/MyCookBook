@@ -79,6 +79,7 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand DeleteCategoryCommand { get; }
 
         public ICommand SelectRecipeCommand { get; }
+        public ICommand EditRecipeCommand { get; }
         public ICommand DeleteRecipeCommand { get; }
 
         public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
@@ -99,6 +100,7 @@ namespace MyCookBook.WPF.ViewModels
             DeleteCategoryCommand = new CompositeCommand(new DeleteCategoryCommand(recipeBookStore), BackCommand);
 
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
+            EditRecipeCommand = new CompositeCommand(new SetCurrentRecipeCommand(recipeStore), new NavigateCommand(createRecipeNavigationService));
             DeleteRecipeCommand = new CompositeCommand(new DeleteRecipeCommand(recipeBookStore, Category), LoadRecipesCommand);
 
             LoadRecipesCommand.Execute(null);

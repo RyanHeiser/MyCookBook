@@ -105,6 +105,8 @@
                                 Orientation="Horizontal">
                                 <Button
                                     Content="Edit"
+                                    Command="{Binding DataContext.EditRecipeCommand, ElementName=Root}"
+                                    CommandParameter="{Binding Recipe}"
                                     Padding="5" />
                                 <Button
                                     Content="Delete"

@@ -29,15 +29,7 @@ namespace MyCookBook.WPF.Commands
         {
             _createRecipeViewModel.IsSubmitting = true;
 
-            Recipe? recipe;
-            try
-            {
-                recipe = parameter as Recipe;
-            }
-            catch (Exception)
-            {
-                throw new InvalidCastException();
-            }
+            Recipe? recipe = _createRecipeViewModel.Recipe;
 
             Recipe updatedRecipe = new Recipe(
                 _createRecipeViewModel.Name ?? "New Recipe",
