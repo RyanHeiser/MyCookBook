@@ -72,46 +72,13 @@ namespace MyCookBook.EntityFramework.Services
                     //.Include(c => c.Recipes)
                     .FirstOrDefault(c => c.CategoryId == Id);
 
-                if (category == null)
+                if (category != null)
                 {
-                    throw new InvalidOperationException("RecipeCategory not found");
+                    category.Name = entity.Name;
+                    await context.SaveChangesAsync();
                 }
-
-                category.Name = entity.Name; // update category name
-
-
-                ////Update the Recipes Set based on changes to recipes between existing entity and updated entity
-                //HashSet<Guid> entityIds = entity.Recipes.Select(r => r.Id).ToHashSet();
-                //List<Recipe> recipesToRemove = category.Recipes.Where(r => !entityIds.Contains(r.Id)).ToList();
-                //foreach (Recipe recipe in entity.Recipes)
-                //{
-                //    // remove recipe
-                //    if (recipesToRemove.Contains(recipe))
-                //    {
-                //        context.Set<Recipe>().Remove(recipe);
-                //        continue;
-                //    }
-
-                //    Recipe? existingRecipe = context.Set<Recipe>().FirstOrDefault(r => r.Id == recipe.Id);
-
-                //    // add recipe
-                //    if (existingRecipe == null)
-                //    {
-                //        context.Set<Recipe>().Add(recipe);
-                //    }
-                //    // modify recipe
-                //    else
-                //    {
-                //        existingRecipe.Name = recipe.Name;
-                //        existingRecipe.Minutes = recipe.Minutes;
-                //        existingRecipe.Servings = recipe.Servings;
-                //        existingRecipe.Ingredients = recipe.Ingredients;
-                //        existingRecipe.Directions = recipe.Directions;
-                //    }
-                //}
-
-                await context.SaveChangesAsync();
-                return entity;
+                
+                return category;
             }
         }
     }

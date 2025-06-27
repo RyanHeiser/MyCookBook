@@ -29,14 +29,17 @@ namespace MyCookBook.WPF.ViewModels
 			}
 		}
 		public ICommand BackCommand { get; }
+		public ICommand EditCommand { get; }
 		public ICommand DeleteCommand { get; }
 
-        public RecipeDisplayViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, INavigationService previousNavigationService)
+        public RecipeDisplayViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
+			INavigationService createRecipeNavigationService, INavigationService previousNavigationService)
         {
 			Recipe = recipeStore.CurrentRecipe;
 			Category = recipeStore.CurrentCategory;
 
             BackCommand = new NavigateCommand(previousNavigationService);
+			EditCommand = new NavigateCommand(createRecipeNavigationService);
 			DeleteCommand = new CompositeCommand(new DeleteRecipeCommand(recipeBookStore, Category), BackCommand);
 
             RecipeViewModel = new RecipeViewModel(recipeStore.CurrentRecipe);

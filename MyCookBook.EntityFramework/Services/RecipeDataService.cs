@@ -47,17 +47,37 @@ namespace MyCookBook.EntityFramework.Services
 
         public async Task<Recipe> Get(Guid Id)
         {
-            throw new NotImplementedException();
+            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
+            {
+                Recipe? entity = await context.Recipes.FirstOrDefaultAsync(e => e.Id == Id);
+                return entity;
+            }
         }
 
         public async Task<IEnumerable<Recipe>> GetAll()
         {
-            throw new NotImplementedException();
+            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
+            {
+                IEnumerable<Recipe>? entities = await context.Recipes.ToListAsync();
+                return entities;
+            }
         }
 
         public async Task<Recipe> Update(Guid Id, Recipe entity)
         {
-            throw new NotImplementedException();
+            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
+            {
+                Recipe? recipe = await context.Recipes.AsNoTracking().FirstOrDefaultAsync(r => r.Id == Id);
+
+                if (recipe != null)
+                {
+                    entity.Id = recipe.Id;
+                    entity.CategoryId = recipe.CategoryId;
+                    context.Recipes.Update(entity);
+                    await context.SaveChangesAsync();
+                }
+                return entity;
+            }
         }
     }
 }

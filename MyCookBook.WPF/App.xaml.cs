@@ -142,7 +142,7 @@ public partial class App : Application
     private RecipeDisplayViewModel RecipeDisplayViewModel(IServiceProvider services)
     {
         return new RecipeDisplayViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
-            PreviousNavigationService(services));
+            CreateRecipeNavigationService(services), PreviousNavigationService(services));
     }
 
     private CreateCategoryViewModel CreateCategoryViewModel(IServiceProvider services)

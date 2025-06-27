@@ -11,12 +11,12 @@ namespace MyCookBook.WPF.Commands
     class AddToCollectionCommand<T> : CommandBase
     {
         private readonly ICollection<T> _collection;
-        private readonly Func<T> defaultFactory;
+        private readonly Func<T> _defaultFactory;
 
         public AddToCollectionCommand(ICollection<T> collection, Func<T> defaultFactory) 
         {
             _collection = collection;
-            this.defaultFactory = defaultFactory;
+            _defaultFactory = defaultFactory;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace MyCookBook.WPF.Commands
         {
             if (parameter == null || parameter is not T)
             {
-                _collection.Add(defaultFactory());
+                _collection.Add(_defaultFactory());
             } 
             else
             {

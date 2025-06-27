@@ -9,6 +9,8 @@
 
     <UserControl.Resources>
         <converters:PercentageConverter x:Key="PercentageConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -21,7 +23,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="24" Text="Create New Recipe" />
+        <Grid Grid.Row="0">
+            <TextBlock Visibility="{Binding IsEditing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" FontSize="24" Text="Create New Recipe" />
+            <TextBlock Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="24" Text="Edit Existing Recipe" />
+        </Grid>
 
         <StackPanel Grid.Row="1" Margin="0 25 0 0">
             <TextBlock Text="Recipe name:" />
@@ -110,6 +115,7 @@
             <Button 
                 Content="Submit" 
                 Command="{Binding SubmitCommand}" 
+                CommandParameter="{Binding Recipe}"
                 Padding="5" />
             <Button 
                 Content="Cancel" 

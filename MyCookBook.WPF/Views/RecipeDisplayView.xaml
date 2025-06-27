@@ -25,6 +25,7 @@
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="30 0 0 0">
                 <Button 
                     Content="Edit" 
+                    Command="{Binding EditCommand}"
                     Padding="5" />
                 <Button 
                     Content="Delete" 

@@ -86,6 +86,20 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        private bool _isEditing = false;
+        public bool IsEditing
+        {
+            get
+            {
+                return _isEditing;
+            }
+            private set
+            {
+                _isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
 
@@ -102,14 +116,22 @@ namespace MyCookBook.WPF.ViewModels
             {
                 Ingredients = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
                 Directions = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
-            } 
+
+                SubmitCommand = new CompositeCommand(new CreateRecipeCommand(this, recipeBookStore, recipeStore), new NavigateCommand(recipeDisplayNavigationService));
+            }
             else
             {
+                Name = recipeStore.CurrentRecipe.Name;
+                Minutes = recipeStore.CurrentRecipe.Minutes;
+                Servings = recipeStore.CurrentRecipe.Servings;
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
+
+                SubmitCommand = new CompositeCommand(new UpdateRecipeCommand(this, recipeBookStore, recipeStore), new NavigateCommand(recipeDisplayNavigationService));
+
+                IsEditing = true;
             }
 
-            SubmitCommand = new CompositeCommand(new CreateRecipeCommand(this, recipeBookStore, recipeStore), new NavigateCommand(recipeDisplayNavigationService));
             CancelCommand = new NavigateCommand(previousNavigationService);
 
             AddIngredient = new AddToCollectionCommand<StringViewModel>(Ingredients, () => new StringViewModel(""));

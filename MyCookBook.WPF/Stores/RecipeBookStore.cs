@@ -100,6 +100,29 @@ namespace MyCookBook.WPF.Stores
             return false;
         }
 
+        public async Task<bool> UpdateCategory(Guid Id, RecipeCategory category)
+        {
+            return false;
+        }
+
+        public async Task<bool> UpdateRecipe(Guid Id, Recipe recipe, RecipeCategory category)
+        {
+            try
+            {
+                Recipe updatedRecipe = await _recipeDataService.Update(Id, recipe);
+                category.RemoveRecipe(Id);
+                category.AddRecipe(updatedRecipe);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            
+            
+        }
+
         private void OnCategoryCreated(RecipeCategory category)
         {
             CategoryCreated?.Invoke(category);

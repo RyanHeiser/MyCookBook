@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,14 +46,14 @@ namespace MyCookBook.WPF.Stores
         /// </summary>
         public void NavigatePrevious()
         {
-            _currentViewModel?.Dispose();
 
             // Pop the current view model factory from the stack and continue to do so while the next factory returns a CreateRecipeViewModel
             do
             {
                 _previousViewModels.Pop();
-            } while (_previousViewModels.Peek() is Func<CreateRecipeViewModel>);
-                
+            } while (_previousViewModels.Peek() is Func<CreateRecipeViewModel> || _previousViewModels.Peek().GetMethodInfo().ReturnType == _currentViewModel?.GetType());
+
+            _currentViewModel?.Dispose();
             _currentViewModel = _previousViewModels.Peek().Invoke();
 
             // Set the app-wide recipe store to null if traversing back to RecipeListingView
