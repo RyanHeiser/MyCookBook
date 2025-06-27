@@ -24,6 +24,7 @@ namespace MyCookBook.WPF.Stores
         public IEnumerable<Recipe> Recipes => _recipes;
 
         public event Action<RecipeCategory>? CategoryCreated;
+        public event Action<RecipeCategory>? CategoryUpdated;
 
         public event Action<Recipe, RecipeCategory>? RecipeCreated;
 
@@ -102,7 +103,18 @@ namespace MyCookBook.WPF.Stores
 
         public async Task<bool> UpdateCategory(Guid Id, RecipeCategory category)
         {
-            return false;
+            try
+            {
+                RecipeCategory updatedCategory = await _categoryDataService.Update(Id, category);
+                _categories.First(c => c.CategoryId == Id).Name = updatedCategory.Name;
+                OnCategoryUpdated(category);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
         }
 
         public async Task<bool> UpdateRecipe(Guid Id, Recipe recipe, RecipeCategory category)
@@ -119,13 +131,16 @@ namespace MyCookBook.WPF.Stores
                 return false;
                 throw;
             }
-            
-            
         }
 
         private void OnCategoryCreated(RecipeCategory category)
         {
             CategoryCreated?.Invoke(category);
+        }
+
+        private void OnCategoryUpdated(RecipeCategory category)
+        {
+            CategoryUpdated?.Invoke(category);
         }
 
         private void OnRecipeCreated(Recipe recipe, RecipeCategory category)

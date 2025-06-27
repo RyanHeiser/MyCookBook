@@ -29,16 +29,40 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
-        public ICommand AddCommand { get; }
+        private bool _isEditing;
+        public bool IsEditing
+        {
+            get
+            {
+                return _isEditing;
+            }
+            private set
+            {
+                _isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+
+        public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public CreateCategoryViewModel(RecipeBookStore recipeBookStore, INavigationService closeNavigationService) 
+        public CreateCategoryViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, INavigationService closeNavigationService) 
         {
             _recipeBookStore = recipeBookStore;
             _closeNavigationService = closeNavigationService;
-
-            AddCommand = new CompositeCommand(new CreateCategoryCommand(this, recipeBookStore), new NavigateCommand(closeNavigationService));
+            
             CancelCommand = new NavigateCommand(closeNavigationService);
+
+            if (recipeStore.CurrentCategory == null)
+            {
+                SubmitCommand = new CompositeCommand(new CreateCategoryCommand(this, recipeBookStore), new NavigateCommand(closeNavigationService));
+            }
+            else
+            {
+                Category = recipeStore.CurrentCategory;
+                SubmitCommand = new CompositeCommand(new UpdateCategoryCommand(this, recipeBookStore, recipeStore), new NavigateCommand(closeNavigationService));
+                IsEditing = true;
+            }
         }
     }
 }

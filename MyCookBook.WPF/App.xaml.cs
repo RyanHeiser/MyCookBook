@@ -130,7 +130,7 @@ public partial class App : Application
     private RecipeListingViewModel RecipeListingViewModel(IServiceProvider services)
     {
         return new RecipeListingViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(),
-            CreateRecipeNavigationService(services), RecipeDisplayNavigationService(services), PreviousNavigationService(services));
+            CreateRecipeNavigationService(services), CreateCategoryNavigationService(services), RecipeDisplayNavigationService(services), PreviousNavigationService(services));
     }
 
     private CreateRecipeViewModel CreateRecipeViewModel(IServiceProvider services)
@@ -147,7 +147,7 @@ public partial class App : Application
 
     private CreateCategoryViewModel CreateCategoryViewModel(IServiceProvider services)
     {
-        return new CreateCategoryViewModel(services.GetRequiredService<RecipeBookStore>(), CloseModalNavigationService(services));
+        return new CreateCategoryViewModel(services.GetRequiredService<RecipeBookStore>(), services.GetRequiredService<RecipeStore>(), CloseModalNavigationService(services));
     } 
     #endregion
 }

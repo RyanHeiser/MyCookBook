@@ -68,17 +68,16 @@ namespace MyCookBook.EntityFramework.Services
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeCategory? category = context.Categories
-                    //.Include(c => c.Recipes)
-                    .FirstOrDefault(c => c.CategoryId == Id);
+                //RecipeCategory? category = context.Categories
+                //    //.Include(c => c.Recipes)
+                //    .FirstOrDefault(c => c.CategoryId == Id);
 
-                if (category != null)
-                {
-                    category.Name = entity.Name;
-                    await context.SaveChangesAsync();
-                }
                 
-                return category;
+                entity.CategoryId = Id;
+                context.Categories.Update(entity);
+                await context.SaveChangesAsync();
+                
+                return entity;
             }
         }
     }

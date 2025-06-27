@@ -61,6 +61,7 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand LoadCategoriesCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand SelectCategoryCommand { get; }
+        public ICommand RenameCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
         public CategoryListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
@@ -73,12 +74,19 @@ namespace MyCookBook.WPF.ViewModels
             LoadCategoriesCommand = new LoadRecipeCategoriesCommand(this, recipeBookStore);
             AddCommand = new NavigateCommand(createCategoryNavigationService);
             SelectCategoryCommand = new NavigateCommand(recipeListingNavigationService);
+            RenameCategoryCommand = new CompositeCommand(new SetCurrentCategoryCommand(recipeStore), new NavigateCommand(createCategoryNavigationService));
             DeleteCategoryCommand = new CompositeCommand(new DeleteCategoryCommand(recipeBookStore), LoadCategoriesCommand);
 
             LoadCategoriesCommand.Execute(null);
 
             _categories.CollectionChanged += OnCategoryCreated;
             _recipeBookStore.CategoryCreated += OnCategoryCreated;
+            _recipeBookStore.CategoryUpdated += OnCategoryUpdated;
+        }
+
+        private void OnCategoryUpdated(RecipeCategory category)
+        {
+            LoadCategoriesCommand?.Execute(category);
         }
 
         public void UpdateCategories(IEnumerable<RecipeCategory> categories)

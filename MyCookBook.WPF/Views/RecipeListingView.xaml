@@ -49,6 +49,7 @@
             Orientation="Horizontal">
             <Button 
                 Content="Rename" 
+                Command="{Binding RenameCategoryCommand}"
                 Padding="5" />
             <Button 
                 Grid.Row="0"

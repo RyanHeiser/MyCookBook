@@ -76,6 +76,7 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand BackCommand { get; }
         public ICommand AddCommand { get; }
 
+        public ICommand RenameCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
         public ICommand SelectRecipeCommand { get; }
@@ -83,7 +84,7 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand DeleteRecipeCommand { get; }
 
         public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
-            INavigationService createRecipeNavigationService, INavigationService recipeDisplayNavigationService,
+            INavigationService createRecipeNavigationService, INavigationService createCategoryNavigationService, INavigationService recipeDisplayNavigationService,
             INavigationService previousNavigationService)
         {
             _recipeBookStore = recipeBookStore;
@@ -97,6 +98,7 @@ namespace MyCookBook.WPF.ViewModels
             BackCommand = new NavigateCommand(previousNavigationService);
             AddCommand = new NavigateCommand(createRecipeNavigationService);
 
+            RenameCategoryCommand = new NavigateCommand(createCategoryNavigationService);
             DeleteCategoryCommand = new CompositeCommand(new DeleteCategoryCommand(recipeBookStore), BackCommand);
 
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
@@ -106,6 +108,13 @@ namespace MyCookBook.WPF.ViewModels
             LoadRecipesCommand.Execute(null);
 
             _recipes.CollectionChanged += OnRecipeCreated;
+            _recipeBookStore.CategoryUpdated += OnCategoryUpdated;
+        }
+
+        public override void Dispose()
+        {
+            _recipeBookStore.CategoryUpdated += OnCategoryUpdated;
+            base.Dispose();
         }
 
         public void UpdateRecipes(IEnumerable<Recipe> recipes)
@@ -122,6 +131,11 @@ namespace MyCookBook.WPF.ViewModels
         private void OnRecipeCreated(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(HasRecipes));
+        }
+
+        private void OnCategoryUpdated(RecipeCategory category)
+        {
+            Name = category.Name;
         }
     }
 }
