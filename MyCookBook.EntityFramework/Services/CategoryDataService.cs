@@ -14,7 +14,7 @@ namespace MyCookBook.EntityFramework.Services
     {
         protected readonly MyCookBookDbContextFactory _contextFactory;
 
-        public CategoryDataService(MyCookBookDbContextFactory contextFactory, RecipeBook recipeBook)
+        public CategoryDataService(MyCookBookDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
@@ -30,25 +30,11 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<Recipe> CreateRecipe(Recipe entity)
+        public async Task<RecipeCategory> Get(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeCategory? category = await context.Set<RecipeCategory>().Include(c => c.Recipes).FirstOrDefaultAsync(c => c.CategoryId == entity.CategoryId);
-                category.AddRecipe(entity);
-                await context.Recipes.AddAsync(entity);
-
-                await context.SaveChangesAsync();
-                return entity;
-            }
-        }
-
-
-        public async Task<RecipeCategory> Get(Guid id)
-        {
-            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
-            {
-                RecipeCategory? entity = await context.Set<RecipeCategory>().Include(c => c.Recipes).FirstOrDefaultAsync(e => e.CategoryId == id);
+                RecipeCategory? entity = await context.Set<RecipeCategory>().Include(c => c.Recipes).FirstOrDefaultAsync(e => e.CategoryId == Id);
                 return entity;
             }
         }
@@ -62,11 +48,11 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeCategory? entity = await context.Set<RecipeCategory>().FirstOrDefaultAsync(e => e.CategoryId == id);
+                RecipeCategory? entity = await context.Set<RecipeCategory>().FirstOrDefaultAsync(e => e.CategoryId == Id);
 
                 if (entity != null)
                 {
@@ -78,32 +64,13 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<bool> DeleteRecipe(Guid Id)
-        {
-            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
-            {
-                Recipe? entity = await context.Recipes.FirstOrDefaultAsync(e => e.Id == Id);
-                RecipeCategory? category = await context.Categories.FirstOrDefaultAsync(e => e.CategoryId == entity.CategoryId);
-
-                if (entity != null && category != null)
-                {
-                    category.RemoveRecipe(Id);
-                    context.Recipes.Remove(entity);
-
-                    await context.SaveChangesAsync();
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        public async Task<RecipeCategory> Update(Guid id, RecipeCategory entity)
+        public async Task<RecipeCategory> Update(Guid Id, RecipeCategory entity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
                 RecipeCategory? category = context.Categories
                     //.Include(c => c.Recipes)
-                    .FirstOrDefault(c => c.CategoryId == id);
+                    .FirstOrDefault(c => c.CategoryId == Id);
 
                 if (category == null)
                 {

@@ -37,8 +37,8 @@ public partial class App : Application
                 services.AddSingleton<INavigationService>(services => CategoryListingNavigationService(services));
 
                 // Services
-                services.AddTransient<CategoryDataService>();
-                //services.AddSingleton<IDataService<RecipeDTO>, RecipeDataService>();
+                services.AddSingleton<IDataService<RecipeCategory>, CategoryDataService>();
+                services.AddSingleton<IDataService<Recipe>, RecipeDataService>();
 
                 // DB Context Factory
                 services.AddSingleton<MyCookBookDbContextFactory>();
