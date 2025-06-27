@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyCookBook.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000">
+             MaxWidth="1400"
+             d:DesignHeight="800" d:DesignWidth="1400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -58,9 +59,17 @@
                 Grid.Column="0" 
                 FontSize="16"
                 FontWeight="Bold"
-                Text="Ingredients" />
-            <ListView ItemsSource="{Binding RecipeViewModel.Ingredients}" Grid.Row="1" Grid.Column="0">
-              
+                Text="Ingredients"/>
+            <ListView 
+                ItemsSource="{Binding RecipeViewModel.Ingredients}" 
+                Grid.Row="1" 
+                Grid.Column="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }" TextWrapping="Wrap"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
             <TextBlock 
@@ -68,9 +77,19 @@
                 Grid.Column="1" 
                 FontSize="16"
                 FontWeight="Bold"
-                Text="Directions" />
-            <ListView ItemsSource="{Binding RecipeViewModel.Directions}" Grid.Row="1" Grid.Column="1">
-                
+                TextWrapping="Wrap" />
+            <ListView 
+                ItemsSource="{Binding RecipeViewModel.Directions}" 
+                Grid.Row="1" 
+                Grid.Column="1"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding }" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
         </Grid>

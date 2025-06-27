@@ -6,9 +6,11 @@
              xmlns:local="clr-namespace:MyCookBook.WPF.Views"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:converters="clr-namespace:MyCookBook.WPF.Converters"
+             xmlns:app="clr-namespace:MyCookBook.WPF"
              mc:Ignorable="d" 
              Name="Root"
-             d:DesignHeight="600" d:DesignWidth="1000">
+             MaxWidth="800"
+             d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
@@ -28,7 +30,7 @@
         <TextBlock 
         Grid.Row="0" 
         Grid.Column="0" 
-        FontSize="24" 
+        FontSize="24"
         Text="My Cook Book" />
 
         <Button 

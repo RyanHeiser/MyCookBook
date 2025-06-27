@@ -10,35 +10,45 @@
         mc:Ignorable="d"
         FontSize="14"
         WindowStartupLocation="CenterScreen"
-        Title="My Cook Book" Height="700" Width="1000">
+        Title="My Cook Book" Height="900" Width="1400">
     
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
+        <Grid Margin="20 10">
             <Grid.Resources>
                 <!-- Main Views -->
                 <DataTemplate DataType="{x:Type vms:RecipeListingViewModel}">
-                    <views:RecipeListingView />
+                    <views:RecipeListingView>
+                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
+                    </views:RecipeListingView>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:CreateRecipeViewModel}">
-                    <views:CreateRecipeView />
+                    <views:CreateRecipeView>
+                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
+                    </views:CreateRecipeView>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:RecipeDisplayViewModel}">
-                    <views:RecipeDisplayView />
+                    <views:RecipeDisplayView>
+                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
+                    </views:RecipeDisplayView>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:CategoryListingViewModel}">
-                    <views:CategoryListingView />
+                    <views:CategoryListingView>
+                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
+                    </views:CategoryListingView>
                 </DataTemplate>
 
                 <!-- Modal Views -->
                 <DataTemplate DataType="{x:Type vms:CreateCategoryViewModel}">
-                    <views:CreateCategoryView />
+                    <views:CreateCategoryView>
+                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
+                    </views:CreateCategoryView>
                 </DataTemplate>
             </Grid.Resources>
 
             <modalcontrol:Modal Panel.ZIndex="1" IsOpen="{Binding IsModalOpen}">
                 <ContentControl Content="{Binding CurrentModalViewModel}" />
             </modalcontrol:Modal>
-            <Grid MaxWidth="600" Margin="20 10">
+            <Grid MaxWidth="1400" Margin="20 10">
                 <ContentControl Content="{Binding CurrentViewModel}" />
             </Grid>
         </Grid>

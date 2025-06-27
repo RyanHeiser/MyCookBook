@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyCookBook.WPF.Views" xmlns:converters="clr-namespace:MyCookBook.WPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000">
+             MaxWidth="1400"
+             d:DesignHeight="800" d:DesignWidth="1400">
 
     <UserControl.Resources>
         <converters:PercentageConverter x:Key="PercentageConverter" />
@@ -75,6 +76,7 @@
                     <DataTemplate>
                         <TextBox 
                             Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" 
+                            TextWrapping="Wrap"
                             Width="{Binding ActualWidth, ElementName=IngredientList, Converter={StaticResource PercentageConverter}, ConverterParameter=0.95}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -96,6 +98,8 @@
                     <DataTemplate>
                         <TextBox 
                             Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
                             Width="{Binding ActualWidth, ElementName=DirectionList, Converter={StaticResource PercentageConverter}, ConverterParameter=0.95}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
