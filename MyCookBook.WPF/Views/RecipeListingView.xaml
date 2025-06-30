@@ -12,9 +12,7 @@
              d:DesignHeight="600" d:DesignWidth="800">
     
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
-        <converters:PercentageConverter x:Key="PercentageConverter" />
+        <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
     </UserControl.Resources>
     
     <Grid>
@@ -32,7 +30,7 @@
         <TextBlock 
             Grid.Row="0" 
             Grid.Column="1" 
-            FontSize="24" 
+            Style="{StaticResource Title}"
             MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.7}"
             Text="{Binding Name}" />
 
@@ -41,6 +39,8 @@
             Grid.Column="0"
             Content="Back" 
             Command="{Binding BackCommand}"
+            MinWidth="50"
+            MaxHeight="40"
             Padding="5"
             Margin="0 0 20 0"/>
 
@@ -51,6 +51,8 @@
             <Button 
                 Content="Rename" 
                 Command="{Binding RenameCategoryCommand}"
+                MinWidth="50"
+                MaxHeight="40"
                 Padding="5" />
             <Button 
                 Grid.Row="0"
@@ -58,6 +60,8 @@
                 Content="Delete" 
                 Command="{Binding DeleteCategoryCommand}"
                 CommandParameter="{Binding Category}"
+                MinWidth="50"
+                MaxHeight="40"
                 Padding="5"
                 Margin="10 0 0 0"/>
         </StackPanel>
@@ -69,6 +73,7 @@
             Grid.ColumnSpan="3">
             <TextBlock 
                 Text="No recipes have been created yet. Click &quot;Add&quot; to add a recipe." 
+                Style="{StaticResource Subtitle}"
                 Visibility="{Binding HasRecipes, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
 
             <ListView 
@@ -98,7 +103,7 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Margin="0 5"
-                                FontSize="18"
+                                Style="{StaticResource Subtitle}"
                                 Text="{Binding Name}" />
 
                             <StackPanel 
@@ -124,6 +129,7 @@
                                 Orientation="Horizontal">
                                 <TextBlock
                                     Margin="0 0 5 0"
+                                    FontWeight="Bold"
                                     Text="Time:" />
                                 <TextBlock
                                     Margin="0 0 20 0"
@@ -131,6 +137,7 @@
 
                                 <TextBlock
                                     Margin="0 0 5 0"
+                                    FontWeight="Bold"
                                     Text="Servings:" />
                                 <TextBlock
                                     Margin="0 0 20 0"

@@ -8,7 +8,7 @@
         xmlns:vms="clr-namespace:MyCookBook.WPF.ViewModels" 
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
-        FontSize="14"
+        FontSize="16"
         WindowStartupLocation="CenterScreen"
         Title="My Cook Book" Height="900" Width="1400">
     
@@ -17,31 +17,21 @@
             <Grid.Resources>
                 <!-- Main Views -->
                 <DataTemplate DataType="{x:Type vms:RecipeListingViewModel}">
-                    <views:RecipeListingView>
-                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
-                    </views:RecipeListingView>
+                    <views:RecipeListingView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:CreateRecipeViewModel}">
-                    <views:CreateRecipeView>
-                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
-                    </views:CreateRecipeView>
+                    <views:CreateRecipeView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:RecipeDisplayViewModel}">
-                    <views:RecipeDisplayView>
-                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
-                    </views:RecipeDisplayView>
+                    <views:RecipeDisplayView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:CategoryListingViewModel}">
-                    <views:CategoryListingView>
-                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
-                    </views:CategoryListingView>
+                    <views:CategoryListingView />
                 </DataTemplate>
 
                 <!-- Modal Views -->
                 <DataTemplate DataType="{x:Type vms:CreateCategoryViewModel}">
-                    <views:CreateCategoryView>
-                        <ResourceDictionary Source="/Resources/ApplicationResources.xaml" />
-                    </views:CreateCategoryView>
+                    <views:CreateCategoryView />
                 </DataTemplate>
             </Grid.Resources>
 

@@ -12,9 +12,7 @@
              MaxWidth="800"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
-        <converters:PercentageConverter x:Key="PercentageConverter" />
+        <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
     </UserControl.Resources>
 
     <Grid>
@@ -30,7 +28,7 @@
         <TextBlock 
         Grid.Row="0" 
         Grid.Column="0" 
-        FontSize="24"
+        Style="{StaticResource Title}"
         Text="My Cook Book" />
 
         <Button 
@@ -38,6 +36,8 @@
         Grid.Column="1"
         Content="Add" 
         Command="{Binding AddCommand}"
+        MinWidth="50"
+        MaxHeight="40"
         Padding="5"
         Margin="20 0 0 0"/>
 
@@ -76,7 +76,7 @@
                             <TextBlock 
                                 Grid.Row="0" 
                                 Margin="0 5"
-                                FontSize="18"
+                                Style="{StaticResource Subtitle}"
                                 Text="{Binding Name}" />
 
                             <StackPanel 

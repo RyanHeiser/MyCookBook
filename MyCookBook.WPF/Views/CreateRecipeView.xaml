@@ -9,9 +9,7 @@
              d:DesignHeight="800" d:DesignWidth="1400">
 
     <UserControl.Resources>
-        <converters:PercentageConverter x:Key="PercentageConverter" />
-        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
     </UserControl.Resources>
     
     <Grid>
@@ -25,12 +23,12 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <TextBlock Visibility="{Binding IsEditing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" FontSize="24" Text="Create New Recipe" />
-            <TextBlock Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="24" Text="Edit Existing Recipe" />
+            <TextBlock Visibility="{Binding IsEditing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Style="{StaticResource Title}" Text="Create New Recipe" />
+            <TextBlock Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource Title}" Text="Edit Existing Recipe" />
         </Grid>
 
         <StackPanel Grid.Row="1" Margin="0 25 0 0">
-            <TextBlock Text="Recipe name:" />
+            <TextBlock Style="{StaticResource Subtitle}" Text="Recipe name:" />
             <TextBox Margin="0 5 0 0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
@@ -47,6 +45,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
+                Style="{StaticResource Subtitle}"
                 Text="Prep/Cook Time" />
             <TextBox
                 Grid.Row="1"
@@ -57,17 +56,20 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="10 0 0 0"
+                Margin="20 0 0 0"
+                Style="{StaticResource Subtitle}"
                 Text="Servings" />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
                 Text="{Binding Servings, UpdateSourceTrigger=PropertyChanged}"
-                Margin="10 5 0 0" />
+                Margin="20 5 0 0" />
         </Grid>
 
         <StackPanel Grid.Row="3" Margin="0 15 0 0">
-            <TextBlock Text="Ingredients" />
+            <TextBlock 
+                Style="{StaticResource Subtitle}"
+                Text="Ingredients" />
             <ListView 
                 ItemsSource="{Binding Ingredients}" 
                 Margin="0 5 0 0" 
@@ -89,7 +91,9 @@
         </StackPanel>
 
         <StackPanel Grid.Row="4" Margin="0 15 0 0">
-            <TextBlock Text="Directions" />
+            <TextBlock 
+                Style="{StaticResource Subtitle}"
+                Text="Directions" />
             <ListView 
                 ItemsSource="{Binding Directions}" 
                 Margin="0 5 0 0" 

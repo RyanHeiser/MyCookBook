@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              MaxWidth="1400"
              d:DesignHeight="800" d:DesignWidth="1400">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -20,28 +24,51 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Back" Command="{Binding BackCommand}" Padding="5" />
-            <TextBlock Grid.Column="1" FontSize="24" Margin="30 0 0 0" Text="{Binding RecipeViewModel.Name}" />
+            <Button 
+                Grid.Column="0" 
+                Content="Back" 
+                Command="{Binding BackCommand}" 
+                MinWidth="50"
+                MaxHeight="40"
+                Padding="5" />
+            <TextBlock 
+                Grid.Column="1" 
+                Style="{StaticResource Title}"
+                Margin="30 0 0 0" 
+                Text="{Binding RecipeViewModel.Name}" />
             
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="30 0 0 0">
                 <Button 
                     Content="Edit" 
                     Command="{Binding EditCommand}"
+                    MinWidth="50"
+                    MaxHeight="40"
                     Padding="5" />
                 <Button 
                     Content="Delete" 
                     Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding Recipe}"
+                    MinWidth="50"
+                    MaxHeight="40"
                     Margin="10 0 0 0" 
                     Padding="5" />
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="1" Margin="0 10 0 0" Orientation="Horizontal">
-            <TextBlock Text="Time:" />
-            <TextBlock Margin="5 0 0 0" Text="{Binding RecipeViewModel.Minutes}" />
-            <TextBlock Margin="30 0 0 0" Text="Servings:" />
-            <TextBlock Margin="5 0 0 0" Text="{Binding RecipeViewModel.Servings}" />
+            <TextBlock 
+                FontWeight="Bold" 
+                Text="Time:" />
+            <TextBlock 
+                Margin="5 0 0 0" 
+                Text="{Binding RecipeViewModel.Minutes}" />
+            <TextBlock 
+                Margin="30 0 0 0"
+                FontWeight="Bold"
+                Text="Servings:" />
+            <TextBlock 
+                Margin="5 0 0 0" 
+                Text="{Binding RecipeViewModel.Servings}" />
         </StackPanel>
 
         <Grid Grid.Row="2" Margin="0 20 0 0">
@@ -57,8 +84,7 @@
             <TextBlock 
                 Grid.Row="0" 
                 Grid.Column="0" 
-                FontSize="16"
-                FontWeight="Bold"
+                Style="{StaticResource Subtitle}"
                 Text="Ingredients"/>
             <ListView 
                 ItemsSource="{Binding RecipeViewModel.Ingredients}" 
@@ -67,7 +93,10 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding }" TextWrapping="Wrap"/>
+                        <TextBlock 
+                            Text="{Binding }" 
+                            TextWrapping="Wrap"
+                            Margin="0 0 0 10" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -75,9 +104,8 @@
             <TextBlock 
                 Grid.Row="0" 
                 Grid.Column="1" 
-                FontSize="16"
-                FontWeight="Bold"
-                TextWrapping="Wrap" />
+                Style="{StaticResource Subtitle}"
+                Text="Directions"/>
             <ListView 
                 ItemsSource="{Binding RecipeViewModel.Directions}" 
                 Grid.Row="1" 
@@ -85,9 +113,10 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding }" TextWrapping="Wrap"/>
-                        </StackPanel>
+                        <TextBlock 
+                            Text="{Binding }" 
+                            TextWrapping="Wrap"
+                            Margin="0 0 0 10" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
