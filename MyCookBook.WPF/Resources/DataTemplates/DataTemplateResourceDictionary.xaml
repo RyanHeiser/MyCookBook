@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Resources/DataTemplates/IngredientsAndDirectionsDataTemplate.xaml" />
+        <ResourceDictionary Source="/Resources/DataTemplates/CategoryListDataTemplate.xaml" />
+        <ResourceDictionary Source="/Resources/DataTemplates/RecipeListDataTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

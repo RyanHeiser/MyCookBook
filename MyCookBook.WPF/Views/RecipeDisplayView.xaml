@@ -88,17 +88,10 @@
                 Text="Ingredients"/>
             <ListView 
                 ItemsSource="{Binding RecipeViewModel.Ingredients}" 
+                ItemTemplate="{StaticResource IngredientsAndDirectionsDataTemplate}"
                 Grid.Row="1" 
                 Grid.Column="0"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock 
-                            Text="{Binding }" 
-                            TextWrapping="Wrap"
-                            Margin="0 0 0 10" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
             </ListView>
 
             <TextBlock 
@@ -108,17 +101,10 @@
                 Text="Directions"/>
             <ListView 
                 ItemsSource="{Binding RecipeViewModel.Directions}" 
+                ItemTemplate="{StaticResource IngredientsAndDirectionsDataTemplate}"
                 Grid.Row="1" 
                 Grid.Column="1"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock 
-                            Text="{Binding }" 
-                            TextWrapping="Wrap"
-                            Margin="0 0 0 10" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
             </ListView>
 
         </Grid>
