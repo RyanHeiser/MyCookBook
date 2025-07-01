@@ -63,6 +63,21 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        private byte[]? _rawImageData;
+        public byte[]? RawImageData
+        {
+            get { return _rawImageData; }
+            set
+            {
+                if (value != _rawImageData)
+                {
+                    _rawImageData = value;
+                    OnPropertyChanged(nameof(RawImageData));
+                    OnPropertyChanged(nameof(HasImage));
+                }
+            }
+        }
+
         public ObservableCollection<StringViewModel> Ingredients { get; set; }
 
         public ObservableCollection<StringViewModel> Directions { get; set; }
@@ -100,8 +115,13 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        public bool HasImage => _rawImageData != null;
+
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
+
+        public ICommand UploadImageCommand { get; }
+        public ICommand RemoveImageCommand { get; }
 
         public ICommand AddIngredient {  get; }
         public ICommand AddDirection { get; }
@@ -133,6 +153,9 @@ namespace MyCookBook.WPF.ViewModels
             }
 
             CancelCommand = new NavigateCommand(previousNavigationService);
+
+            UploadImageCommand = new UploadImageCommand(this);
+            RemoveImageCommand = new RemoveImageCommand(this);
 
             AddIngredient = new AddToCollectionCommand<StringViewModel>(Ingredients, () => new StringViewModel(""));
             AddDirection = new AddToCollectionCommand<StringViewModel>(Directions, () => new StringViewModel(""));

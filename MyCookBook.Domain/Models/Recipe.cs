@@ -21,6 +21,9 @@ namespace MyCookBook.Domain.Models
         public int Minutes { get; set; }
         public int Servings { get; set; }
 
+        [Required]
+        public byte[]? RawImageData { get; set; }
+
         private List<string> _ingredients;
         public IEnumerable<string> Ingredients { get { return _ingredients; } set { _ingredients = value.ToList(); } }
 
@@ -44,6 +47,17 @@ namespace MyCookBook.Domain.Models
             Name = name;
             Minutes = minutes;
             Servings = servings;
+            _ingredients = ingredients;
+            _directions = directions;
+            CategoryId = categoryId;
+        }
+        public Recipe(string name, int minutes, int servings, byte[] rawImageData, List<string> ingredients, List<string> directions, Guid categoryId)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Minutes = minutes;
+            Servings = servings;
+            RawImageData = rawImageData;
             _ingredients = ingredients;
             _directions = directions;
             CategoryId = categoryId;

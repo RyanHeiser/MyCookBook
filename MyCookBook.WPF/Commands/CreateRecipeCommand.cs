@@ -40,9 +40,10 @@ namespace MyCookBook.WPF.Commands
                 _createRecipeViewModel.Name ?? "New Recipe",
                 _createRecipeViewModel.Minutes,
                 _createRecipeViewModel.Servings,
+                _createRecipeViewModel.RawImageData,
                 new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
-                new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)),
-                _recipeStore.CurrentCategory.CategoryId); // Convert non-empty Direction StringViewModels to Strings
+                new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)), // Convert non-empty Direction StringViewModels to Strings
+                _recipeStore.CurrentCategory.CategoryId); 
 
             _recipeStore.CurrentRecipe = recipe;
 

@@ -20,6 +20,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -66,7 +67,37 @@
                 Margin="20 5 0 0" />
         </Grid>
 
-        <StackPanel Grid.Row="3" Margin="0 15 0 0">
+        <StackPanel
+            Grid.Row="3"
+            Margin="0 25 0 0">
+            <Image 
+                MaxHeight="400"
+                HorizontalAlignment="Left"
+                Source="{Binding RawImageData,
+                    Converter={StaticResource ByteArrayToBitmapConverter},
+                    Mode=OneWay}" />
+            <StackPanel 
+                Orientation="Horizontal"
+                Margin="0 10 0 0">
+                <Button      
+                    Content="Upload Image"
+                    MaxWidth="140"
+                    MinHeight="40"
+                    Padding="5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding UploadImageCommand}" />
+                <Button
+                    Content="Remove Image"
+                    MaxWidth="140"
+                    MinHeight="40"
+                    Margin="10 0 0 0"
+                    Padding="5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding RemoveImageCommand}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Margin="0 15 0 0">
             <TextBlock 
                 Style="{StaticResource Subtitle}"
                 Text="Ingredients" />
@@ -90,7 +121,7 @@
                 Command="{Binding AddIngredient}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Margin="0 15 0 0">
+        <StackPanel Grid.Row="5" Margin="0 15 0 0">
             <TextBlock 
                 Style="{StaticResource Subtitle}"
                 Text="Directions" />
@@ -116,7 +147,7 @@
         </StackPanel>
 
         <StackPanel 
-            Grid.Row="5" 
+            Grid.Row="6" 
             Margin="0 15 0 0" 
             Orientation="Horizontal">
 

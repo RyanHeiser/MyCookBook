@@ -4,4 +4,5 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     <converters:PercentageConverter x:Key="PercentageConverter" />
+    <converters:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter" />
 </ResourceDictionary>
