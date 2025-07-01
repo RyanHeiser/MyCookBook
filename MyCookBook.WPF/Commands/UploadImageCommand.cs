@@ -31,7 +31,11 @@ namespace MyCookBook.WPF.Commands
 
             if (dialog.ShowDialog() == true)
             {
-                BitmapImage image = new BitmapImage(new Uri(dialog.FileName));
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri(dialog.FileName);
+                image.DecodePixelHeight = 600;
+                image.EndInit();
                 JpegBitmapEncoder encoder = new JpegBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(image));
                 using (var stream = new MemoryStream())
