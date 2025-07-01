@@ -21,7 +21,6 @@ namespace MyCookBook.Domain.Models
         public int Minutes { get; set; }
         public int Servings { get; set; }
 
-        [Required]
         public byte[]? RawImageData { get; set; }
 
         private List<string> _ingredients;

@@ -144,6 +144,7 @@ namespace MyCookBook.WPF.ViewModels
                 Name = recipeStore.CurrentRecipe.Name;
                 Minutes = recipeStore.CurrentRecipe.Minutes;
                 Servings = recipeStore.CurrentRecipe.Servings;
+                RawImageData = recipeStore.CurrentRecipe.RawImageData;
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
 

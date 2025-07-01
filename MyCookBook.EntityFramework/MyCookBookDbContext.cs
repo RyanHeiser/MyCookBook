@@ -27,10 +27,6 @@ namespace MyCookBook.EntityFramework
                 .HasForeignKey("CategoryId")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<RecipeCategoryDTO>().Property(c => c.Id).ValueGeneratedNever();
-
-            //modelBuilder.Entity<RecipeCategoryDTO>().Property(c => c.Id).ValueGeneratedOnAdd();
-
             base.OnModelCreating(modelBuilder);
         }
     }
