@@ -63,6 +63,21 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        private byte[]? _rawThumbnailData;
+        public byte[]? RawThumbnailData
+        {
+            get { return _rawThumbnailData; }
+            set
+            {
+                if (value != _rawThumbnailData)
+                {
+                    _rawThumbnailData = value;
+                    OnPropertyChanged(nameof(RawThumbnailData));
+                    OnPropertyChanged(nameof(HasImage));
+                }
+            }
+        }
+
         private byte[]? _rawImageData;
         public byte[]? RawImageData
         {
@@ -115,7 +130,7 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
-        public bool HasImage => _rawImageData != null;
+        public bool HasImage => _rawImageData != null && _rawThumbnailData != null;
 
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
@@ -144,7 +159,7 @@ namespace MyCookBook.WPF.ViewModels
                 Name = recipeStore.CurrentRecipe.Name;
                 Minutes = recipeStore.CurrentRecipe.Minutes;
                 Servings = recipeStore.CurrentRecipe.Servings;
-                RawImageData = recipeStore.CurrentRecipe.RawImageData;
+                RawImageData = recipeBookStore.Image.RawImageData;
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
 

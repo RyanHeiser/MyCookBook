@@ -15,20 +15,22 @@ namespace MyCookBook.WPF.Stores
         private readonly RecipeStore _recipeStore;
         private readonly IDataService<RecipeCategory> _categoryDataService;
         private readonly IDataService<Recipe> _recipeDataService;
+        private readonly IDataService<RecipeImage> _imageDataService;
         private List<RecipeCategory> _categories;
         private List<Recipe> _recipes;
         private Lazy<Task> _categoryLazy;
 
         public IEnumerable<RecipeCategory> RecipeCategories => _categories;
-
         public IEnumerable<Recipe> Recipes => _recipes;
+        public RecipeImage? Image {  get; set; }
 
         public event Action<RecipeCategory>? CategoryCreated;
         public event Action<RecipeCategory>? CategoryUpdated;
 
         public event Action<Recipe, RecipeCategory>? RecipeCreated;
 
-        public RecipeBookStore(RecipeBook recipeBook, RecipeStore recipeStore, IDataService<RecipeCategory> categoryDataService, IDataService<Recipe> recipeDataService)
+        public RecipeBookStore(RecipeBook recipeBook, RecipeStore recipeStore, 
+            IDataService<RecipeCategory> categoryDataService, IDataService<Recipe> recipeDataService, IDataService<RecipeImage> imageDataService)
         {
             _recipeBook = recipeBook;
             _recipeStore = recipeStore;
@@ -37,6 +39,9 @@ namespace MyCookBook.WPF.Stores
             _recipes = new List<Recipe>();
             _categoryLazy = new Lazy<Task>(InitializeCategories);
             _recipeDataService = recipeDataService;
+            _imageDataService = imageDataService;
+
+            recipeStore.RecipeChanged += OnRecipeChanged;
         }
 
         public async Task LoadCategories()
@@ -55,6 +60,11 @@ namespace MyCookBook.WPF.Stores
         public async Task LoadRecipes()
         {
             _recipes = _recipeStore.CurrentCategory?.Recipes.ToList() ?? new List<Recipe>();
+        }
+
+        public async Task<RecipeImage> GetImage(Guid recipeId)
+        {
+            return await _imageDataService.Get(recipeId);
         }
 
         public async Task CreateCategory(RecipeCategory category)
@@ -82,6 +92,12 @@ namespace MyCookBook.WPF.Stores
             OnRecipeCreated(recipe, category);
         }
 
+        public async Task CreateImage(RecipeImage image)
+        {
+            await _imageDataService.Create(image);
+            Image = image;
+        }
+
         public async Task<bool> DeleteCategory(Guid Id)
         {
             if (await _categoryDataService.Delete(Id)) {
@@ -100,6 +116,16 @@ namespace MyCookBook.WPF.Stores
             }
             return false;
         }
+
+        //public async Task<bool> DeleteImage(Guid Id)
+        //{
+        //    if (await _categoryDataService.Delete(Id))
+        //    {
+        //        _categories.Remove(_categories.First(c => c.CategoryId == Id));
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public async Task<bool> UpdateCategory(Guid Id, RecipeCategory category)
         {
@@ -131,6 +157,27 @@ namespace MyCookBook.WPF.Stores
                 return false;
                 throw;
             }
+        }
+
+        public async Task<bool> UpdateImage(Guid RecipeId, RecipeImage image)
+        {
+            try
+            {
+                RecipeImage updatedImage = await _imageDataService.Update(RecipeId, image);
+                Image = updatedImage;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
+
+        private async void OnRecipeChanged(Recipe? recipe)
+        {
+            if (recipe != null)
+                Image = await GetImage(recipe.RecipeId);
         }
 
         private void OnCategoryCreated(RecipeCategory category)

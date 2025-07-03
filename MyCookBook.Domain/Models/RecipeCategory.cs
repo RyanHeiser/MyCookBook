@@ -53,12 +53,12 @@ namespace MyCookBook.Domain.Models
         /// <returns>True if successful</returns>
         public bool UpdateRecipe(Guid Id, Recipe updatedRecipe)
         {
-            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
+            Recipe? existing = Recipes.FirstOrDefault(r => r.RecipeId == Id);
 
             if (existing != null)
             {
                 _recipes.Remove(existing);
-                updatedRecipe.Id = Id;
+                updatedRecipe.RecipeId = Id;
                 _recipes.Add(updatedRecipe);
                 return true;
             }
@@ -71,7 +71,7 @@ namespace MyCookBook.Domain.Models
         /// <param name="id">The id of the recipe to remove.</param>
         public bool RemoveRecipe(Guid Id)
         {
-            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
+            Recipe? existing = Recipes.FirstOrDefault(r => r.RecipeId == Id);
 
             if (existing != null)
             {

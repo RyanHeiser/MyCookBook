@@ -13,6 +13,7 @@ namespace MyCookBook.EntityFramework
 
         public DbSet<RecipeCategory> Categories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<RecipeImage> Images { get; set; }
 
         public MyCookBookDbContext(DbContextOptions options) : base(options) 
         {
@@ -26,6 +27,15 @@ namespace MyCookBook.EntityFramework
                 .WithOne()
                 .HasForeignKey("CategoryId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Recipe>(b =>
+            {
+                b.Property(i => i.RecipeId).IsRequired();
+                b.HasOne<RecipeImage>()
+                    .WithOne()
+                    .HasForeignKey<RecipeImage>(i => i.RecipeId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             base.OnModelCreating(modelBuilder);
         }

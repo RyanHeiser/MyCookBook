@@ -80,13 +80,16 @@
                 ItemsSource="{Binding Recipes}"
                 ItemTemplate="{StaticResource RecipeListDataTemplate}"
                 SelectedItem="{Binding SelectedRecipe, Mode=OneWayToSource}"
-                Visibility="{Binding HasRecipes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                Visibility="{Binding HasRecipes, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Grid.IsSharedSizeScope="True">
 
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.Resources>
+
+                
 
             </ListView>
         </Grid>

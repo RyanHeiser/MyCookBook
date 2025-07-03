@@ -35,16 +35,19 @@ namespace MyCookBook.WPF.Commands
                 _createRecipeViewModel.Name ?? "New Recipe",
                 _createRecipeViewModel.Minutes,
                 _createRecipeViewModel.Servings,
-                _createRecipeViewModel.RawImageData,
+                _createRecipeViewModel.RawThumbnailData,
                 new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
                 new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)),  // Convert non-empty Direction StringViewModels to Strings
-                recipe.CategoryId); 
+                recipe.CategoryId);
+
+            RecipeImage image = new RecipeImage(recipe.RecipeId, _createRecipeViewModel.RawImageData);
 
             _recipeStore.CurrentRecipe = updatedRecipe;
 
             try
             {
-                await _recipeBookStore.UpdateRecipe(recipe.Id, updatedRecipe, _recipeStore.CurrentCategory);
+                await _recipeBookStore.UpdateRecipe(recipe.RecipeId, updatedRecipe, _recipeStore.CurrentCategory);
+                await _recipeBookStore.UpdateImage(recipe.RecipeId, image);
                 MessageBox.Show("Updated recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NullReferenceException)

@@ -39,6 +39,7 @@ public partial class App : Application
                 // Services
                 services.AddSingleton<IDataService<RecipeCategory>, CategoryDataService>();
                 services.AddSingleton<IDataService<Recipe>, RecipeDataService>();
+                services.AddSingleton<IDataService<RecipeImage>, ImageDataService>();
 
                 // DB Context Factory
                 services.AddSingleton<MyCookBookDbContextFactory>();

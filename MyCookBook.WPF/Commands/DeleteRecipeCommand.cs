@@ -25,7 +25,7 @@ namespace MyCookBook.WPF.Commands
             try
             {
                 Recipe? recipe = parameter as Recipe;
-                await _recipeBookStore.DeleteRecipe(recipe.Id, _category);
+                await _recipeBookStore.DeleteRecipe(recipe.RecipeId, _category);
             }
             catch (Exception)
             {

@@ -77,7 +77,7 @@
             HorizontalAlignment="Left"
             Grid.Row="2"
             Margin="0 20 0 0"
-            Source="{Binding RecipeViewModel.RawImageData,
+            Source="{Binding RawImageData,
                 Converter={StaticResource ByteArrayToBitmapConverter},
                 Mode=OneWay}" />
 

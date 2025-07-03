@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Xps.Packaging;
 
 namespace MyCookBook.WPF.ViewModels
 {
@@ -28,7 +29,22 @@ namespace MyCookBook.WPF.ViewModels
 				OnPropertyChanged(nameof(RecipeViewModel));
 			}
 		}
-		public ICommand BackCommand { get; }
+
+        private byte[]? _rawImageData;
+        public byte[]? RawImageData
+        {
+            get { return _rawImageData; }
+            set
+            {
+                if (value != _rawImageData)
+                {
+                    _rawImageData = value;
+                    OnPropertyChanged(nameof(RawImageData));
+                }
+            }
+        }
+
+        public ICommand BackCommand { get; }
 		public ICommand EditCommand { get; }
 		public ICommand DeleteCommand { get; }
 
@@ -37,6 +53,8 @@ namespace MyCookBook.WPF.ViewModels
         {
 			Recipe = recipeStore.CurrentRecipe;
 			Category = recipeStore.CurrentCategory;
+
+            RawImageData = recipeBookStore.Image.RawImageData;
 
             BackCommand = new NavigateCommand(previousNavigationService);
 			EditCommand = new NavigateCommand(createRecipeNavigationService);

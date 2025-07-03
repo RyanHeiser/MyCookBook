@@ -15,13 +15,13 @@ namespace MyCookBook.Domain.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid RecipeId { get; set; }
         public Guid CategoryId { get; set; }
         public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
 
-        public byte[]? RawImageData { get; set; }
+        public byte[]? RawThumbnailData { get; set; }
 
         private List<string> _ingredients;
         public IEnumerable<string> Ingredients { get { return _ingredients; } set { _ingredients = value.ToList(); } }
@@ -31,7 +31,7 @@ namespace MyCookBook.Domain.Models
 
         public Recipe(string name, int minutes, int servings, Guid categoryId)
         {
-            Id = Guid.NewGuid();
+            RecipeId = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
@@ -42,7 +42,7 @@ namespace MyCookBook.Domain.Models
 
         public Recipe(string name, int minutes, int servings, List<string> ingredients, List<string> directions, Guid categoryId)
         {
-            Id = Guid.NewGuid();
+            RecipeId = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
@@ -52,11 +52,11 @@ namespace MyCookBook.Domain.Models
         }
         public Recipe(string name, int minutes, int servings, byte[] rawImageData, List<string> ingredients, List<string> directions, Guid categoryId)
         {
-            Id = Guid.NewGuid();
+            RecipeId = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
-            RawImageData = rawImageData;
+            RawThumbnailData = rawImageData;
             _ingredients = ingredients;
             _directions = directions;
             CategoryId = categoryId;

@@ -31,18 +31,24 @@ namespace MyCookBook.WPF.Commands
 
             if (dialog.ShowDialog() == true)
             {
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.UriSource = new Uri(dialog.FileName);
-                image.DecodePixelHeight = 600;
-                image.EndInit();
-                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
-                using (var stream = new MemoryStream())
-                {
-                    encoder.Save(stream);
-                    _viewModel.RawImageData = stream.ToArray();
-                }
+                _viewModel.RawThumbnailData = ImageToByteArray(dialog.FileName, 128);
+                _viewModel.RawImageData = ImageToByteArray(dialog.FileName, 0);
+            }
+        }
+
+        private byte[] ImageToByteArray(string fileName, int decodeHeight)
+        {
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(fileName);
+            image.DecodePixelHeight = decodeHeight;
+            image.EndInit();
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            using (var stream = new MemoryStream())
+            {
+                encoder.Save(stream);
+                return stream.ToArray();
             }
         }
     }

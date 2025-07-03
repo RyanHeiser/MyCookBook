@@ -16,6 +16,7 @@ namespace MyCookBook.WPF.Stores
             set
             {
                 _currentRecipe = value;
+                OnRecipeChanged(CurrentRecipe);
             }
         }
 
@@ -30,11 +31,17 @@ namespace MyCookBook.WPF.Stores
             }
         }
 
-        public event Action<RecipeCategory>? CategoryChanged;
+        public event Action<RecipeCategory?>? CategoryChanged;
+        public event Action<Recipe?>? RecipeChanged;
 
-        private void OnCategoryChanged(RecipeCategory category)
+        private void OnCategoryChanged(RecipeCategory? category)
         {
             CategoryChanged?.Invoke(category);
+        }
+
+        private void OnRecipeChanged(Recipe? recipe)
+        {
+            RecipeChanged?.Invoke(recipe);
         }
     }
 }
