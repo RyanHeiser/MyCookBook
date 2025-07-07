@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:MyCookBook.WPF.Views"
              mc:Ignorable="d" 
              Name="Root"
+             MaxWidth="800"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
@@ -49,7 +50,8 @@
             <ListView 
                 ItemsSource="{Binding Books}"
                 SelectedItem="{Binding SelectedBook, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                Visibility="{Binding HasBooks, Converter={StaticResource BooleanToVisibilityConverter}}">
+                Visibility="{Binding HasBooks, Converter={StaticResource BooleanToVisibilityConverter}}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -58,37 +60,7 @@
                                 Style="{StaticResource Subtitle}" 
                                 TextWrapping="Wrap" 
                                 Text="{Binding Name}" />
-                            <Grid Margin="0 10 0 0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
 
-                                <TextBlock 
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Text="Categories:" />
-                                <TextBlock 
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Margin="5 0 0 0"
-                                    Text="{Binding CategoryCount}" />
-
-                                <TextBlock 
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="0 10 0 0"
-                                    Text="Recipes:" />
-                                <TextBlock 
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="5 10 0 0"
-                                    Text="{Binding RecipeCount}" />
-                            </Grid>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

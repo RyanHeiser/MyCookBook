@@ -11,8 +11,6 @@ namespace MyCookBook.WPF.ViewModels
     {
         public RecipeBook Book { get; set; }
         public string Name => Book.Name;
-        public int CategoryCount => Book.CategoryCount;
-        public int RecipeCount => Book.RecipeCount;
 
         public RecipeBookViewModel(RecipeBook book)
         {

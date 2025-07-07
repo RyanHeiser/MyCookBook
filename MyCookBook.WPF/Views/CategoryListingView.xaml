@@ -78,6 +78,7 @@
                 ItemsSource="{Binding Categories}"
                 ItemTemplate="{StaticResource CategoryListDataTemplate}"
                 SelectedItem="{Binding SelectedCategory, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 Visibility="{Binding HasCategories, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <ListView.Resources>

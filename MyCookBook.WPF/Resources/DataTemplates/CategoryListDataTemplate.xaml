@@ -11,7 +11,7 @@
             </ResourceDictionary>
         </DataTemplate.Resources>
         
-        <Grid MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.9}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />

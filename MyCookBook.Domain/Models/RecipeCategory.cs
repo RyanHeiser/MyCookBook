@@ -13,16 +13,7 @@ namespace MyCookBook.Domain.Models
     {
         public string Name { get; set; }
 
-        private int _recipeCount;
-        public int RecipeCount { 
-            get { return _recipeCount; }
-
-            set
-            {
-                OnRecipeCountChanged(value - _recipeCount);
-                _recipeCount = value;
-            }
-        }
+        public int RecipeCount { get; private set; }
 
         public List<Recipe> _recipes;
         public IEnumerable<Recipe> Recipes => _recipes;
@@ -33,7 +24,7 @@ namespace MyCookBook.Domain.Models
         {
             Id = Guid.NewGuid();
             Name = name;
-            _recipeCount = 0;
+            RecipeCount = 0;
             _recipes = new List<Recipe>();
         }
 
@@ -41,7 +32,7 @@ namespace MyCookBook.Domain.Models
         {
             Id = Guid.NewGuid();
             Name = name;
-            _recipeCount = 0;
+            RecipeCount = 0;
             _recipes = new List<Recipe>();
             ParentId = bookId;
         }
@@ -50,7 +41,7 @@ namespace MyCookBook.Domain.Models
         {
             Id = Guid.NewGuid();
             Name = name;
-            _recipeCount = recipeCount;
+            RecipeCount = recipeCount;
             _recipes = new List<Recipe>();
             ParentId = bookId;
         }

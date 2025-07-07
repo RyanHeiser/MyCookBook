@@ -81,6 +81,7 @@
                 ItemTemplate="{StaticResource RecipeListDataTemplate}"
                 SelectedItem="{Binding SelectedRecipe, Mode=OneWayToSource}"
                 Visibility="{Binding HasRecipes, Converter={StaticResource BooleanToVisibilityConverter}}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 Grid.IsSharedSizeScope="True">
 
                 <ListView.Resources>

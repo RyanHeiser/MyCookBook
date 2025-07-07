@@ -61,7 +61,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
-                UpdateParent();
                 OnItemUpdated(updatedRecipe);
                 return true;
             }

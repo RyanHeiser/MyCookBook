@@ -11,14 +11,14 @@
             </ResourceDictionary>
         </DataTemplate.Resources>
 
-        <Grid MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.9}">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" SharedSizeGroup="ImageColumn" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" SharedSizeGroup="ImageRow" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             

@@ -23,7 +23,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             await _dataService.Create(image);
             _items.Add(image);
 
-            UpdateParent();
             OnNewCreated(image);
             return true;
         }
@@ -38,7 +37,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
-                UpdateParent();
                 return true;
             }
             return false;
@@ -60,7 +58,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
-                UpdateParent();
                 OnItemUpdated(updatedImage);
                 return true;
             }

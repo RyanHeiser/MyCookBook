@@ -12,9 +12,6 @@ namespace MyCookBook.Domain.Models
     {
         public string Name { get; set; }
 
-        public int CategoryCount { get; set; }
-        public int RecipeCount { get; set; }
-
         public List<RecipeCategory> _categories;
         public IEnumerable<RecipeCategory> Categories => _categories;
 
@@ -22,17 +19,6 @@ namespace MyCookBook.Domain.Models
         {
             Id = Guid.NewGuid();
             Name = name;
-            CategoryCount = 0;
-            RecipeCount = 0;
-            _categories = new List<RecipeCategory>();
-        }
-
-        public RecipeBook(string name, int categoryCount, int recipeCount)
-        {
-            Id = Guid.NewGuid();
-            Name = name;
-            CategoryCount = categoryCount;
-            RecipeCount = recipeCount;
             _categories = new List<RecipeCategory>();
         }
 
@@ -43,14 +29,6 @@ namespace MyCookBook.Domain.Models
         public void AddCategory(RecipeCategory category)
         {
             _categories.Add(category);
-            CategoryCount++;
-            RecipeCount += category.RecipeCount;
-            category.RecipeCountChanged += OnRecipeCountChanged;
-        }
-
-        private void OnRecipeCountChanged(int change)
-        {
-            RecipeCount += change;
         }
 
 
@@ -70,8 +48,6 @@ namespace MyCookBook.Domain.Models
                 updatedCategory.Id = Id;
                 _categories.Add(updatedCategory);
 
-                RecipeCount += updatedCategory.RecipeCount - existing.RecipeCount;
-
                 return true;
             }
             return false;
@@ -88,8 +64,6 @@ namespace MyCookBook.Domain.Models
             if (existing != null)
             {
                 _categories.Remove(existing);
-                CategoryCount--;
-                RecipeCount -= existing.RecipeCount;
                 return true;
             }
             return false;
@@ -98,8 +72,6 @@ namespace MyCookBook.Domain.Models
         public void ClearRecipeCategories()
         {
             _categories.Clear();
-            CategoryCount = 0;
-            RecipeCount = 0;
         }
     }
 }

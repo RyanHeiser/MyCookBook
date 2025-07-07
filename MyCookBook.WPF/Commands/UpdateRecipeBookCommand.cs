@@ -25,7 +25,7 @@ namespace MyCookBook.WPF.Commands
         public override async Task ExecuteAsync(object? parameter)
         {
             RecipeBook current = _recipeBookStore.Current;
-            RecipeBook updatedBook = new RecipeBook(_createRecipeBookViewModel.Name, current.CategoryCount, current.RecipeCount);
+            RecipeBook updatedBook = new RecipeBook(_createRecipeBookViewModel.Name);
 
             try
             {

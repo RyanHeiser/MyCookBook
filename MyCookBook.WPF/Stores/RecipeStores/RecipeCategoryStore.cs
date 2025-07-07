@@ -24,7 +24,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             _parentStore.Current.AddCategory(category);
             _items.Add(category);
 
-            UpdateParent();
             OnNewCreated(category);
             return true;
         }
@@ -39,7 +38,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
-                UpdateParent();
                 return true;
             }
             return false;
@@ -61,7 +59,6 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
-                UpdateParent();
                 OnItemUpdated(updatedCategory);
                 return true;
             }
