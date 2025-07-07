@@ -11,26 +11,25 @@ using System.Windows;
 
 namespace MyCookBook.WPF.Commands
 {
-    public class UpdateCategoryCommand : AsyncCommandBase
+    public class UpdateRecipeBookCommand : AsyncCommandBase
     {
-        private readonly CreateCategoryViewModel _createCategoryViewModel;
+        private readonly CreateRecipeBookViewModel _createRecipeBookViewModel;
         private readonly RecipeBookStore _recipeBookStore;
-        private readonly RecipeCategoryStore _categoryStore;
 
-        public UpdateCategoryCommand(CreateCategoryViewModel createCategoryViewModel, RecipeBookStore recipeBookStore, RecipeCategoryStore categoryStore)
+        public UpdateRecipeBookCommand(CreateRecipeBookViewModel createRecipeBookViewModel, RecipeBookStore recipeBookStore)
         {
-            _createCategoryViewModel = createCategoryViewModel;
+            _createRecipeBookViewModel = createRecipeBookViewModel;
             _recipeBookStore = recipeBookStore;
-            _categoryStore = categoryStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            RecipeCategory updatedCategory = new RecipeCategory(_createCategoryViewModel.Name, _recipeBookStore.Current.Id, _categoryStore.Current.RecipeCount);
+            RecipeBook current = _recipeBookStore.Current;
+            RecipeBook updatedBook = new RecipeBook(_createRecipeBookViewModel.Name, current.CategoryCount, current.RecipeCount);
 
             try
             {
-                await _categoryStore.Update(_categoryStore.Current.Id, updatedCategory);
+                await _recipeBookStore.Update(_recipeBookStore.Current.Id, updatedBook);
                 MessageBox.Show("Updated category", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NullReferenceException)

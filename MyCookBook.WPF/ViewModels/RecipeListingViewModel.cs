@@ -1,7 +1,6 @@
 ﻿using MyCookBook.WPF.Commands;
 using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Services.Navigation;
-using MyCookBook.WPF.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,13 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MyCookBook.WPF.Stores.RecipeStores;
 
 namespace MyCookBook.WPF.ViewModels
 {
 	public class RecipeListingViewModel : ViewModelBase
     {
         private ObservableCollection<RecipeViewModel> _recipes;
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly RecipeCategoryStore _categoryStore;
         private readonly RecipeStore _recipeStore;
 
         public IEnumerable<RecipeViewModel> Recipes => _recipes;
@@ -37,7 +37,7 @@ namespace MyCookBook.WPF.ViewModels
                     return;
 
                 _selectedRecipe = value;
-                _recipeStore.CurrentRecipe = _selectedRecipe?.Recipe; // updates the current recipe store when list selection is changed
+                _recipeStore.Current = _selectedRecipe?.Recipe; // updates the current recipe store when list selection is changed
                 OnPropertyChanged(nameof(SelectedRecipe));
 
                 SelectRecipeCommand.Execute(null);
@@ -58,19 +58,19 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
-        private bool _isLoading;
-        public bool IsLoading
-        {
-            get
-            {
-                return _isLoading;
-            }
-            set
-            {
-                _isLoading = value;
-                OnPropertyChanged(nameof(IsLoading));
-            }
-        }
+        //private bool _isLoading;
+        //public bool IsLoading
+        //{
+        //    get
+        //    {
+        //        return _isLoading;
+        //    }
+        //    set
+        //    {
+        //        _isLoading = value;
+        //        OnPropertyChanged(nameof(IsLoading));
+        //    }
+        //}
 
         public ICommand LoadRecipesCommand { get; }
         public ICommand BackCommand { get; }
@@ -83,38 +83,56 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand EditRecipeCommand { get; }
         public ICommand DeleteRecipeCommand { get; }
 
-        public RecipeListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
+        public RecipeListingViewModel(RecipeCategoryStore categoryStore, RecipeStore recipeStore, 
             INavigationService createRecipeNavigationService, INavigationService createCategoryNavigationService, INavigationService recipeDisplayNavigationService,
             INavigationService previousNavigationService)
         {
-            _recipeBookStore = recipeBookStore;
+            _categoryStore = categoryStore;
             _recipeStore = recipeStore;
             _recipes = new ObservableCollection<RecipeViewModel>();
 
-            Category = recipeStore.CurrentCategory;
-            Name = Category?.Name ?? "New Category";
+            Category = categoryStore.Current;
+            Name = categoryStore.Current?.Name ?? "New Category";
 
-            LoadRecipesCommand = new LoadRecipesCommand(this, recipeBookStore);
+            LoadRecipesCommand = new LoadCommand<Recipe>(this, recipeStore);
             BackCommand = new NavigateCommand(previousNavigationService);
             AddCommand = new NavigateCommand(createRecipeNavigationService);
 
             RenameCategoryCommand = new NavigateCommand(createCategoryNavigationService);
-            DeleteCategoryCommand = new CompositeCommand(new DeleteCategoryCommand(recipeBookStore), BackCommand);
+            DeleteCategoryCommand = new CompositeCommand(new DeleteCommand<RecipeCategory>(categoryStore), BackCommand);
 
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
-            EditRecipeCommand = new CompositeCommand(new SetCurrentRecipeCommand(recipeStore), new NavigateCommand(createRecipeNavigationService));
-            DeleteRecipeCommand = new CompositeCommand(new DeleteRecipeCommand(recipeBookStore, Category), LoadRecipesCommand);
+            EditRecipeCommand = new CompositeCommand(new SetCurrentStoreCommand<Recipe>(recipeStore), new NavigateCommand(createRecipeNavigationService));
+            DeleteRecipeCommand = new CompositeCommand(new DeleteCommand<Recipe>(recipeStore), LoadRecipesCommand);
 
             LoadRecipesCommand.Execute(null);
 
             _recipes.CollectionChanged += OnRecipeCreated;
-            _recipeBookStore.CategoryUpdated += OnCategoryUpdated;
+            _categoryStore.ItemUpdated += OnCategoryUpdated;
         }
 
         public override void Dispose()
         {
-            _recipeBookStore.CategoryUpdated += OnCategoryUpdated;
+            _categoryStore.ItemUpdated -= OnCategoryUpdated;
             base.Dispose();
+        }
+
+        public void UpdateRecipes()
+        {
+            _recipes.Clear();
+
+            foreach (Recipe recipe in _recipeStore.Items)
+            {
+                RecipeViewModel recipeViewModel = new RecipeViewModel(recipe);
+                _recipes.Add(recipeViewModel);
+            }
+        }
+
+        public override void Update()
+        {
+            UpdateRecipes();
+            Name = _categoryStore.Current?.Name ?? "New Category";
+            base.Update();
         }
 
         public void UpdateRecipes(IEnumerable<Recipe> recipes)
@@ -135,7 +153,10 @@ namespace MyCookBook.WPF.ViewModels
 
         private void OnCategoryUpdated(RecipeCategory category)
         {
-            Name = category.Name;
+            if (category.Id == _categoryStore.Current.Id)
+            {
+                Name = category.Name; 
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyCookBook.WPF.Stores.RecipeStores;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace MyCookBook.WPF.Stores
 {
     public class ModalNavigationStore : NavigationStore
     {
-        public ModalNavigationStore(RecipeStore recipeStore) : base(recipeStore)
+        public ModalNavigationStore(RecipeStore recipeStore, RecipeCategoryStore categoryStore, RecipeBookStore bookStore) : base(recipeStore, categoryStore, bookStore)
         {
         }
 

@@ -7,15 +7,20 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.Domain.Models
 {
-    public class RecipeImage
+    public class RecipeImage : ChildDomainObject
     {
-        [Key]
-        public Guid RecipeId { get; set; }
         public byte[]? RawImageData { get; set; }
 
-        public RecipeImage(Guid recipeId, byte[] rawImageData)
+        public RecipeImage(byte[] rawImageData)
         {
-            RecipeId = recipeId;
+            Id = Guid.NewGuid();
+            RawImageData = rawImageData;
+        }
+
+        public RecipeImage(byte[] rawImageData, Guid recipeId)
+        {
+            Id = Guid.NewGuid();
+            ParentId = recipeId;
             RawImageData = rawImageData;
         }
     }

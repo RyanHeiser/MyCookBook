@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MyCookBook.WPF.Views
+namespace MyCookBook.WPF.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for CreateCategoryView.xaml
+    /// Interaction logic for CreateRecipeBookView.xaml
     /// </summary>
-    public partial class CreateCategoryView : UserControl
+    public partial class CreateRecipeBookView : UserControl
     {
-        public CreateCategoryView()
+        public CreateRecipeBookView()
         {
             InitializeComponent();
         }

@@ -3,7 +3,6 @@ using MyCookBook.WPF.Exceptions;
 using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Services;
 using MyCookBook.WPF.Services.Navigation;
-using MyCookBook.WPF.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using MyCookBook.WPF.Stores.RecipeStores;
 
 namespace MyCookBook.WPF.ViewModels
 {
@@ -141,29 +141,29 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand AddIngredient {  get; }
         public ICommand AddDirection { get; }
 
-        public CreateRecipeViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
+        public CreateRecipeViewModel(RecipeCategoryStore categoryStore, RecipeStore recipeStore, RecipeImageStore imageStore,
             INavigationService recipeDisplayNavigationService, INavigationService previousNavigationService)
         {
-            Recipe = recipeStore.CurrentRecipe;
-            Category = recipeStore.CurrentCategory;
+            Recipe = recipeStore.Current;
+            Category = categoryStore.Current;
 
-            if (recipeStore.CurrentRecipe == null)
+            if (recipeStore.Current == null)
             {
                 Ingredients = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
                 Directions = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
 
-                SubmitCommand = new CompositeCommand(new CreateRecipeCommand(this, recipeBookStore, recipeStore), new NavigateCommand(recipeDisplayNavigationService));
+                SubmitCommand = new CompositeCommand(new CreateRecipeCommand(this, categoryStore, recipeStore, imageStore), new NavigateCommand(recipeDisplayNavigationService));
             }
             else
             {
-                Name = recipeStore.CurrentRecipe.Name;
-                Minutes = recipeStore.CurrentRecipe.Minutes;
-                Servings = recipeStore.CurrentRecipe.Servings;
-                RawImageData = recipeBookStore.Image.RawImageData;
-                Ingredients = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Ingredients.Select(i => new StringViewModel(i)));
-                Directions = new ObservableCollection<StringViewModel>(recipeStore.CurrentRecipe.Directions.Select(d => new StringViewModel(d)));
+                Name = recipeStore.Current.Name;
+                Minutes = recipeStore.Current.Minutes;
+                Servings = recipeStore.Current.Servings;
+                RawImageData = imageStore.Current?.RawImageData;
+                Ingredients = new ObservableCollection<StringViewModel>(recipeStore.Current.Ingredients.Select(i => new StringViewModel(i)));
+                Directions = new ObservableCollection<StringViewModel>(recipeStore.Current.Directions.Select(d => new StringViewModel(d)));
 
-                SubmitCommand = new CompositeCommand(new UpdateRecipeCommand(this, recipeBookStore, recipeStore), new NavigateCommand(recipeDisplayNavigationService));
+                SubmitCommand = new CompositeCommand(new UpdateRecipeCommand(this, recipeStore, imageStore), new NavigateCommand(recipeDisplayNavigationService));
 
                 IsEditing = true;
             }

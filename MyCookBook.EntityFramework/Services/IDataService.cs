@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyCookBook.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.EntityFramework.Services
 {
-    public interface IDataService<T>
+    public interface IDataService<T> where T : DomainObject
     {
         Task<T> Create(T entity);
 

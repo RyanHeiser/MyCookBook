@@ -9,24 +9,22 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.WPF.Commands
 {
-    public class CreateCategoryCommand : AsyncCommandBase
+    public class CreateRecipeBookCommand : AsyncCommandBase
     {
-        private readonly CreateCategoryViewModel _viewModel;
+        private readonly CreateRecipeBookViewModel _viewModel;
         private readonly RecipeBookStore _recipeBookStore;
-        private readonly RecipeCategoryStore _categoryStore;
 
-        public CreateCategoryCommand(CreateCategoryViewModel viewModel, RecipeBookStore recipeBookStore, RecipeCategoryStore categoryStore)
+        public CreateRecipeBookCommand(CreateRecipeBookViewModel viewModel, RecipeBookStore recipeBookStore)
         {
             _viewModel = viewModel;
             _recipeBookStore = recipeBookStore;
-            _categoryStore = categoryStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            RecipeCategory category = new RecipeCategory(_viewModel.Name, _recipeBookStore.Current.Id);
+            RecipeBook book = new RecipeBook(_viewModel.Name);
 
-            await _categoryStore.Create(category);
+            await _recipeBookStore.Create(book);
         }
     }
 }

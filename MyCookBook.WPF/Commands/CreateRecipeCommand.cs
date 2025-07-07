@@ -1,6 +1,6 @@
 ﻿using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Services.Navigation;
-using MyCookBook.WPF.Stores;
+using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,15 +16,17 @@ namespace MyCookBook.WPF.Commands
     public class CreateRecipeCommand : AsyncCommandBase
     {
         private readonly CreateRecipeViewModel _createRecipeViewModel;
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly RecipeImageStore _imageStore;
         private readonly RecipeStore _recipeStore;
+        private readonly RecipeCategoryStore _categoryStore;
 
-        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeBookStore recipeBookStore, RecipeStore recipeStore)
+        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeCategoryStore categoryStore, RecipeStore recipeStore, RecipeImageStore imageStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
-            _recipeBookStore = recipeBookStore;
             _recipeStore = recipeStore;
+            _categoryStore = categoryStore;
             _createRecipeViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            _imageStore = imageStore;
         }
 
         public override bool CanExecute(object? parameter)
@@ -43,16 +45,16 @@ namespace MyCookBook.WPF.Commands
                 _createRecipeViewModel.RawThumbnailData,
                 new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
                 new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)), // Convert non-empty Direction StringViewModels to Strings
-                _recipeStore.CurrentCategory.CategoryId);
+                _categoryStore.Current.Id);
 
-            RecipeImage image = new RecipeImage(recipe.RecipeId, _createRecipeViewModel.RawImageData);
+            RecipeImage image = new RecipeImage(_createRecipeViewModel.RawImageData, recipe.Id);
 
-            _recipeStore.CurrentRecipe = recipe;
+            _recipeStore.Current = recipe;
 
             try
             {
-                await _recipeBookStore.CreateRecipe(recipe, _createRecipeViewModel.Category ?? new RecipeCategory("New Category", new List<Recipe>()));
-                await _recipeBookStore.CreateImage(image);
+                await _recipeStore.Create(recipe);
+                await _imageStore.Create(image);
                 MessageBox.Show("Created recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             } 
             catch (NullReferenceException)

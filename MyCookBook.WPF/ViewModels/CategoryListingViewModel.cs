@@ -1,7 +1,6 @@
 ﻿using MyCookBook.WPF.Commands;
 using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Services.Navigation;
-using MyCookBook.WPF.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MyCookBook.WPF.Stores.RecipeStores;
+using System.Xml.Linq;
+using System.Security.RightsManagement;
 
 namespace MyCookBook.WPF.ViewModels
 {
@@ -18,7 +20,7 @@ namespace MyCookBook.WPF.ViewModels
     {
         private ObservableCollection<CategoryViewModel> _categories;
         private readonly RecipeBookStore _recipeBookStore;
-        private readonly RecipeStore _recipeStore;
+        private readonly RecipeCategoryStore _categoryStore;
 
         public IEnumerable<CategoryViewModel> Categories => _categories;
 
@@ -37,72 +39,106 @@ namespace MyCookBook.WPF.ViewModels
                     return;
 
                 _selectedCategory = value;
-                _recipeStore.CurrentCategory = _selectedCategory?.Category; // updates the current category store when list selection is changed
+                _categoryStore.Current = _selectedCategory?.Category; // updates the current category store when list selection is changed
                 OnPropertyChanged(nameof(SelectedCategory));
 
                 SelectCategoryCommand.Execute(null);
             }
         }
 
-        private bool _isLoading;
-        public bool IsLoading
+        private string _name;
+        public string Name
         {
             get
             {
-                return _isLoading;
+                return _name;
             }
             set
             {
-                _isLoading = value;
-                OnPropertyChanged(nameof(IsLoading));
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 
+        //private bool _isLoading;
+        //public bool IsLoading
+        //{
+        //    get
+        //    {
+        //        return _isLoading;
+        //    }
+        //    set
+        //    {
+        //        _isLoading = value;
+        //        OnPropertyChanged(nameof(IsLoading));
+        //    }
+        //}
+
         public ICommand LoadCategoriesCommand { get; }
-        public ICommand AddCommand { get; }
         public ICommand SelectCategoryCommand { get; }
+        public ICommand BackCommand { get; }
+
+        public ICommand UpdateRecipeBookCommand { get; }
+        public ICommand DeleteRecipeBookCommand { get; }
+
+        public ICommand AddCommand { get; }
         public ICommand RenameCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
-        public CategoryListingViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore,
-            INavigationService createCategoryNavigationService, INavigationService recipeListingNavigationService)
+        public CategoryListingViewModel(RecipeBookStore recipeBookStore, RecipeCategoryStore categoryStore, INavigationService createCategoryNavigationService, 
+            INavigationService createRecipeBookNavigationService, INavigationService recipeListingNavigationService, INavigationService previousNavigationService)
         {
             _recipeBookStore = recipeBookStore;
-            _recipeStore = recipeStore;
+            _categoryStore = categoryStore;
             _categories = new ObservableCollection<CategoryViewModel>();
 
-            LoadCategoriesCommand = new LoadRecipeCategoriesCommand(this, recipeBookStore);
-            AddCommand = new NavigateCommand(createCategoryNavigationService);
+            Book = recipeBookStore.Current;
+
+            Name = recipeBookStore.Current?.Name ?? "New Recipe Book";
+
+            LoadCategoriesCommand = new LoadCommand<RecipeCategory>(this, categoryStore);
             SelectCategoryCommand = new NavigateCommand(recipeListingNavigationService);
-            RenameCategoryCommand = new CompositeCommand(new SetCurrentCategoryCommand(recipeStore), new NavigateCommand(createCategoryNavigationService));
-            DeleteCategoryCommand = new CompositeCommand(new DeleteCategoryCommand(recipeBookStore), LoadCategoriesCommand);
+            BackCommand = new NavigateCommand(previousNavigationService);
+
+            UpdateRecipeBookCommand = new NavigateCommand(createRecipeBookNavigationService);
+            DeleteRecipeBookCommand = new CompositeCommand(new DeleteCommand<RecipeBook>(recipeBookStore), BackCommand);
+
+            AddCommand = new NavigateCommand(createCategoryNavigationService);
+            RenameCategoryCommand = new CompositeCommand(new SetCurrentStoreCommand<RecipeCategory>(categoryStore), new NavigateCommand(createCategoryNavigationService));
+            DeleteCategoryCommand = new CompositeCommand(new DeleteCommand<RecipeCategory>(categoryStore), LoadCategoriesCommand);
 
             LoadCategoriesCommand.Execute(null);
 
             _categories.CollectionChanged += OnCategoryCreated;
-            _recipeBookStore.CategoryCreated += OnCategoryCreated;
-            _recipeBookStore.CategoryUpdated += OnCategoryUpdated;
+            _categoryStore.NewCreated += OnCategoryCreated;
+            _categoryStore.ItemUpdated += OnCategoryUpdated;
+            _recipeBookStore.ItemUpdated += OnBookUpdated;
         }
 
-        private void OnCategoryUpdated(RecipeCategory category)
-        {
-            LoadCategoriesCommand?.Execute(category);
-        }
-
-        public void UpdateCategories(IEnumerable<RecipeCategory> categories)
+        
+        public void UpdateCategories()
         {
             _categories.Clear();
 
-            foreach (RecipeCategory category in categories)
+            foreach (RecipeCategory category in _categoryStore.Items)
             {
                 CategoryViewModel categoryViewModel = new CategoryViewModel(category);
                 _categories.Add(categoryViewModel);
             }
         }
 
+        public override void Update()
+        {
+            UpdateCategories();
+            Name = _recipeBookStore.Current.Name;
+            _categories = new ObservableCollection<CategoryViewModel>(_categoryStore.Items.Select(c => new CategoryViewModel(c)));
+        }
+
         public override void Dispose()
         {
-            _recipeBookStore.CategoryCreated -= OnCategoryCreated;
+            _categoryStore.NewCreated -= OnCategoryCreated;
+            _categoryStore.ItemUpdated -= OnCategoryUpdated;
+            _recipeBookStore.ItemUpdated -= OnBookUpdated;
             base.Dispose();
         }
 
@@ -115,5 +151,19 @@ namespace MyCookBook.WPF.ViewModels
         {
             OnPropertyChanged(nameof(HasCategories));
         }
+
+        private void OnBookUpdated(RecipeBook book)
+        {
+            if (book.Id == _recipeBookStore.Current.Id)
+            {
+                Name = book.Name;
+            }
+        }
+
+        private void OnCategoryUpdated(RecipeCategory category)
+        {
+            LoadCategoriesCommand?.Execute(category);
+        }
+
     }
 }

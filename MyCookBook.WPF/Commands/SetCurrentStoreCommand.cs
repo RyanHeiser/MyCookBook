@@ -1,5 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
-using MyCookBook.WPF.Stores;
+using MyCookBook.WPF.Stores.RecipeStores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.WPF.Commands
 {
-    public class SetCurrentCategoryCommand : CommandBase
+    public class SetCurrentStoreCommand<T> : CommandBase where T : DomainObject
     {
-        private readonly RecipeStore _recipeStore;
+        private readonly RecipeStoreBase<T> _store;
 
-        public SetCurrentCategoryCommand(RecipeStore recipeStore)
+        public SetCurrentStoreCommand(RecipeStoreBase<T> store)
         {
-            _recipeStore = recipeStore;
+            _store = store;
         }
 
         public override void Execute(object? parameter)
         {
             try
             {
-                RecipeCategory? category = parameter as RecipeCategory;
-                _recipeStore.CurrentCategory = category;
+                T? item = parameter as T;
+                _store.Current = item;
             }
             catch (Exception)
             {

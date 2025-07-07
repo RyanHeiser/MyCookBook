@@ -9,30 +9,50 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.Domain.Models
 {
-    public class RecipeCategory
+    public class RecipeCategory : ChildDomainObject
     {
-        //private readonly RecipeDataService _recipeDataService;
-        //private readonly RecipeDTOConverter _recipeDTOConverter;
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid CategoryId { get; set; }
         public string Name { get; set; }
+
+        private int _recipeCount;
+        public int RecipeCount { 
+            get { return _recipeCount; }
+
+            set
+            {
+                OnRecipeCountChanged(value - _recipeCount);
+                _recipeCount = value;
+            }
+        }
 
         public List<Recipe> _recipes;
         public IEnumerable<Recipe> Recipes => _recipes;
 
+        public event Action<int>? RecipeCountChanged;
+
         public RecipeCategory(string name)
         {
-            CategoryId = Guid.NewGuid();
+            Id = Guid.NewGuid();
             Name = name;
+            _recipeCount = 0;
             _recipes = new List<Recipe>();
         }
 
-        public RecipeCategory(string name, List<Recipe> recipes)
+        public RecipeCategory(string name, Guid bookId)
         {
-            CategoryId = Guid.NewGuid();
+            Id = Guid.NewGuid();
             Name = name;
-            _recipes = recipes;
+            _recipeCount = 0;
+            _recipes = new List<Recipe>();
+            ParentId = bookId;
+        }
+
+        public RecipeCategory(string name, Guid bookId, int recipeCount)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            _recipeCount = recipeCount;
+            _recipes = new List<Recipe>();
+            ParentId = bookId;
         }
 
         /// <summary>
@@ -42,6 +62,7 @@ namespace MyCookBook.Domain.Models
         public void AddRecipe(Recipe recipe)
         {   
             _recipes.Add(recipe);
+            RecipeCount++;
         }
 
 
@@ -53,12 +74,12 @@ namespace MyCookBook.Domain.Models
         /// <returns>True if successful</returns>
         public bool UpdateRecipe(Guid Id, Recipe updatedRecipe)
         {
-            Recipe? existing = Recipes.FirstOrDefault(r => r.RecipeId == Id);
+            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
 
             if (existing != null)
             {
                 _recipes.Remove(existing);
-                updatedRecipe.RecipeId = Id;
+                updatedRecipe.Id = Id;
                 _recipes.Add(updatedRecipe);
                 return true;
             }
@@ -71,11 +92,12 @@ namespace MyCookBook.Domain.Models
         /// <param name="id">The id of the recipe to remove.</param>
         public bool RemoveRecipe(Guid Id)
         {
-            Recipe? existing = Recipes.FirstOrDefault(r => r.RecipeId == Id);
+            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
 
             if (existing != null)
             {
                 _recipes.Remove(existing);
+                RecipeCount--;
                 return true;
             }
             return false;
@@ -87,7 +109,14 @@ namespace MyCookBook.Domain.Models
         /// </summary>
         public void ClearRecipes()
         {
+            OnRecipeCountChanged(-RecipeCount);
             _recipes.Clear();
+            RecipeCount = 0;
+        }
+
+        private void OnRecipeCountChanged(int change)
+        {
+            RecipeCountChanged?.Invoke(change);
         }
     }
 }

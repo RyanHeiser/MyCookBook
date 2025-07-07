@@ -8,35 +8,35 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.EntityFramework.Services
 {
-    public class ImageDataService : IDataService<RecipeImage>
+    public class DataService<T> : IDataService<T> where T : DomainObject
     {
         protected readonly MyCookBookDbContextFactory _contextFactory;
 
-        public ImageDataService(MyCookBookDbContextFactory contextFactory)
+        public DataService(MyCookBookDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
 
-        public async Task<RecipeImage> Create(RecipeImage entity)
+        public async Task<T> Create(T entity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                await context.Images.AddAsync(entity);
+                await context.Set<T>().AddAsync(entity);
 
                 await context.SaveChangesAsync();
                 return entity;
             }
         }
 
-        public async Task<bool> Delete(Guid RecipeId)
+        public async Task<bool> Delete(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeImage? entity = await context.Images.FirstOrDefaultAsync(e => e.RecipeId == RecipeId);
+                T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == Id);
 
                 if (entity != null)
                 {
-                    context.Images.Remove(entity);
+                    context.Set<T>().Remove(entity);
 
                     await context.SaveChangesAsync();
                     return true;
@@ -45,37 +45,37 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<RecipeImage> Get(Guid RecipeId)
+        public async Task<T> Get(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeImage? entity = await context.Images.FirstOrDefaultAsync(e => e.RecipeId == RecipeId);
+                T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == Id);
                 return entity;
             }
         }
 
-        public async Task<IEnumerable<RecipeImage>> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                IEnumerable<RecipeImage>? entities = await context.Images.ToListAsync();
+                IEnumerable<T>? entities = await context.Set<T>().ToListAsync();
                 return entities;
             }
         }
 
-        public async Task<RecipeImage> Update(Guid RecipeId, RecipeImage entity)
+        public async Task<T> Update(Guid Id, T updatedEntity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                RecipeImage? image = await context.Images.AsNoTracking().FirstOrDefaultAsync(i => i.RecipeId == RecipeId);
+                T? entity = await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == Id);
 
-                if (image != null)
+                if (entity != null)
                 {
-                    entity.RecipeId = image.RecipeId;
-                    context.Images.Update(entity);
+                    updatedEntity.Id = entity.Id;
+                    context.Set<T>().Update(updatedEntity);
                     await context.SaveChangesAsync();
                 }
-                return entity;
+                return updatedEntity;
             }
         }
     }

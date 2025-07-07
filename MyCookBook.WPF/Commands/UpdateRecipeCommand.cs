@@ -1,5 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
-using MyCookBook.WPF.Stores;
+using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,13 +15,13 @@ namespace MyCookBook.WPF.Commands
     public class UpdateRecipeCommand : AsyncCommandBase
     {
         private readonly CreateRecipeViewModel _createRecipeViewModel;
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly RecipeImageStore _imageStore;
         private readonly RecipeStore _recipeStore;
 
-        public UpdateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeBookStore recipeBookStore, RecipeStore recipeStore)
+        public UpdateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeStore recipeStore, RecipeImageStore imageStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
-            _recipeBookStore = recipeBookStore;
+            _imageStore = imageStore;
             _recipeStore = recipeStore;
         }
 
@@ -38,16 +38,19 @@ namespace MyCookBook.WPF.Commands
                 _createRecipeViewModel.RawThumbnailData,
                 new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
                 new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)),  // Convert non-empty Direction StringViewModels to Strings
-                recipe.CategoryId);
+                recipe.Id);
 
-            RecipeImage image = new RecipeImage(recipe.RecipeId, _createRecipeViewModel.RawImageData);
+            RecipeImage image = new RecipeImage(_createRecipeViewModel.RawImageData, recipe.Id);
 
-            _recipeStore.CurrentRecipe = updatedRecipe;
+            _recipeStore.Current = updatedRecipe;
 
             try
             {
-                await _recipeBookStore.UpdateRecipe(recipe.RecipeId, updatedRecipe, _recipeStore.CurrentCategory);
-                await _recipeBookStore.UpdateImage(recipe.RecipeId, image);
+                await _recipeStore.Update(recipe.Id, updatedRecipe);
+
+                if (_imageStore.Current != null)
+                    await _imageStore.Update(_imageStore.Current.Id, image);
+
                 MessageBox.Show("Updated recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NullReferenceException)

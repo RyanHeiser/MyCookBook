@@ -2,7 +2,6 @@
 using MyCookBook.WPF.Exceptions;
 using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Services.Navigation;
-using MyCookBook.WPF.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Xps.Packaging;
+using MyCookBook.WPF.Stores.RecipeStores;
 
 namespace MyCookBook.WPF.ViewModels
 {
@@ -48,19 +48,25 @@ namespace MyCookBook.WPF.ViewModels
 		public ICommand EditCommand { get; }
 		public ICommand DeleteCommand { get; }
 
-        public RecipeDisplayViewModel(RecipeBookStore recipeBookStore, RecipeStore recipeStore, 
+        public ICommand LoadImageCommand { get; }
+
+        public RecipeDisplayViewModel(RecipeCategoryStore categoryStore, RecipeStore recipeStore, RecipeImageStore imageStore,
 			INavigationService createRecipeNavigationService, INavigationService previousNavigationService)
         {
-			Recipe = recipeStore.CurrentRecipe;
-			Category = recipeStore.CurrentCategory;
+			Recipe = recipeStore.Current;
+			Category = categoryStore.Current;
 
-            RawImageData = recipeBookStore.Image.RawImageData;
 
             BackCommand = new NavigateCommand(previousNavigationService);
 			EditCommand = new NavigateCommand(createRecipeNavigationService);
-			DeleteCommand = new CompositeCommand(new DeleteRecipeCommand(recipeBookStore, Category), BackCommand);
+			DeleteCommand = new CompositeCommand(new DeleteCommand<Recipe>(recipeStore), BackCommand);
 
-            RecipeViewModel = new RecipeViewModel(recipeStore.CurrentRecipe);
+            LoadImageCommand = new LoadCommand<RecipeImage>(this, imageStore);
+
+            LoadImageCommand.Execute(null);
+
+            RecipeViewModel = new RecipeViewModel(recipeStore.Current);
+            RawImageData = imageStore.Items.ElementAt(0).RawImageData;
         }
 
     }

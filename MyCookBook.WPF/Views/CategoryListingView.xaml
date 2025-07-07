@@ -19,33 +19,57 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
         <TextBlock 
-        Grid.Row="0" 
-        Grid.Column="0" 
-        Style="{StaticResource Title}"
-        Text="My Cook Book" />
+            Grid.Row="0" 
+            Grid.Column="1" 
+            Style="{StaticResource Title}"
+            Text="{Binding Name}" />
 
         <Button 
-        Grid.Row="0"
-        Grid.Column="1"
-        Content="Add" 
-        Command="{Binding AddCommand}"
-        MinWidth="50"
-        MaxHeight="40"
-        Padding="5"
-        Margin="20 0 0 0"/>
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Back" 
+            Command="{Binding BackCommand}"
+            MinWidth="50"
+            MaxHeight="40"
+            Padding="5"
+            Margin="0 0 20 0"/>
+
+        <StackPanel 
+            Grid.Row="0"
+            Grid.Column="2"
+            Orientation="Horizontal">
+            <Button 
+                Content="Rename" 
+                Command="{Binding UpdateRecipeBookCommand}"
+                MinWidth="50"
+                MaxHeight="40"
+                Padding="5" />
+            <Button 
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="Delete" 
+                Command="{Binding DeleteRecipeBookCommand}"
+                CommandParameter="{Binding Book}"
+                MinWidth="50"
+                MaxHeight="40"
+                Padding="5"
+                Margin="10 0 0 0"/>
+        </StackPanel>
 
         <Grid 
             Margin="0 40 0 0" 
             Grid.Row="1" 
             Grid.Column="0"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="3">
             <TextBlock 
             Text="No categories have been created yet. Click &quot;Add&quot; to add a category." 
             Visibility="{Binding HasCategories, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
@@ -64,6 +88,15 @@
 
             </ListView>
         </Grid>
+
+        <Button 
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Content="Add" 
+            Command="{Binding AddCommand}"
+            Padding="5"
+            Margin="0 15 0 0"/>
 
     </Grid>
 </UserControl>

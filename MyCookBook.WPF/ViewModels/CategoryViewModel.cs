@@ -9,8 +9,9 @@ namespace MyCookBook.WPF.ViewModels
 {
     public class CategoryViewModel : ViewModelBase
     {
-        public string Name => Category?.Name ?? "New Category";
-        public int Count => Category?.Recipes?.Count() ?? 0;
+        public new RecipeCategory Category { get; set; }
+        public string Name => Category.Name;
+        public int Count => Category.RecipeCount;
 
         public CategoryViewModel(RecipeCategory category)
         {

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyCookBook"
         xmlns:views="clr-namespace:MyCookBook.WPF.Views" 
+        xmlns:modalviews="clr-namespace:MyCookBook.WPF.Views.Modals" 
         xmlns:vms="clr-namespace:MyCookBook.WPF.ViewModels" 
+        xmlns:modalvms="clr-namespace:MyCookBook.WPF.ViewModels.Modals" 
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
         FontSize="16"
@@ -28,10 +30,16 @@
                 <DataTemplate DataType="{x:Type vms:CategoryListingViewModel}">
                     <views:CategoryListingView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vms:RecipeBookListingViewModel}">
+                    <views:RecipeBookListingView />
+                </DataTemplate>
 
                 <!-- Modal Views -->
-                <DataTemplate DataType="{x:Type vms:CreateCategoryViewModel}">
-                    <views:CreateCategoryView />
+                <DataTemplate DataType="{x:Type modalvms:CreateCategoryViewModel}">
+                    <modalviews:CreateCategoryView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type modalvms:CreateRecipeBookViewModel}">
+                    <modalviews:CreateRecipeBookView />
                 </DataTemplate>
             </Grid.Resources>
 

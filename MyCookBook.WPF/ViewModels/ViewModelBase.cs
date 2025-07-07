@@ -12,8 +12,28 @@ namespace MyCookBook.WPF.ViewModels
     {
         public Recipe? Recipe { get; protected set; }
         public RecipeCategory? Category { get; protected set; }
+        public RecipeBook? Book { get; protected set; }
+
+        protected bool _isLoading;
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public ViewModelBase()
+        {
+            IsLoading = false;
+        }
 
         /// <summary>
         /// Invokes the PropertyChanged event.
@@ -25,5 +45,7 @@ namespace MyCookBook.WPF.ViewModels
         }
 
         public virtual void Dispose() { }
+
+        public virtual void Update() { }
     }
 }

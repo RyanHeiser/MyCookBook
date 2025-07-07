@@ -1,5 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
-using MyCookBook.WPF.Stores;
+using MyCookBook.WPF.Stores.RecipeStores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.WPF.Commands
 {
-    class DeleteCategoryCommand : AsyncCommandBase
+    public class DeleteCommand<T> : AsyncCommandBase where T : DomainObject
     {
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly RecipeStoreBase<T> _store;
 
-        public DeleteCategoryCommand(RecipeBookStore recipeBookStore)
+        public DeleteCommand(RecipeStoreBase<T> store)
         {
-            _recipeBookStore = recipeBookStore;
+            _store = store;
         }
 
         public override async Task ExecuteAsync(object? parameter)
         {
             try
             {
-                RecipeCategory? category = parameter as RecipeCategory;
-                await _recipeBookStore.DeleteCategory(category.CategoryId);
+                T? item = parameter as T;
+                await _store.Delete(item.Id);
             }
             catch (Exception)
             {

@@ -1,4 +1,5 @@
-﻿using MyCookBook.WPF.ViewModels;
+﻿using MyCookBook.WPF.Stores.RecipeStores;
+using MyCookBook.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,20 @@ namespace MyCookBook.WPF.Stores
 
         protected ViewModelBase? _currentViewModel;
         private readonly RecipeStore _recipeStore;
+        private readonly RecipeCategoryStore _categoryStore;
+        private readonly RecipeBookStore _recipeBookStore;
 
         public ViewModelBase? CurrentViewModel => _currentViewModel;
 
 
         public event Action? CurrentViewModelChanged;
 
-        public NavigationStore(RecipeStore recipeStore)
+        public NavigationStore(RecipeStore recipeStore, RecipeCategoryStore categoryStore, RecipeBookStore recipeBookStore)
         {
             _previousViewModels = new Stack<Func<ViewModelBase>>();
             _recipeStore = recipeStore;
+            _categoryStore = categoryStore;
+            _recipeBookStore = recipeBookStore;
         }
 
         /// <summary>
@@ -59,15 +64,20 @@ namespace MyCookBook.WPF.Stores
             // Set the app-wide recipe store to null if traversing back to RecipeListingView
             if (_currentViewModel.GetType() == typeof(RecipeListingViewModel))
             {
-                _recipeStore.CurrentRecipe = null;
+                _recipeStore.Current = null;
             }
             // Set the app-wide recipe category store to null if traversing back to CategoryListingView
             else if (_currentViewModel.GetType() == typeof(CategoryListingViewModel))
             {
-                _recipeStore.CurrentCategory = null;
+                _categoryStore.Current = null;
+            }
+            // Set the app-wide recipe book store to null if traversing back to RecipeBookListingView
+            else if (_currentViewModel.GetType() == typeof(RecipeBookListingViewModel))
+            {
+                _recipeBookStore.Current = null;
             }
 
-            OnCurrentViewModelChanged();
+                OnCurrentViewModelChanged();
         }
 
         protected void OnCurrentViewModelChanged()

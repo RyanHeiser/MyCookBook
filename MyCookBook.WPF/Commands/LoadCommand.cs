@@ -1,4 +1,5 @@
-﻿using MyCookBook.WPF.Stores;
+﻿using MyCookBook.Domain.Models;
+using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.WPF.Commands
 {
-    public class LoadRecipesCommand : AsyncCommandBase
+    public class LoadCommand<T> : AsyncCommandBase where T : DomainObject
     {
-        private readonly RecipeListingViewModel _viewModel;
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly ViewModelBase _viewModel;
+        private readonly RecipeStoreBase<T> _store;
 
-        public LoadRecipesCommand(RecipeListingViewModel viewModel, RecipeBookStore recipeBookStore)
+        public LoadCommand(ViewModelBase viewModel, RecipeStoreBase<T> store)
         {
             _viewModel = viewModel;
-            _recipeBookStore = recipeBookStore;
+            _store = store;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -25,8 +26,8 @@ namespace MyCookBook.WPF.Commands
 
             try
             {
-                await _recipeBookStore.LoadRecipes();
-                _viewModel.UpdateRecipes(_recipeBookStore.Recipes);
+                await _store.Load();
+                _viewModel.Update();
             }
             catch (Exception)
             {
@@ -36,4 +37,5 @@ namespace MyCookBook.WPF.Commands
             _viewModel.IsLoading = false;
         }
     }
+
 }
