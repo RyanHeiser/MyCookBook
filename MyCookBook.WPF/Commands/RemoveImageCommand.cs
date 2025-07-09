@@ -27,6 +27,7 @@ namespace MyCookBook.WPF.Commands
         public override void Execute(object? parameter)
         {
             _viewModel.RawImageData = null;
+            _viewModel.RawThumbnailData = null;
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)

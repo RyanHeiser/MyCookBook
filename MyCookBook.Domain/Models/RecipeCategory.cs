@@ -37,13 +37,12 @@ namespace MyCookBook.Domain.Models
             ParentId = bookId;
         }
 
-        public RecipeCategory(string name, Guid bookId, int recipeCount)
+        public RecipeCategory(string name, int recipeCount)
         {
             Id = Guid.NewGuid();
             Name = name;
             RecipeCount = recipeCount;
             _recipes = new List<Recipe>();
-            ParentId = bookId;
         }
 
         /// <summary>
