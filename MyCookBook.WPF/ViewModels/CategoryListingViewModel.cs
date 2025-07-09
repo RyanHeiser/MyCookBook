@@ -131,7 +131,6 @@ namespace MyCookBook.WPF.ViewModels
         {
             UpdateCategories();
             Name = _recipeBookStore.Current.Name;
-            _categories = new ObservableCollection<CategoryViewModel>(_categoryStore.Items.Select(c => new CategoryViewModel(c)));
         }
 
         public override void Dispose()

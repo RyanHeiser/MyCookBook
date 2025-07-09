@@ -48,7 +48,7 @@ namespace MyCookBook.WPF.Commands
             {
                 await _recipeStore.Update(recipe.Id, updatedRecipe);
 
-                if (_imageStore.Current != null)
+                if (_imageStore.Items.Count() > 0)
                     await _imageStore.Update(_imageStore.Current.Id, image);
 
                 MessageBox.Show("Updated recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
