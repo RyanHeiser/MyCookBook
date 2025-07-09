@@ -156,6 +156,8 @@ namespace MyCookBook.WPF.ViewModels
             }
             else
             {
+                imageStore.Load();
+
                 Name = recipeStore.Current.Name;
                 Minutes = recipeStore.Current.Minutes;
                 Servings = recipeStore.Current.Servings;

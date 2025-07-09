@@ -41,13 +41,6 @@ namespace MyCookBook.WPF.Commands
 
             RecipeImage image = new RecipeImage(_createRecipeViewModel.RawImageData);
 
-            //if (_imageStore.Items.Any())
-            //{
-            //    image.Id = _imageStore.Items.First().Id;
-            //}
-
-            //updatedRecipe.Image = image;
-
             _recipeStore.Current = updatedRecipe;
 
             try
