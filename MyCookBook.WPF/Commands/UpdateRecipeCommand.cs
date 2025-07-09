@@ -37,10 +37,16 @@ namespace MyCookBook.WPF.Commands
                 _createRecipeViewModel.Servings,
                 _createRecipeViewModel.RawThumbnailData,
                 new List<string>(_createRecipeViewModel.Ingredients.Where(i => !String.IsNullOrEmpty(i.Text)).Select(i => i.Text)), // Convert non-empty Ingredient StringViewModels to Strings
-                new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)),  // Convert non-empty Direction StringViewModels to Strings
-                recipe.Id);
+                new List<string>(_createRecipeViewModel.Directions.Where(d => !String.IsNullOrEmpty(d.Text)).Select(d => d.Text)));  // Convert non-empty Direction StringViewModels to Strings
 
-            RecipeImage image = new RecipeImage(_createRecipeViewModel.RawImageData, recipe.Id);
+            RecipeImage image = new RecipeImage(_createRecipeViewModel.RawImageData);
+
+            //if (_imageStore.Items.Any())
+            //{
+            //    image.Id = _imageStore.Items.First().Id;
+            //}
+
+            //updatedRecipe.Image = image;
 
             _recipeStore.Current = updatedRecipe;
 
@@ -48,8 +54,8 @@ namespace MyCookBook.WPF.Commands
             {
                 await _recipeStore.Update(recipe.Id, updatedRecipe);
 
-                if (_imageStore.Items.Count() > 0)
-                    await _imageStore.Update(_imageStore.Current.Id, image);
+                if (_imageStore.Items != null)
+                    await _imageStore.Update(_imageStore.Items.First().Id, image);
 
                 MessageBox.Show("Updated recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }

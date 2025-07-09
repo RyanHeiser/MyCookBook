@@ -22,5 +22,22 @@ namespace MyCookBook.EntityFramework.Services
                 return await context.Set<T>().Where(c => c.ParentId == parentId).ToListAsync();
             }
         }
+
+        public override async Task<T> Update(Guid Id, T updatedEntity)
+        {
+            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
+            {
+                T? entity = await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == Id);
+
+                if (entity != null)
+                {
+                    updatedEntity.Id = entity.Id;
+                    updatedEntity.ParentId = entity.ParentId;
+                    context.Set<T>().Update(updatedEntity);
+                    await context.SaveChangesAsync();
+                }
+                return updatedEntity;
+            }
+        }
     }
 }

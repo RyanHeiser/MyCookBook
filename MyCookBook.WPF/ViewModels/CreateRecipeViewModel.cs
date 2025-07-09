@@ -160,7 +160,7 @@ namespace MyCookBook.WPF.ViewModels
                 Minutes = recipeStore.Current.Minutes;
                 Servings = recipeStore.Current.Servings;
                 RawThumbnailData = recipeStore.Current.RawThumbnailData;
-                RawImageData = imageStore.Items.ElementAt(0).RawImageData;
+                RawImageData = imageStore.Items.First().RawImageData;
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.Current.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.Current.Directions.Select(d => new StringViewModel(d)));
 

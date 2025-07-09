@@ -49,12 +49,13 @@ namespace MyCookBook.WPF.Commands
 
             RecipeImage image = new RecipeImage(_createRecipeViewModel.RawImageData, recipe.Id);
 
+            recipe.Image = image;
+
             _recipeStore.Current = recipe;
 
             try
             {
                 await _recipeStore.Create(recipe);
-                await _imageStore.Create(image);
                 MessageBox.Show("Created recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             } 
             catch (NullReferenceException)

@@ -63,7 +63,7 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<T> Update(Guid Id, T updatedEntity)
+        public virtual async Task<T> Update(Guid Id, T updatedEntity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {

@@ -35,7 +35,7 @@ namespace MyCookBook.Domain.Models
             _directions = new List<string>();
         }
 
-        public Recipe(string name, int minutes, int servings, byte[] rawThumbnailData, List<string> ingredients, List<string> directions, Guid categoryId)
+        public Recipe(string name, int minutes, int servings, byte[] rawThumbnailData, List<string> ingredients, List<string> directions)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -44,7 +44,18 @@ namespace MyCookBook.Domain.Models
             RawThumbnailData = rawThumbnailData;
             _ingredients = ingredients;
             _directions = directions;
-            ParentId = categoryId;
+        }
+
+        public Recipe(string name, int minutes, int servings, byte[] rawThumbnailData, List<string> ingredients, List<string> directions, Guid parentId)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Minutes = minutes;
+            Servings = servings;
+            RawThumbnailData = rawThumbnailData;
+            _ingredients = ingredients;
+            _directions = directions;
+            ParentId = parentId;
         }
 
         /// <summary>

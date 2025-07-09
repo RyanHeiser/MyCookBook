@@ -71,7 +71,7 @@ public partial class App : Application
         MyCookBookDbContextFactory contextFactory = _host.Services.GetRequiredService<MyCookBookDbContextFactory>();
         using (MyCookBookDbContext context = contextFactory.CreateDbContext())
         {
-            if(context.Database.EnsureCreated())
+            if (context.Database.EnsureCreated())
                 context.Database.Migrate();
         }
 
