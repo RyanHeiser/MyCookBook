@@ -71,8 +71,10 @@ public partial class App : Application
         MyCookBookDbContextFactory contextFactory = _host.Services.GetRequiredService<MyCookBookDbContextFactory>();
         using (MyCookBookDbContext context = contextFactory.CreateDbContext())
         {
-            if (context.Database.EnsureCreated())
+            if (context != null && context.Database != null)
+            {
                 context.Database.Migrate();
+            }
         }
 
         INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();

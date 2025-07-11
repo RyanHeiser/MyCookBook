@@ -27,4 +27,10 @@
     <ProjectReference Include="..\MyCookBook.EntityFramework\MyCookBook.EntityFramework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MyCookBook.db">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

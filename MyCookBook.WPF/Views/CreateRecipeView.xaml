@@ -21,6 +21,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -97,7 +98,17 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Margin="0 15 0 0">
+        <StackPanel Grid.Row="4" Margin="0 20 0 0">
+            <TextBlock 
+                Style="{StaticResource Subtitle}" 
+                Text="Description" />
+            <TextBox 
+                AcceptsReturn="True" 
+                TextWrapping="Wrap"
+                Text="{Binding Description}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="5" Margin="0 15 0 0">
             <TextBlock 
                 Style="{StaticResource Subtitle}"
                 Text="Ingredients" />
@@ -121,7 +132,7 @@
                 Command="{Binding AddIngredient}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="5" Margin="0 15 0 0">
+        <StackPanel Grid.Row="6" Margin="0 15 0 0">
             <TextBlock 
                 Style="{StaticResource Subtitle}"
                 Text="Directions" />
@@ -147,7 +158,7 @@
         </StackPanel>
 
         <StackPanel 
-            Grid.Row="6" 
+            Grid.Row="7" 
             Margin="0 15 0 0" 
             Orientation="Horizontal">
 

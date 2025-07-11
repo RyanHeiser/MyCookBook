@@ -19,39 +19,46 @@ namespace MyCookBook.Domain.Models
         public byte[]? RawThumbnailData { get; set; }
         public RecipeImage? Image { get; set; }
 
+        public string Description { get; set; }
+
         private List<string> _ingredients;
         public IEnumerable<string> Ingredients { get { return _ingredients; } set { _ingredients = value.ToList(); } }
 
         private List<string> _directions;
         public IEnumerable<string> Directions { get { return _directions; } set { _ingredients = value.ToList(); } }
 
-        public Recipe(string name, int minutes, int servings)
+        public Recipe(string name, int minutes, int servings, string description)
         {
             Id = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
+            Description = description;
             _ingredients = new List<string>();
             _directions = new List<string>();
         }
 
-        public Recipe(string name, int minutes, int servings, byte[] rawThumbnailData, List<string> ingredients, List<string> directions)
+        public Recipe(string name, int minutes, int servings, string description, 
+            byte[] rawThumbnailData, List<string> ingredients, List<string> directions)
         {
             Id = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
+            Description = description;
             RawThumbnailData = rawThumbnailData;
             _ingredients = ingredients;
             _directions = directions;
         }
 
-        public Recipe(string name, int minutes, int servings, byte[] rawThumbnailData, List<string> ingredients, List<string> directions, Guid parentId)
+        public Recipe(string name, int minutes, int servings, string description, 
+            byte[] rawThumbnailData, List<string> ingredients, List<string> directions, Guid parentId)
         {
             Id = Guid.NewGuid();
             Name = name;
             Minutes = minutes;
             Servings = servings;
+            Description = description;
             RawThumbnailData = rawThumbnailData;
             _ingredients = ingredients;
             _directions = directions;

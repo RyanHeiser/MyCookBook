@@ -63,6 +63,20 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        private string _description;
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+
         private byte[]? _rawThumbnailData;
         public byte[]? RawThumbnailData
         {
@@ -161,6 +175,7 @@ namespace MyCookBook.WPF.ViewModels
                 Name = recipeStore.Current.Name;
                 Minutes = recipeStore.Current.Minutes;
                 Servings = recipeStore.Current.Servings;
+                Description = recipeStore.Current.Description;
                 RawThumbnailData = recipeStore.Current.RawThumbnailData;
                 RawImageData = imageStore.Items.First().RawImageData;
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.Current.Ingredients.Select(i => new StringViewModel(i)));
