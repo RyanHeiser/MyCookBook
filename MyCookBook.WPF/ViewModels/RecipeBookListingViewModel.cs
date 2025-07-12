@@ -1,6 +1,7 @@
 ﻿using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Commands;
 using MyCookBook.WPF.Services.Navigation;
+using MyCookBook.WPF.Stores;
 using MyCookBook.WPF.Stores.RecipeStores;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace MyCookBook.WPF.ViewModels
     public class RecipeBookListingViewModel : ViewModelBase
     {
         private ObservableCollection<RecipeBookViewModel> _books;
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
 
         public IEnumerable<RecipeBookViewModel> Books => _books;
 
@@ -62,8 +63,9 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand UpdateBookCommand { get; }
         public ICommand DeleteBookCommand { get; }
 
-        public RecipeBookListingViewModel(RecipeBookStore recipeBookStore,
-            INavigationService createBookNavigationService, INavigationService categoryListingNavigationService)
+        public RecipeBookListingViewModel(RecipeStoreBase<RecipeBook> recipeBookStore, DeleteStore deleteStore,
+            INavigationService createBookNavigationService, INavigationService categoryListingNavigationService,
+            INavigationService deleteBookNavigationService)
         {
             _recipeBookStore = recipeBookStore;
             _books = new ObservableCollection<RecipeBookViewModel>();
@@ -72,13 +74,14 @@ namespace MyCookBook.WPF.ViewModels
             AddCommand = new NavigateCommand(createBookNavigationService); 
             SelectBookCommand = new NavigateCommand(categoryListingNavigationService);
             UpdateBookCommand = new CompositeCommand(new SetCurrentStoreCommand<RecipeBook>(recipeBookStore), new NavigateCommand(createBookNavigationService));
-            DeleteBookCommand = new CompositeCommand(new DeleteCommand<RecipeBook>(recipeBookStore), LoadBooksCommand);
+            DeleteBookCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteBookNavigationService));
 
             LoadBooksCommand.Execute(null);
 
             _books.CollectionChanged += OnBookCreated;
             _recipeBookStore.NewCreated += OnBookCreated;
             _recipeBookStore.ItemUpdated += OnBookUpdated;
+            _recipeBookStore.ItemDeleted += OnBookDeleted;
         }
 
         public void UpdateBooks()
@@ -90,12 +93,15 @@ namespace MyCookBook.WPF.ViewModels
                 RecipeBookViewModel bookViewModel = new RecipeBookViewModel(book);
                 _books.Add(bookViewModel);
             }
+
+            OnPropertyChanged(nameof(HasBooks));
         }
 
         public override void Dispose()
         {
             _recipeBookStore.NewCreated -= OnBookCreated;
             _recipeBookStore.ItemUpdated -= OnBookUpdated;
+            _recipeBookStore.ItemDeleted -= OnBookDeleted;
             base.Dispose();
         }
 
@@ -107,7 +113,7 @@ namespace MyCookBook.WPF.ViewModels
 
         private void OnBookCreated(RecipeBook book)
         {
-            LoadBooksCommand.Execute(null);
+            UpdateBooks();
         }
 
         private void OnBookCreated(object? sender, NotifyCollectionChangedEventArgs e)
@@ -117,7 +123,12 @@ namespace MyCookBook.WPF.ViewModels
 
         private void OnBookUpdated(RecipeBook book)
         {
-            LoadBooksCommand?.Execute(null);
+            UpdateBooks();
+        }
+
+        private void OnBookDeleted()
+        {
+            UpdateBooks();
         }
     }
 }

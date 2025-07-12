@@ -2,6 +2,7 @@
 using MyCookBook.EntityFramework.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,10 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             }
         }
 
+        public event Action? FinishedLoading;
         public event Action<T>? NewCreated;
         public event Action<T>? ItemUpdated;
+        public event Action? ItemDeleted;
         public event Action<T?>? CurrentChanged;
 
         protected RecipeStoreBase(IDataService<T> dataService)
@@ -54,6 +57,7 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 _initializeLazy = new Lazy<Task>(Initialize);
                 throw;
             }
+            OnFinishedLoading();
         }
 
         protected virtual async Task Initialize()
@@ -64,6 +68,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             _items.AddRange(items);
         }
 
+        protected void OnFinishedLoading()
+        {
+            FinishedLoading?.Invoke();
+        }
+
         protected void OnNewCreated(T item)
         {
             NewCreated?.Invoke(item);
@@ -72,6 +81,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
         protected void OnItemUpdated(T item)
         {
             ItemUpdated?.Invoke(item);
+        }
+
+        protected void OnItemDeleted()
+        {
+            ItemDeleted?.Invoke();
         }
 
         protected void OnCurrentChanged(T? item)

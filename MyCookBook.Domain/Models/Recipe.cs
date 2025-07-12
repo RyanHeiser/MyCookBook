@@ -19,7 +19,7 @@ namespace MyCookBook.Domain.Models
         public byte[]? RawThumbnailData { get; set; }
         public RecipeImage? Image { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         private List<string> _ingredients;
         public IEnumerable<string> Ingredients { get { return _ingredients; } set { _ingredients = value.ToList(); } }

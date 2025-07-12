@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Xps.Packaging;
 using MyCookBook.WPF.Stores.RecipeStores;
+using MyCookBook.WPF.Stores;
 
 namespace MyCookBook.WPF.ViewModels
 {
@@ -50,8 +51,9 @@ namespace MyCookBook.WPF.ViewModels
 
         public ICommand LoadImageCommand { get; }
 
-        public RecipeDisplayViewModel(RecipeCategoryStore categoryStore, RecipeStore recipeStore, RecipeImageStore imageStore,
-			INavigationService createRecipeNavigationService, INavigationService previousNavigationService)
+        public RecipeDisplayViewModel(RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, 
+            RecipeStoreBase<RecipeImage> imageStore, DeleteStore deleteStore,
+			INavigationService createRecipeNavigationService, INavigationService deleteNavigationService, INavigationService previousNavigationService)
         {
 			Recipe = recipeStore.Current;
 			Category = categoryStore.Current;
@@ -59,7 +61,7 @@ namespace MyCookBook.WPF.ViewModels
 
             BackCommand = new NavigateCommand(previousNavigationService);
 			EditCommand = new NavigateCommand(createRecipeNavigationService);
-			DeleteCommand = new CompositeCommand(new DeleteCommand<Recipe>(recipeStore), BackCommand);
+			DeleteCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteNavigationService));
 
             LoadImageCommand = new LoadCommand<RecipeImage>(this, imageStore);
 

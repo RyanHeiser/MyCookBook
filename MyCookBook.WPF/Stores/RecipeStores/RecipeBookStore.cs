@@ -32,6 +32,7 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
+                OnItemDeleted();
                 return true;
             }
             return false;

@@ -16,11 +16,11 @@ namespace MyCookBook.WPF.Commands
     public class CreateRecipeCommand : AsyncCommandBase
     {
         private readonly CreateRecipeViewModel _createRecipeViewModel;
-        private readonly RecipeImageStore _imageStore;
-        private readonly RecipeStore _recipeStore;
-        private readonly RecipeCategoryStore _categoryStore;
+        private readonly RecipeStoreBase<RecipeImage> _imageStore;
+        private readonly RecipeStoreBase<Recipe> _recipeStore;
+        private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
 
-        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeCategoryStore categoryStore, RecipeStore recipeStore, RecipeImageStore imageStore)
+        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
             _recipeStore = recipeStore;

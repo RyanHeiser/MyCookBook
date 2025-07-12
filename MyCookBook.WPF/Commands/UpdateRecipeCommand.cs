@@ -15,10 +15,10 @@ namespace MyCookBook.WPF.Commands
     public class UpdateRecipeCommand : AsyncCommandBase
     {
         private readonly CreateRecipeViewModel _createRecipeViewModel;
-        private readonly RecipeImageStore _imageStore;
-        private readonly RecipeStore _recipeStore;
+        private readonly RecipeStoreBase<RecipeImage> _imageStore;
+        private readonly RecipeStoreBase<Recipe> _recipeStore;
 
-        public UpdateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeStore recipeStore, RecipeImageStore imageStore)
+        public UpdateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
             _imageStore = imageStore;

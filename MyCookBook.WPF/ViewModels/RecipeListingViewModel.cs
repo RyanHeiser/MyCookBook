@@ -11,14 +11,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyCookBook.WPF.Stores.RecipeStores;
+using MyCookBook.WPF.Stores;
 
 namespace MyCookBook.WPF.ViewModels
 {
 	public class RecipeListingViewModel : ViewModelBase
     {
         private ObservableCollection<RecipeViewModel> _recipes;
-        private readonly RecipeCategoryStore _categoryStore;
-        private readonly RecipeStore _recipeStore;
+        private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
+        private readonly RecipeStoreBase<Recipe> _recipeStore;
 
         public IEnumerable<RecipeViewModel> Recipes => _recipes;
 
@@ -83,9 +84,10 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand EditRecipeCommand { get; }
         public ICommand DeleteRecipeCommand { get; }
 
-        public RecipeListingViewModel(RecipeCategoryStore categoryStore, RecipeStore recipeStore, 
-            INavigationService createRecipeNavigationService, INavigationService createCategoryNavigationService, INavigationService recipeDisplayNavigationService,
-            INavigationService previousNavigationService)
+        public RecipeListingViewModel(RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, DeleteStore deleteStore,
+            INavigationService createRecipeNavigationService, INavigationService createCategoryNavigationService, 
+            INavigationService recipeDisplayNavigationService, INavigationService deleteRecipeNavigationService, 
+            INavigationService deleteCategoryNavigationService, INavigationService previousNavigationService)
         {
             _categoryStore = categoryStore;
             _recipeStore = recipeStore;
@@ -99,21 +101,23 @@ namespace MyCookBook.WPF.ViewModels
             AddCommand = new NavigateCommand(createRecipeNavigationService);
 
             RenameCategoryCommand = new NavigateCommand(createCategoryNavigationService);
-            DeleteCategoryCommand = new CompositeCommand(new DeleteCommand<RecipeCategory>(categoryStore), BackCommand);
+            DeleteCategoryCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteCategoryNavigationService));
 
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
             EditRecipeCommand = new CompositeCommand(new SetCurrentStoreCommand<Recipe>(recipeStore), new NavigateCommand(createRecipeNavigationService));
-            DeleteRecipeCommand = new CompositeCommand(new DeleteCommand<Recipe>(recipeStore), LoadRecipesCommand);
+            DeleteRecipeCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteRecipeNavigationService));
 
             LoadRecipesCommand.Execute(null);
 
             _recipes.CollectionChanged += OnRecipeCreated;
             _categoryStore.ItemUpdated += OnCategoryUpdated;
+            _recipeStore.ItemDeleted += OnRecipeDeleted;
         }
 
         public override void Dispose()
         {
             _categoryStore.ItemUpdated -= OnCategoryUpdated;
+            _categoryStore.ItemDeleted -= OnRecipeDeleted;
             base.Dispose();
         }
 
@@ -144,6 +148,7 @@ namespace MyCookBook.WPF.ViewModels
                 RecipeViewModel recipeViewModel = new RecipeViewModel(recipe);
                 _recipes.Add(recipeViewModel);
             }
+            OnPropertyChanged(nameof(HasRecipes));
         }
 
         private void OnRecipeCreated(object? sender, NotifyCollectionChangedEventArgs e)
@@ -157,6 +162,11 @@ namespace MyCookBook.WPF.ViewModels
             {
                 Name = category.Name; 
             }
+        }
+
+        private void OnRecipeDeleted()
+        {
+            UpdateRecipes();
         }
     }
 }

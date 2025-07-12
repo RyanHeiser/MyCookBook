@@ -14,10 +14,11 @@ namespace MyCookBook.WPF.Commands
     public class UpdateCategoryCommand : AsyncCommandBase
     {
         private readonly CreateCategoryViewModel _createCategoryViewModel;
-        private readonly RecipeBookStore _recipeBookStore;
-        private readonly RecipeCategoryStore _categoryStore;
+        private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
+        private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
 
-        public UpdateCategoryCommand(CreateCategoryViewModel createCategoryViewModel, RecipeBookStore recipeBookStore, RecipeCategoryStore categoryStore)
+        public UpdateCategoryCommand(CreateCategoryViewModel createCategoryViewModel, RecipeStoreBase<RecipeBook> recipeBookStore, 
+            RecipeStoreBase<RecipeCategory> categoryStore)
         {
             _createCategoryViewModel = createCategoryViewModel;
             _recipeBookStore = recipeBookStore;

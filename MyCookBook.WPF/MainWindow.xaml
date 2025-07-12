@@ -41,11 +41,15 @@
                 <DataTemplate DataType="{x:Type modalvms:CreateRecipeBookViewModel}">
                     <modalviews:CreateRecipeBookView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type modalvms:DeleteViewModel}">
+                    <modalviews:DeleteView />
+                </DataTemplate>
             </Grid.Resources>
 
             <modalcontrol:Modal Panel.ZIndex="1" IsOpen="{Binding IsModalOpen}">
                 <ContentControl Content="{Binding CurrentModalViewModel}" />
             </modalcontrol:Modal>
+            
             <Grid MaxWidth="1400" Margin="20 10">
                 <ContentControl Content="{Binding CurrentViewModel}" />
             </Grid>

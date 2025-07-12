@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCookBook.EntityFramework;
 
@@ -10,9 +11,11 @@ using MyCookBook.EntityFramework;
 namespace MyCookBook.EntityFramework.Migrations
 {
     [DbContext(typeof(MyCookBookDbContext))]
-    partial class MyCookBookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250712053056_optional-description")]
+    partial class optionaldescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");

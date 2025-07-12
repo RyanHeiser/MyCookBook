@@ -18,6 +18,8 @@ namespace MyCookBook.WPF.ViewModels
 {
     public class CreateRecipeViewModel : ViewModelBase
     {
+        private RecipeStoreBase<RecipeImage> _imageStore;
+
         protected string? _name;
         public string? Name
         {
@@ -155,9 +157,13 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand AddIngredient {  get; }
         public ICommand AddDirection { get; }
 
-        public CreateRecipeViewModel(RecipeCategoryStore categoryStore, RecipeStore recipeStore, RecipeImageStore imageStore,
+        public CreateRecipeViewModel(RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore,
             INavigationService recipeDisplayNavigationService, INavigationService previousNavigationService)
         {
+            imageStore.FinishedLoading += OnImageLoaded;
+
+            _imageStore = imageStore;
+
             Recipe = recipeStore.Current;
             Category = categoryStore.Current;
 
@@ -177,7 +183,7 @@ namespace MyCookBook.WPF.ViewModels
                 Servings = recipeStore.Current.Servings;
                 Description = recipeStore.Current.Description;
                 RawThumbnailData = recipeStore.Current.RawThumbnailData;
-                RawImageData = imageStore.Items.First().RawImageData;
+                //RawImageData = imageStore.Items.First().RawImageData;
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.Current.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.Current.Directions.Select(d => new StringViewModel(d)));
 
@@ -193,6 +199,11 @@ namespace MyCookBook.WPF.ViewModels
 
             AddIngredient = new AddToCollectionCommand<StringViewModel>(Ingredients, () => new StringViewModel(""));
             AddDirection = new AddToCollectionCommand<StringViewModel>(Directions, () => new StringViewModel(""));
+        }
+
+        private void OnImageLoaded()
+        {
+            RawImageData = _imageStore.Items.First().RawImageData;
         }
     }
 }

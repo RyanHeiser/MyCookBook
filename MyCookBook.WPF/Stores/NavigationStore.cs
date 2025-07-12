@@ -1,4 +1,5 @@
-﻿using MyCookBook.WPF.Stores.RecipeStores;
+﻿using MyCookBook.Domain.Models;
+using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,21 +15,21 @@ namespace MyCookBook.WPF.Stores
         private Stack<Func<ViewModelBase>> _previousViewModels;
 
         protected ViewModelBase? _currentViewModel;
-        private readonly RecipeStore _recipeStore;
-        private readonly RecipeCategoryStore _categoryStore;
-        private readonly RecipeBookStore _recipeBookStore;
+        private readonly RecipeStoreBase<Recipe> _recipeStore;
+        private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
+        private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
 
         public ViewModelBase? CurrentViewModel => _currentViewModel;
 
 
         public event Action? CurrentViewModelChanged;
 
-        public NavigationStore(RecipeStore recipeStore, RecipeCategoryStore categoryStore, RecipeBookStore recipeBookStore)
+        public NavigationStore(RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<RecipeBook> bookStore)
         {
             _previousViewModels = new Stack<Func<ViewModelBase>>();
             _recipeStore = recipeStore;
             _categoryStore = categoryStore;
-            _recipeBookStore = recipeBookStore;
+            _recipeBookStore = bookStore;
         }
 
         /// <summary>

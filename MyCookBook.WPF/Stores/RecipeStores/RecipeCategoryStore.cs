@@ -10,7 +10,7 @@ namespace MyCookBook.WPF.Stores.RecipeStores
 {
     public class RecipeCategoryStore : ChildRecipeStoreBase<RecipeCategory, RecipeBook>
     {
-        public RecipeCategoryStore(ChildDataService<RecipeCategory> dataService, RecipeBookStore categoryStore) : base(dataService, categoryStore)
+        public RecipeCategoryStore(ChildDataService<RecipeCategory> dataService, RecipeStoreBase<RecipeBook> bookStore) : base(dataService, bookStore)
         {
         }
 
@@ -38,6 +38,7 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 if (item != null)
                     _items.Remove(item);
 
+                OnItemDeleted();
                 return true;
             }
             return false;
