@@ -1,4 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
+using MyCookBook.EntityFramework.Services;
 using MyCookBook.WPF.Commands;
 using MyCookBook.WPF.Services.Navigation;
 using MyCookBook.WPF.Stores;
@@ -43,29 +44,17 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
-        //private bool _isLoading;
-        //public bool IsLoading
-        //{
-        //    get
-        //    {
-        //        return _isLoading;
-        //    }
-        //    set
-        //    {
-        //        _isLoading = value;
-        //        OnPropertyChanged(nameof(IsLoading));
-        //    }
-        //}
-
         public ICommand LoadBooksCommand { get; }
         public ICommand AddCommand { get; }
         public ICommand SelectBookCommand { get; }
         public ICommand UpdateBookCommand { get; }
         public ICommand DeleteBookCommand { get; }
 
+        public ICommand ExportCommand { get; }
+
         public RecipeBookListingViewModel(RecipeStoreBase<RecipeBook> recipeBookStore, DeleteStore deleteStore,
-            INavigationService createBookNavigationService, INavigationService categoryListingNavigationService,
-            INavigationService deleteBookNavigationService)
+            RecipeBookIODataService IODataServce, INavigationService createBookNavigationService, 
+            INavigationService categoryListingNavigationService, INavigationService deleteBookNavigationService)
         {
             _recipeBookStore = recipeBookStore;
             _books = new ObservableCollection<RecipeBookViewModel>();
@@ -75,6 +64,8 @@ namespace MyCookBook.WPF.ViewModels
             SelectBookCommand = new NavigateCommand(categoryListingNavigationService);
             UpdateBookCommand = new CompositeCommand(new SetCurrentStoreCommand<RecipeBook>(recipeBookStore), new NavigateCommand(createBookNavigationService));
             DeleteBookCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteBookNavigationService));
+
+            ExportCommand = new ExportBookCommand(IODataServce);
 
             LoadBooksCommand.Execute(null);
 

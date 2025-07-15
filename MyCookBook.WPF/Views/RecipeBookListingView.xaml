@@ -60,7 +60,11 @@
                                 Style="{StaticResource Subtitle}" 
                                 TextWrapping="Wrap" 
                                 Text="{Binding Name}" />
-
+                            <Button
+                                Margin="0 10 0 0"
+                                Content="Export"
+                                Command="{Binding DataContext.ExportCommand, ElementName=Root}"
+                                CommandParameter="{Binding Book}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
