@@ -54,7 +54,7 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand ImportCommand { get; }
 
         public RecipeBookListingViewModel(RecipeStoreBase<RecipeBook> recipeBookStore, DeleteStore deleteStore,
-            RecipeBookIODataService IODataService, INavigationService createBookNavigationService, 
+            RecipeBookExportDataService ExportDataService, INavigationService createBookNavigationService, 
             INavigationService categoryListingNavigationService, INavigationService deleteBookNavigationService)
         {
             _recipeBookStore = recipeBookStore;
@@ -66,8 +66,8 @@ namespace MyCookBook.WPF.ViewModels
             UpdateBookCommand = new CompositeCommand(new SetCurrentStoreCommand<RecipeBook>(recipeBookStore), new NavigateCommand(createBookNavigationService));
             DeleteBookCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteBookNavigationService));
 
-            ExportCommand = new ExportBookCommand(IODataService);
-            ImportCommand = new AsyncCompositeCommand(new ImportBookCommand(IODataService), new LoadCommand<RecipeBook>(this, recipeBookStore));
+            ExportCommand = new ExportBookCommand(ExportDataService);
+            ImportCommand = new ImportBookCommand(recipeBookStore);
 
             LoadBooksCommand.Execute(null);
 

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace MyCookBook.EntityFramework.Services
 {
 
-    public class RecipeBookIODataService
+    public class RecipeBookExportDataService
     {
         private readonly MyCookBookDbContextFactory _contextFactory;
 
-        public RecipeBookIODataService(MyCookBookDbContextFactory contextFactory)
+        public RecipeBookExportDataService(MyCookBookDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
@@ -31,31 +31,6 @@ namespace MyCookBook.EntityFramework.Services
 
                 return JsonSerializer.Serialize(book);
             }
-        }
-
-        public async Task<bool> ImportBook(string fileName)
-        {
-            using FileStream stream = File.OpenRead(fileName);
-            RecipeBook? book = await JsonSerializer.DeserializeAsync<RecipeBook>(stream);
-
-            if (book == null)
-            {
-                return false;
-            }
-
-            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
-            {
-                if (context.RecipeBooks.Any(b => b.Id == book.Id))
-                {
-                    return false;
-                }
-
-                await context.RecipeBooks.AddAsync(book);
-                await context.SaveChangesAsync();
-
-                return true;
-            }
-
         }
     }
 }

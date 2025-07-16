@@ -13,15 +13,15 @@ namespace MyCookBook.WPF.Commands
 {
     public class ExportBookCommand : AsyncCommandBase
     {
-        private RecipeBookIODataService _exportDataService;
+        private RecipeBookExportDataService _exportDataService;
         private RecipeBook? _book;
 
-        public ExportBookCommand(RecipeBookIODataService exportDataService)
+        public ExportBookCommand(RecipeBookExportDataService exportDataService)
         {
             _exportDataService = exportDataService;
         }
 
-        public ExportBookCommand(RecipeBookIODataService exportDataService, RecipeBook book)
+        public ExportBookCommand(RecipeBookExportDataService exportDataService, RecipeBook book)
         {
             _exportDataService = exportDataService;
             _book = book;

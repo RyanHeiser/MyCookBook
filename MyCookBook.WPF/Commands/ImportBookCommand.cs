@@ -1,21 +1,24 @@
 ﻿using Microsoft.Win32;
+using MyCookBook.Domain.Models;
 using MyCookBook.EntityFramework.Services;
+using MyCookBook.WPF.Stores.RecipeStores;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MyCookBook.WPF.Commands
 {
     public class ImportBookCommand : AsyncCommandBase
     {
-        RecipeBookIODataService _importDataService;
+        readonly RecipeStoreBase<RecipeBook> _bookStore;
 
-        public ImportBookCommand(RecipeBookIODataService importDataService)
+        public ImportBookCommand(RecipeStoreBase<RecipeBook> bookStore)
         {
-            _importDataService = importDataService;
+            _bookStore = bookStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -26,7 +29,10 @@ namespace MyCookBook.WPF.Commands
 
             if (fileDialog.ShowDialog() == true)
             {
-                await _importDataService.ImportBook(fileDialog.FileName);
+                using FileStream stream = File.OpenRead(fileDialog.FileName);
+                RecipeBook? book = await JsonSerializer.DeserializeAsync<RecipeBook>(stream);
+                if (book != null)
+                    await _bookStore.Create(book);
             }
         }
     }

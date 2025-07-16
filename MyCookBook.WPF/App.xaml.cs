@@ -41,7 +41,7 @@ public partial class App : Application
                 services.AddSingleton<INavigationService>(services => RecipeBookListingNavigationService(services));
 
                 // Services
-                services.AddSingleton<RecipeBookIODataService>();
+                services.AddSingleton<RecipeBookExportDataService>();
                 services.AddSingleton<IDataService<RecipeBook>, DataService<RecipeBook>>();
                 services.AddSingleton<ChildDataService<RecipeCategory>>();
                 services.AddSingleton<ChildDataService<Recipe>>();
@@ -162,7 +162,7 @@ public partial class App : Application
     private RecipeBookListingViewModel RecipeBookListingViewModel(IServiceProvider services)
     {
         return new RecipeBookListingViewModel(services.GetRequiredService<RecipeStoreBase<RecipeBook>>(), services.GetRequiredService<DeleteStore>(), 
-            services.GetRequiredService<RecipeBookIODataService>(), CreateRecipeBookNavigationService(services), CategoryListingNavigationService(services), 
+            services.GetRequiredService<RecipeBookExportDataService>(), CreateRecipeBookNavigationService(services), CategoryListingNavigationService(services), 
             DeleteNavigationService<RecipeBook>(services, "recipe book"));
     }
 
