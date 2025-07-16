@@ -2,6 +2,7 @@
 using MyCookBook.Domain.Models;
 using MyCookBook.EntityFramework.Services;
 using MyCookBook.WPF.Stores.RecipeStores;
+using MyCookBook.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +16,11 @@ namespace MyCookBook.WPF.Commands
     public class ImportBookCommand : AsyncCommandBase
     {
         readonly RecipeStoreBase<RecipeBook> _bookStore;
+        readonly ViewModelBase _viewModel;
 
-        public ImportBookCommand(RecipeStoreBase<RecipeBook> bookStore)
+        public ImportBookCommand(ViewModelBase viewModel, RecipeStoreBase<RecipeBook> bookStore)
         {
+            _viewModel = viewModel;
             _bookStore = bookStore;
         }
 
@@ -30,9 +33,25 @@ namespace MyCookBook.WPF.Commands
             if (fileDialog.ShowDialog() == true)
             {
                 using FileStream stream = File.OpenRead(fileDialog.FileName);
-                RecipeBook? book = await JsonSerializer.DeserializeAsync<RecipeBook>(stream);
+                RecipeBook? book;
+                try
+                {
+                    book = await JsonSerializer.DeserializeAsync<RecipeBook>(stream);
+                }
+                catch (Exception)
+                {
+                    _viewModel.ErrorMessage = "Failed to import from " + fileDialog.FileName;
+                    return;
+                }
+
                 if (book != null)
-                    await _bookStore.Create(book);
+                {
+                    bool created = await _bookStore.Create(book);
+                    if (!created)
+                    {
+                        _viewModel.ErrorMessage = "Failed to import from " + fileDialog.FileName + ". This book may already exist.";
+                    }
+                }
             }
         }
     }

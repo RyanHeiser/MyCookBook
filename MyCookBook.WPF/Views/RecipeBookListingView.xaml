@@ -48,11 +48,20 @@
                 Padding="5" />
         </StackPanel>
 
-        <Grid 
+        
+
+        <StackPanel 
             Margin="0 40 0 0" 
             Grid.Row="1" 
             Grid.Column="0"
             Grid.ColumnSpan="2">
+
+            <TextBlock 
+                Margin="0 0 0 20"
+                Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Foreground="Red"
+                Text="{Binding ErrorMessage}" />
+
             <TextBlock 
                 Text="No recipe books have been created yet. Click &quot;Add&quot; to add a recipe book." 
                 Visibility="{Binding HasBooks, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
@@ -92,7 +101,7 @@
                 </ListView.Resources>
 
             </ListView>
-        </Grid>
+        </StackPanel>
 
     </Grid>
 </UserControl>

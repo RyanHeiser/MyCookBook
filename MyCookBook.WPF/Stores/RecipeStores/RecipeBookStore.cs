@@ -17,6 +17,9 @@ namespace MyCookBook.WPF.Stores.RecipeStores
 
         public override async Task<bool> Create(RecipeBook book)
         {
+            if (await _dataService.Contains(book.Id))
+                return false;
+
             await _dataService.Create(book);
             _items.Add(book);
 

@@ -24,7 +24,12 @@ namespace MyCookBook.WPF.Commands
         {
             RecipeBook book = new RecipeBook(_viewModel.Name);
 
-            await _recipeBookStore.Create(book);
+            bool created = await _recipeBookStore.Create(book);
+
+            if (!created)
+            {
+                _viewModel.ErrorMessage = "Could not create this recipe book.";
+            }
         }
     }
 }

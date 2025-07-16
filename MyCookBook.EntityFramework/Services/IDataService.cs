@@ -9,6 +9,8 @@ namespace MyCookBook.EntityFramework.Services
 {
     public interface IDataService<T> where T : DomainObject
     {
+        Task<bool> Contains(Guid Id);
+
         Task<T> Create(T entity);
 
         Task<T> Get(Guid Id);

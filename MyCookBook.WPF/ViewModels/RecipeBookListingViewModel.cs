@@ -67,7 +67,7 @@ namespace MyCookBook.WPF.ViewModels
             DeleteBookCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteBookNavigationService));
 
             ExportCommand = new ExportBookCommand(ExportDataService);
-            ImportCommand = new ImportBookCommand(recipeBookStore);
+            ImportCommand = new ImportBookCommand(this, recipeBookStore);
 
             LoadBooksCommand.Execute(null);
 

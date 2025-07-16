@@ -28,6 +28,26 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+
+        public bool HasErrorMessage => !String.IsNullOrEmpty(_errorMessage);
+
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
+                OnPropertyChanged(nameof(HasErrorMessage));
+            }
+        }
+
+       
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ViewModelBase()
@@ -46,6 +66,9 @@ namespace MyCookBook.WPF.ViewModels
 
         public virtual void Dispose() { }
 
-        public virtual void Update() { }
+        public virtual void Update() 
+        {
+            ErrorMessage = String.Empty;
+        }
     }
 }

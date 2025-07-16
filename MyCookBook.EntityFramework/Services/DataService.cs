@@ -17,6 +17,14 @@ namespace MyCookBook.EntityFramework.Services
             _contextFactory = contextFactory;
         }
 
+        public async Task<bool> Contains(Guid Id)
+        {
+            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
+            {
+                return await context.Set<T>().AnyAsync(e => e.Id == Id);
+            }
+        }
+
         public async Task<T> Create(T entity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
