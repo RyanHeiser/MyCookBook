@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MyCookBook.Domain.Models
@@ -13,13 +14,16 @@ namespace MyCookBook.Domain.Models
     {
         public string Name { get; set; }
 
+        [JsonInclude]
         public int RecipeCount { get; private set; }
-
+        [JsonInclude]
         public List<Recipe> _recipes;
+        [JsonIgnore]
         public IEnumerable<Recipe> Recipes => _recipes;
 
         public event Action<int>? RecipeCountChanged;
 
+        [JsonConstructor]
         public RecipeCategory(string name)
         {
             Id = Guid.NewGuid();

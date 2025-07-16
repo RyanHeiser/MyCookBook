@@ -28,15 +28,25 @@
             Style="{StaticResource Title}"
             Text="My Cook Book" />
 
-        <Button 
+        <StackPanel 
             Grid.Row="0"
             Grid.Column="1"
-            Content="Add" 
-            Command="{Binding AddCommand}"
-            MinWidth="50"
-            MaxHeight="40"
-            Padding="5"
-            Margin="20 0 0 0"/>
+            Margin="20 0 0 0"
+            Orientation="Horizontal">
+            <Button    
+                Content="Add" 
+                Command="{Binding AddCommand}"
+                MinWidth="50"
+                MaxHeight="40"
+                Padding="5" />
+            <Button    
+                Content="Import" 
+                Command="{Binding ImportCommand}"
+                MinWidth="50"
+                MaxHeight="40"
+                Margin="10 0 0 0"
+                Padding="5" />
+        </StackPanel>
 
         <Grid 
             Margin="0 40 0 0" 

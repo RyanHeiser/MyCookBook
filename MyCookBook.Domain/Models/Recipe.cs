@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MyCookBook.Domain.Models
@@ -21,12 +22,16 @@ namespace MyCookBook.Domain.Models
 
         public string? Description { get; set; }
 
+        [JsonInclude]
         private List<string> _ingredients;
+        [JsonIgnore]
         public IEnumerable<string> Ingredients { get { return _ingredients; } set { _ingredients = value.ToList(); } }
-
+        [JsonInclude]
         private List<string> _directions;
+        [JsonIgnore]
         public IEnumerable<string> Directions { get { return _directions; } set { _ingredients = value.ToList(); } }
 
+        [JsonConstructor]
         public Recipe(string name, int minutes, int servings, string description)
         {
             Id = Guid.NewGuid();

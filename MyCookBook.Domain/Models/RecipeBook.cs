@@ -5,14 +5,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace MyCookBook.Domain.Models
 {
     public class RecipeBook : DomainObject
     {
         public string Name { get; set; }
-
+        [JsonInclude]
         public List<RecipeCategory> _categories;
+        [JsonIgnore]
         public IEnumerable<RecipeCategory> Categories => _categories;
 
         public RecipeBook(string name)
@@ -21,6 +23,7 @@ namespace MyCookBook.Domain.Models
             Name = name;
             _categories = new List<RecipeCategory>();
         }
+
 
         /// <summary>
         /// Adds a category.

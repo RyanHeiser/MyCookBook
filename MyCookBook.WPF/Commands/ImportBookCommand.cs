@@ -26,7 +26,7 @@ namespace MyCookBook.WPF.Commands
 
             if (fileDialog.ShowDialog() == true)
             {
-                await _importDataService.ImportBook(File.ReadAllText(fileDialog.FileName));
+                await _importDataService.ImportBook(fileDialog.FileName);
             }
         }
     }

@@ -33,9 +33,10 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<bool> ImportBook(string bookJson)
+        public async Task<bool> ImportBook(string fileName)
         {
-            RecipeBook? book = JsonSerializer.Deserialize<RecipeBook>(bookJson);
+            using FileStream stream = File.OpenRead(fileName);
+            RecipeBook? book = await JsonSerializer.DeserializeAsync<RecipeBook>(stream);
 
             if (book == null)
             {
