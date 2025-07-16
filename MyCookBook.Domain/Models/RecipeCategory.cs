@@ -55,7 +55,7 @@ namespace MyCookBook.Domain.Models
         /// <param name="recipe">The recipe to add.</param>
         public void AddRecipe(Recipe recipe)
         {   
-            _recipes.Add(recipe);
+            //_recipes.Add(recipe);
             RecipeCount++;
         }
 
@@ -86,15 +86,17 @@ namespace MyCookBook.Domain.Models
         /// <param name="id">The id of the recipe to remove.</param>
         public bool RemoveRecipe(Guid Id)
         {
-            Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
+            //Recipe? existing = Recipes.FirstOrDefault(r => r.Id == Id);
 
-            if (existing != null)
-            {
-                _recipes.Remove(existing);
-                RecipeCount--;
-                return true;
-            }
-            return false;
+            //if (existing != null)
+            //{
+            //    _recipes.Remove(existing);
+            //    RecipeCount--;
+            //    return true;
+            //}
+            //return false;
+            RecipeCount--;
+            return true;
         }
 
         /// <summary>
