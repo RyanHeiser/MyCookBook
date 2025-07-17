@@ -13,46 +13,70 @@
         FontSize="16"
         WindowStartupLocation="CenterScreen"
         Title="My Cook Book" Height="900" Width="1400">
-    
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Margin="20 10">
-            <Grid.Resources>
-                <!-- Main Views -->
-                <DataTemplate DataType="{x:Type vms:RecipeListingViewModel}">
-                    <views:RecipeListingView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vms:CreateRecipeViewModel}">
-                    <views:CreateRecipeView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vms:RecipeDisplayViewModel}">
-                    <views:RecipeDisplayView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vms:CategoryListingViewModel}">
-                    <views:CategoryListingView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vms:RecipeBookListingViewModel}">
-                    <views:RecipeBookListingView />
-                </DataTemplate>
 
-                <!-- Modal Views -->
-                <DataTemplate DataType="{x:Type modalvms:CreateCategoryViewModel}">
-                    <modalviews:CreateCategoryView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type modalvms:CreateRecipeBookViewModel}">
-                    <modalviews:CreateRecipeBookView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type modalvms:DeleteViewModel}">
-                    <modalviews:DeleteView />
-                </DataTemplate>
-            </Grid.Resources>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
+                <ResourceDictionary>
+                    <!-- Main Views -->
+                    <DataTemplate DataType="{x:Type vms:RecipeListingViewModel}">
+                        <views:RecipeListingView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:CreateRecipeViewModel}">
+                        <views:CreateRecipeView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:RecipeDisplayViewModel}">
+                        <views:RecipeDisplayView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:CategoryListingViewModel}">
+                        <views:CategoryListingView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:RecipeBookListingViewModel}">
+                        <views:RecipeBookListingView />
+                    </DataTemplate>
 
-            <modalcontrol:Modal Panel.ZIndex="1" IsOpen="{Binding IsModalOpen}">
-                <ContentControl Content="{Binding CurrentModalViewModel}" />
-            </modalcontrol:Modal>
-            
-            <Grid MaxWidth="1400" Margin="20 10">
-                <ContentControl Content="{Binding CurrentViewModel}" />
+                    <!-- Modal Views -->
+                    <DataTemplate DataType="{x:Type modalvms:CreateCategoryViewModel}">
+                        <modalviews:CreateCategoryView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type modalvms:CreateRecipeBookViewModel}">
+                        <modalviews:CreateRecipeBookView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type modalvms:DeleteViewModel}">
+                        <modalviews:DeleteView />
+                    </DataTemplate>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0" Grid.RowSpan="2">
+            <Grid Margin="20 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+
+                </Grid.Resources>
+
+                <modalcontrol:Modal Panel.ZIndex="2" IsOpen="{Binding IsModalOpen}">
+                    <ContentControl Content="{Binding CurrentModalViewModel}" />
+                </modalcontrol:Modal>
+
+                <Grid MaxWidth="1400" Margin="20 10" Grid.Row="0">
+                    <ContentControl Content="{Binding CurrentViewModel}" />
+                </Grid>
             </Grid>
+        </ScrollViewer>
+        <Grid MaxWidth="400" Visibility="{Binding IsMoving, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20 10" Panel.ZIndex="1" Grid.Row="1">
+            <views:MoveCopyView DataContext="{Binding MoveCopyViewModel}" />
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </Window>

@@ -36,6 +36,8 @@ public partial class App : Application
 
                 // MainViewModel
                 services.AddSingleton<MainViewModel>();
+                services.AddSingleton<MoveCopyViewModel>();
+                services.AddSingleton<Func<MoveCopyViewModel>>(s => () => new MoveCopyViewModel(s.GetRequiredService<MoveCopyStore>()));
 
                 // Navigation service
                 services.AddSingleton<INavigationService>(services => RecipeBookListingNavigationService(services));
@@ -62,6 +64,7 @@ public partial class App : Application
 
                 // Other Stores
                 services.AddSingleton<DeleteStore>();
+                services.AddSingleton<MoveCopyStore>();
 
                 // MainWindow
                 services.AddSingleton(s => new MainWindow()
@@ -87,6 +90,11 @@ public partial class App : Application
 
         INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate();
+
+        // temp moving test
+        MoveCopyStore moveCopyStore = _host.Services.GetRequiredService<MoveCopyStore>();
+        moveCopyStore.IsMoving = true;
+        //
 
         MainWindow wnd = _host.Services.GetRequiredService<MainWindow>();
         wnd.Show();
