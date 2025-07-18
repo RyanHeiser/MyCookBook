@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MyCookBook.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for MoveCopyView.xaml
+    /// Interaction logic for MoveView.xaml
     /// </summary>
-    public partial class MoveCopyView : UserControl
+    public partial class MoveView : UserControl
     {
-        public MoveCopyView()
+        public MoveView()
         {
             InitializeComponent();
         }

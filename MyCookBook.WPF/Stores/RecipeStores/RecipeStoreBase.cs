@@ -46,6 +46,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
         public abstract Task<bool> Update(Guid Id, T item);
         public abstract Task<bool> Delete(Guid Id);
 
+        public async Task<T> Get(Guid Id)
+        {
+            return await _dataService.Get(Id);
+        }
+
         public async Task Load()
         {
             try

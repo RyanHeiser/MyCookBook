@@ -69,5 +69,15 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 throw;
             }
         }
+
+        public override async Task<bool> Move(RecipeCategory category, Guid newParentId)
+        {
+            if (await _childDataService.Move(category.Id, newParentId))
+            {
+                RecipeBook book = await _parentStore.Get(category.ParentId);
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -23,6 +23,22 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        public async Task<bool> Move(Guid Id, Guid newParentId)
+        {
+            using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
+            {
+                T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == Id);
+
+                if (entity != null)
+                {
+                    entity.ParentId = newParentId;
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public override async Task<T> Update(Guid Id, T updatedEntity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())

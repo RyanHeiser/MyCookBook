@@ -77,15 +77,17 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand BackCommand { get; }
         public ICommand AddCommand { get; }
 
+        public ICommand MoveCategoryCommand { get; }
         public ICommand RenameCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
         public ICommand SelectRecipeCommand { get; }
+        public ICommand MoveRecipeCommand { get; }
         public ICommand EditRecipeCommand { get; }
         public ICommand DeleteRecipeCommand { get; }
 
         public RecipeListingViewModel(RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, DeleteStore deleteStore,
-            INavigationService createRecipeNavigationService, INavigationService createCategoryNavigationService, 
+            MoveStore moveStore, INavigationService createRecipeNavigationService, INavigationService createCategoryNavigationService, 
             INavigationService recipeDisplayNavigationService, INavigationService deleteRecipeNavigationService, 
             INavigationService deleteCategoryNavigationService, INavigationService previousNavigationService)
         {
@@ -100,11 +102,13 @@ namespace MyCookBook.WPF.ViewModels
             BackCommand = new NavigateCommand(previousNavigationService);
             AddCommand = new NavigateCommand(createRecipeNavigationService);
 
+            MoveCategoryCommand = new StartMoveCommand<RecipeCategory>(moveStore, categoryStore.Current);
             RenameCategoryCommand = new NavigateCommand(createCategoryNavigationService);
             DeleteCategoryCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteCategoryNavigationService));
 
             SelectRecipeCommand = new NavigateCommand(recipeDisplayNavigationService);
             EditRecipeCommand = new CompositeCommand(new SetCurrentStoreCommand<Recipe>(recipeStore), new NavigateCommand(createRecipeNavigationService));
+            MoveRecipeCommand = new StartMoveCommand<Recipe>(moveStore);
             DeleteRecipeCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteRecipeNavigationService));
 
             LoadRecipesCommand.Execute(null);

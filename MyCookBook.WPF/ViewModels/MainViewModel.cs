@@ -12,31 +12,39 @@ namespace MyCookBook.WPF.ViewModels
     {
         private readonly NavigationStore _navigationStore;
         private readonly ModalNavigationStore _modalNavigationStore;
-        private readonly MoveCopyStore _moveCopyStore;
-        private readonly Func<MoveCopyViewModel> _moveCopyVmFactory;
+        private readonly MoveStore _moveStore;
+        private readonly Func<MoveViewModel> _moveVmFactory;
 
         public ViewModelBase? CurrentViewModel => _navigationStore.CurrentViewModel;
         public ViewModelBase? CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
-        public ViewModelBase MoveCopyViewModel => _moveCopyVmFactory();
-        public bool IsModalOpen => _modalNavigationStore.IsOpen;
-        public bool IsMoving => _moveCopyStore.IsMoving || _moveCopyStore.IsCopying;
+        public ViewModelBase? MoveViewModel { get; private set; }
 
-        public MainViewModel(NavigationStore navigationStore, ModalNavigationStore modalNavigationStore, MoveCopyStore moveCopyStore, Func<MoveCopyViewModel> moveCopyVmFactory)
+        public bool IsModalOpen => _modalNavigationStore.IsOpen;
+        public bool IsMoving => _moveStore.IsMoving;
+
+        public MainViewModel(NavigationStore navigationStore, ModalNavigationStore modalNavigationStore, MoveStore moveStore, Func<MoveViewModel> moveVmFactory)
         {
             _navigationStore = navigationStore;
             _modalNavigationStore = modalNavigationStore;
-            _moveCopyStore = moveCopyStore;
-            _moveCopyVmFactory = moveCopyVmFactory;
+            _moveStore = moveStore;
+            _moveVmFactory = moveVmFactory;
 
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
-            _moveCopyStore.MoveCopyStarted += OnMoveCopyStarted;
+            _moveStore.MoveUpdated += OnMoveUpdated;
+            _moveStore.MoveStarted += OnMoveStarted;
         }
 
-        private void OnMoveCopyStarted()
+        private void OnMoveUpdated()
         {
             OnPropertyChanged(nameof(IsMoving));
-            OnPropertyChanged(nameof(MoveCopyViewModel));
+        }
+
+        private void OnMoveStarted()
+        {
+            MoveViewModel?.Dispose();
+            MoveViewModel = _moveVmFactory();
+            OnPropertyChanged(nameof(MoveViewModel));
         }
 
         private void OnCurrentViewModelChanged()

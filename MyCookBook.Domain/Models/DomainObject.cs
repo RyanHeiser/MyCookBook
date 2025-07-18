@@ -13,5 +13,11 @@ namespace MyCookBook.Domain.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        public string Name { get; set; }
+
+        protected DomainObject()
+        {
+            Name = "";
+        }
     }
 }

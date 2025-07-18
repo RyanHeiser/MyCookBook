@@ -12,7 +12,7 @@ namespace MyCookBook.Domain.Models
 {
     public class RecipeCategory : ChildDomainObject
     {
-        public string Name { get; set; }
+        //public string Name { get; set; }
 
         [JsonInclude]
         public int RecipeCount { get; private set; }

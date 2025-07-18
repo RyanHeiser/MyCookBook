@@ -75,8 +75,8 @@
                 </Grid>
             </Grid>
         </ScrollViewer>
-        <Grid MaxWidth="400" Visibility="{Binding IsMoving, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20 10" Panel.ZIndex="1" Grid.Row="1">
-            <views:MoveCopyView DataContext="{Binding MoveCopyViewModel}" />
+        <Grid MaxWidth="600" Visibility="{Binding IsMoving, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20 10" Panel.ZIndex="1" Grid.Row="1">
+            <views:MoveView DataContext="{Binding MoveViewModel}" />
         </Grid>
     </Grid>
 </Window>

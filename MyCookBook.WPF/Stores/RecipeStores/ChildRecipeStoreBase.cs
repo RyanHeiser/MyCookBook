@@ -22,6 +22,8 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             parentStore.CurrentChanged += ParentCurrentChanged;
         }
 
+        public abstract Task<bool> Move(TChild item, Guid newParentId);
+
         private void ParentCurrentChanged(TParent? parent)
         {
             _initializeLazy = new Lazy<Task>(Initialize);

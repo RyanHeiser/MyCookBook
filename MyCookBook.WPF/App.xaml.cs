@@ -36,8 +36,8 @@ public partial class App : Application
 
                 // MainViewModel
                 services.AddSingleton<MainViewModel>();
-                services.AddSingleton<MoveCopyViewModel>();
-                services.AddSingleton<Func<MoveCopyViewModel>>(s => () => new MoveCopyViewModel(s.GetRequiredService<MoveCopyStore>()));
+                services.AddSingleton<MoveViewModel>();
+                services.AddSingleton<Func<MoveViewModel>>(s => () => new MoveViewModel(s.GetRequiredService<MoveStore>()));
 
                 // Navigation service
                 services.AddSingleton<INavigationService>(services => RecipeBookListingNavigationService(services));
@@ -64,7 +64,7 @@ public partial class App : Application
 
                 // Other Stores
                 services.AddSingleton<DeleteStore>();
-                services.AddSingleton<MoveCopyStore>();
+                services.AddSingleton<MoveStore>();
 
                 // MainWindow
                 services.AddSingleton(s => new MainWindow()
@@ -91,10 +91,10 @@ public partial class App : Application
         INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate();
 
-        // temp moving test
-        MoveCopyStore moveCopyStore = _host.Services.GetRequiredService<MoveCopyStore>();
-        moveCopyStore.IsMoving = true;
-        //
+        //// temp moving test
+        //MoveCopyStore moveCopyStore = _host.Services.GetRequiredService<MoveCopyStore>();
+        //moveCopyStore.IsMoving = true;
+        ////
 
         MainWindow wnd = _host.Services.GetRequiredService<MainWindow>();
         wnd.Show();
@@ -177,8 +177,8 @@ public partial class App : Application
     private CategoryListingViewModel CategoryListingViewModel(IServiceProvider services)
     {
         return new CategoryListingViewModel(services.GetRequiredService<RecipeStoreBase<RecipeBook>>(), services.GetRequiredService<RecipeStoreBase<RecipeCategory>>(), 
-            services.GetRequiredService<DeleteStore>(), CreateCategoryNavigationService(services), CreateRecipeBookNavigationService(services), 
-            RecipeListingNavigationService(services), DeleteNavigationService<RecipeCategory>(services, "category"), 
+            services.GetRequiredService<DeleteStore>(), services.GetRequiredService<MoveStore>(), CreateCategoryNavigationService(services), 
+            CreateRecipeBookNavigationService(services), RecipeListingNavigationService(services), DeleteNavigationService<RecipeCategory>(services, "category"), 
             DeleteNavigationService<RecipeBook>(services, "recipe book", new NavigateCommand(PreviousNavigationService(services))), 
             PreviousNavigationService(services));
     }
@@ -186,7 +186,8 @@ public partial class App : Application
     private RecipeListingViewModel RecipeListingViewModel(IServiceProvider services)
     {
         return new RecipeListingViewModel(services.GetRequiredService<RecipeStoreBase<RecipeCategory>>(), services.GetRequiredService<RecipeStoreBase<Recipe>>(),
-            services.GetRequiredService<DeleteStore>(), CreateRecipeNavigationService(services), CreateCategoryNavigationService(services), RecipeDisplayNavigationService(services),
+            services.GetRequiredService<DeleteStore>(), services.GetRequiredService<MoveStore>(),
+            CreateRecipeNavigationService(services), CreateCategoryNavigationService(services), RecipeDisplayNavigationService(services),
             DeleteNavigationService<Recipe>(services, "recipe"), 
             DeleteNavigationService<RecipeCategory>(services, "category", new NavigateCommand(PreviousNavigationService(services))),
             PreviousNavigationService(services));
@@ -201,8 +202,9 @@ public partial class App : Application
     private RecipeDisplayViewModel RecipeDisplayViewModel(IServiceProvider services)
     {
         return new RecipeDisplayViewModel(services.GetRequiredService<RecipeStoreBase<RecipeCategory>>(), services.GetRequiredService<RecipeStoreBase<Recipe>>(),
-            services.GetRequiredService<RecipeStoreBase<RecipeImage>>(), services.GetRequiredService<DeleteStore>(), CreateRecipeNavigationService(services), 
-            DeleteNavigationService<Recipe>(services, "recipe", new NavigateCommand(PreviousNavigationService(services))), PreviousNavigationService(services));
+            services.GetRequiredService<RecipeStoreBase<RecipeImage>>(), services.GetRequiredService<DeleteStore>(), services.GetRequiredService<MoveStore>(), 
+            CreateRecipeNavigationService(services), DeleteNavigationService<Recipe>(services, "recipe", new NavigateCommand(PreviousNavigationService(services))), 
+            PreviousNavigationService(services));
     }
 
     #endregion

@@ -11,7 +11,7 @@ namespace MyCookBook.Domain.Models
 {
     public class RecipeBook : DomainObject
     {
-        public string Name { get; set; }
+        //public string Name { get; set; }
         [JsonInclude]
         public List<RecipeCategory> _categories;
         [JsonIgnore]

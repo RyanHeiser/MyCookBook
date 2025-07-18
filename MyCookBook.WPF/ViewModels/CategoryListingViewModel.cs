@@ -69,11 +69,12 @@ namespace MyCookBook.WPF.ViewModels
         public ICommand DeleteRecipeBookCommand { get; }
 
         public ICommand AddCommand { get; }
+        public ICommand MoveCategoryCommand { get; }
         public ICommand RenameCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
         public CategoryListingViewModel(RecipeStoreBase<RecipeBook> recipeBookStore, RecipeStoreBase<RecipeCategory> categoryStore, 
-            DeleteStore deleteStore, INavigationService createCategoryNavigationService, 
+            DeleteStore deleteStore, MoveStore moveStore, INavigationService createCategoryNavigationService, 
             INavigationService createRecipeBookNavigationService, INavigationService recipeListingNavigationService, 
             INavigationService deleteCategoryNavigationService, INavigationService deleteBookNavigationService, INavigationService previousNavigationService)
         {
@@ -93,6 +94,7 @@ namespace MyCookBook.WPF.ViewModels
             DeleteRecipeBookCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteBookNavigationService));
 
             AddCommand = new NavigateCommand(createCategoryNavigationService);
+            MoveCategoryCommand = new StartMoveCommand<RecipeCategory>(moveStore);
             RenameCategoryCommand = new CompositeCommand(new SetCurrentStoreCommand<RecipeCategory>(categoryStore), new NavigateCommand(createCategoryNavigationService));
             DeleteCategoryCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteCategoryNavigationService));
 

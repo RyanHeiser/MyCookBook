@@ -13,7 +13,7 @@ namespace MyCookBook.Domain.Models
 {
     public class Recipe : ChildDomainObject
     {        
-        public string Name { get; set; }
+        //public string Name { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
 

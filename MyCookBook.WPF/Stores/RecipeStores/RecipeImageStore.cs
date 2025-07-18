@@ -68,5 +68,10 @@ namespace MyCookBook.WPF.Stores.RecipeStores
                 throw;
             }
         }
+
+        public override async Task<bool> Move(RecipeImage item, Guid newParentId)
+        {
+            return false;
+        }
     }
 }
