@@ -34,8 +34,8 @@ namespace MyCookBook.WPF.Commands
                 _itemToMove = parameter as T;
             }
 
-            _moveCopyStore.IsMoving = true;
             _moveCopyStore.Current = _itemToMove;
+            _moveCopyStore.IsMoving = true;
         }
     }
 }

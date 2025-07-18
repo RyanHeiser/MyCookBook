@@ -72,9 +72,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
 
         public override async Task<bool> Move(RecipeCategory category, Guid newParentId)
         {
+            category.ParentId = newParentId;
             if (await _childDataService.Move(category.Id, newParentId))
             {
-                RecipeBook book = await _parentStore.Get(category.ParentId);
+                //RecipeBook book = await _parentStore.Get(category.ParentId);
+                _items.Add(category);
                 return true;
             }
             return false;

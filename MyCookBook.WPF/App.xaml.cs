@@ -37,7 +37,11 @@ public partial class App : Application
                 // MainViewModel
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<MoveViewModel>();
-                services.AddSingleton<Func<MoveViewModel>>(s => () => new MoveViewModel(s.GetRequiredService<MoveStore>()));
+                services.AddSingleton<Func<MoveViewModel>>(s => () => new MoveViewModel(s.GetRequiredService<MoveStore>(),
+                                                                                        s.GetRequiredService<NavigationStore>(),
+                                                                                        s.GetRequiredService<RecipeStoreBase<Recipe>>() as RecipeStore, 
+                                                                                        s.GetRequiredService<RecipeStoreBase<RecipeCategory>>() as RecipeCategoryStore,
+                                                                                        s.GetRequiredService<RecipeStoreBase<RecipeBook>>()));
 
                 // Navigation service
                 services.AddSingleton<INavigationService>(services => RecipeBookListingNavigationService(services));

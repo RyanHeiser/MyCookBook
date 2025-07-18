@@ -58,13 +58,6 @@
         </Grid.RowDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0" Grid.RowSpan="2">
             <Grid Margin="20 10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <Grid.Resources>
-
-                </Grid.Resources>
 
                 <modalcontrol:Modal Panel.ZIndex="2" IsOpen="{Binding IsModalOpen}">
                     <ContentControl Content="{Binding CurrentModalViewModel}" />

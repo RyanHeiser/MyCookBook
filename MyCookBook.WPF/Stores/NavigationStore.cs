@@ -15,6 +15,7 @@ namespace MyCookBook.WPF.Stores
         private Stack<Func<ViewModelBase>> _previousViewModels;
 
         protected ViewModelBase? _currentViewModel;
+        protected Func<ViewModelBase>? _createCurrentViewModel;
         private readonly RecipeStoreBase<Recipe> _recipeStore;
         private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
         private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
@@ -43,6 +44,7 @@ namespace MyCookBook.WPF.Stores
             // Add the new view model factory to the stack of previous view models and invoke it to set current view model.
             _previousViewModels.Push(createVM);
             _currentViewModel = createVM();
+            _createCurrentViewModel = createVM;
 
             OnCurrentViewModelChanged();
         }
@@ -60,7 +62,8 @@ namespace MyCookBook.WPF.Stores
             } while (_previousViewModels.Peek() is Func<CreateRecipeViewModel> || _previousViewModels.Peek().GetMethodInfo().ReturnType == _currentViewModel?.GetType());
 
             _currentViewModel?.Dispose();
-            _currentViewModel = _previousViewModels.Peek().Invoke();
+            _createCurrentViewModel = _previousViewModels.Peek();
+            _currentViewModel = _createCurrentViewModel();
 
             // Set the app-wide recipe store to null if traversing back to RecipeListingView
             if (_currentViewModel.GetType() == typeof(RecipeListingViewModel))
