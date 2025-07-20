@@ -18,6 +18,7 @@ namespace MyCookBook.WPF.ViewModels
         public string? Name => _moveStore.Current?.Name;
 
         public ICommand MoveCommand { get; }
+        public ICommand CopyCommand { get; }
         public ICommand CancelCommand { get; }
 
         public MoveViewModel(MoveStore moveStore, NavigationStore navigationStore, ChildRecipeStoreBase<Recipe, RecipeCategory> recipeStore,
@@ -28,13 +29,15 @@ namespace MyCookBook.WPF.ViewModels
             if (moveStore.Current is Recipe recipe)
             {
                 MoveCommand = new MoveCommand<Recipe, RecipeCategory>(moveStore, navigationStore, recipeStore, categoryStore, recipe);
+                CopyCommand = new CopyCommand<Recipe, RecipeCategory>(moveStore, navigationStore, recipeStore, categoryStore, recipe);
             }
             else if (moveStore.Current is RecipeCategory category)
             {
                  MoveCommand = new MoveCommand<RecipeCategory, RecipeBook>(moveStore, navigationStore, categoryStore, bookStore, category);
+                 CopyCommand = new CopyCommand<RecipeCategory, RecipeBook>(moveStore, navigationStore, categoryStore, bookStore, category);
             }
 
-                CancelCommand = new CancelMoveCommand(moveStore);
+            CancelCommand = new CancelMoveCommand(moveStore);
 
             _moveStore.MoveUpdated += OnMoveUpdated;
         }

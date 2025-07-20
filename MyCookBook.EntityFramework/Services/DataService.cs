@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.EntityFramework.Services
 {
-    public class DataService<T> : IDataService<T> where T : DomainObject
+    public abstract class DataService<T> : IDataService<T> where T : DomainObject
     {
         protected readonly MyCookBookDbContextFactory _contextFactory;
 
@@ -16,6 +16,8 @@ namespace MyCookBook.EntityFramework.Services
         {
             _contextFactory = contextFactory;
         }
+
+        public abstract Task<T?> Duplicate(Guid Id);
 
         public async Task<bool> Contains(Guid Id)
         {
@@ -53,7 +55,7 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<T> Get(Guid Id)
+        public virtual async Task<T?> Get(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
@@ -62,7 +64,7 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
@@ -86,5 +88,6 @@ namespace MyCookBook.EntityFramework.Services
                 return updatedEntity;
             }
         }
+
     }
 }

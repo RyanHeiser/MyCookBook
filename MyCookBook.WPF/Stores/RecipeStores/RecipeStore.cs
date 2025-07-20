@@ -74,22 +74,27 @@ namespace MyCookBook.WPF.Stores.RecipeStores
 
         public override async Task<bool> Move(Recipe recipe, Guid newParentId) 
         {
-            Guid oldParentId = recipe.ParentId;
+            RecipeCategory? oldParent = _parentStore.Items.FirstOrDefault(c => c.Id == recipe.ParentId);
             recipe.ParentId = newParentId;
             if (await _childDataService.Move(recipe.Id, newParentId))
             {
-                RecipeCategory category = await _parentStore.Get(oldParentId);
-                category.RemoveRecipe(recipe.Id);
-                await _parentStore.Update(oldParentId, category);
-
-                category = await _parentStore.Get(newParentId);
-                category.AddRecipe(recipe);
-                await _parentStore.Update(newParentId, category);
+                oldParent?.RemoveRecipe(recipe.Id);
+                RecipeCategory? newParent = _parentStore.Items.FirstOrDefault(c => c.Id == recipe.ParentId);
+                newParent?.AddRecipe(recipe);
 
                 _items.Add(recipe);
                 return true;
             }
             return false;
+        }
+
+        public override async Task<Recipe?> Duplicate(Guid Id)
+        {
+            Recipe recipe = await Get(Id);
+            RecipeCategory category = await _parentStore.Get(recipe.ParentId);
+            category.AddRecipe(recipe);
+            await _parentStore.Update(recipe.ParentId, category);
+            return await base.Duplicate(Id);
         }
     }
 }

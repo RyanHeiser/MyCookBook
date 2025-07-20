@@ -48,10 +48,10 @@ public partial class App : Application
 
                 // Services
                 services.AddSingleton<RecipeBookExportDataService>();
-                services.AddSingleton<IDataService<RecipeBook>, DataService<RecipeBook>>();
-                services.AddSingleton<ChildDataService<RecipeCategory>>();
-                services.AddSingleton<ChildDataService<Recipe>>();
-                services.AddSingleton<ChildDataService<RecipeImage>>();
+                services.AddSingleton<IDataService<RecipeBook>, RecipeBookDataService>();
+                services.AddSingleton<ChildDataService<RecipeCategory>, RecipeCategoryDataService>();
+                services.AddSingleton<ChildDataService<Recipe>, RecipeDataService>();
+                services.AddSingleton<ChildDataService<RecipeImage>, RecipeImageDataService>();
 
                 // DB Context Factory
                 services.AddSingleton<MyCookBookDbContextFactory>();

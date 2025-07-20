@@ -15,7 +15,7 @@ namespace MyCookBook.Domain.Models
         //public string Name { get; set; }
 
         [JsonInclude]
-        public int RecipeCount { get; private set; }
+        public int RecipeCount { get; set; }
         [JsonInclude]
         public List<Recipe> _recipes;
         [JsonIgnore]

@@ -51,6 +51,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return await _dataService.Get(Id);
         }
 
+        public virtual async Task<T?> Duplicate(Guid Id)
+        {
+            return await _dataService.Duplicate(Id);
+        }
+
         public async Task Load()
         {
             try

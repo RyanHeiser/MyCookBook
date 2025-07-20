@@ -24,6 +24,16 @@ namespace MyCookBook.WPF.Stores.RecipeStores
 
         public abstract Task<bool> Move(TChild item, Guid newParentId);
 
+        public virtual async Task<bool> Copy(TChild item, Guid newParentId)
+        {
+            TChild? copiedItem = await Duplicate(item.Id);
+
+            if (copiedItem == null)
+                return false;
+
+            return await Move(copiedItem, newParentId);
+        }
+
         private void ParentCurrentChanged(TParent? parent)
         {
             _initializeLazy = new Lazy<Task>(Initialize);

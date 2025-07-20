@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace MyCookBook.EntityFramework.Services
 {
-    public class ChildDataService<T> : DataService<T> where T : ChildDomainObject
+    public abstract class ChildDataService<T> : DataService<T> where T : ChildDomainObject
     {
         public ChildDataService(MyCookBookDbContextFactory contextFactory) : base(contextFactory)
         {
             
         }
 
-        public async Task<IEnumerable<T>> GetAllFromParent(Guid parentId)
+        public virtual async Task<IEnumerable<T>> GetAllFromParent(Guid parentId)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {

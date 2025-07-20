@@ -13,12 +13,14 @@ namespace MyCookBook.EntityFramework.Services
 
         Task<T> Create(T entity);
 
-        Task<T> Get(Guid Id);
+        Task<T?> Get(Guid Id);
 
         Task<IEnumerable<T>> GetAll();
 
         Task<T> Update(Guid Id, T entity);
 
         Task<bool> Delete(Guid Id);
+
+        Task<T?> Duplicate(Guid Id);
     }
 }
