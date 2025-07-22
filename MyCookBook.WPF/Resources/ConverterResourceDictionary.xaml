@@ -5,4 +5,5 @@
     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     <converters:PercentageConverter x:Key="PercentageConverter" />
     <converters:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter" />
+    <converters:FlowToFixedDocumentConverter x:Key="FlowToFixedDocumentConverter" />
 </ResourceDictionary>

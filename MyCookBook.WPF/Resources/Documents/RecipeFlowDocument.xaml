@@ -1,0 +1,55 @@
+﻿
+    <FlowDocument 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Name="FlowDocument"
+        FontFamily="Segoe UI"
+        FontSize="16">
+
+        <FlowDocument.Resources>
+            <ResourceDictionary Source="/Resources/ConverterResourceDictionary.xaml" />
+        </FlowDocument.Resources>
+        
+        <Paragraph>
+            <Run 
+            FontSize="36" 
+            Text="{Binding RecipeViewModel.Name, Mode=OneWay}" />
+        </Paragraph>
+
+        <Paragraph FontWeight="Bold">
+            Time:
+            <Run Text="{Binding RecipeViewModel.Minutes, Mode=OneWay}" />
+            <Run Text="    " />
+            Servings:
+            <Run Text="{Binding RecipeViewModel.Servings, Mode=OneWay}" />
+        </Paragraph>
+
+        <Paragraph>
+            <Image 
+            MaxHeight="400"
+            HorizontalAlignment="Left"
+            Source="{Binding RawImageData,
+                Converter={StaticResource ByteArrayToBitmapConverter},
+                Mode=OneWay}" />
+        </Paragraph>
+
+        <Paragraph>
+            <Run Text="{Binding RecipeViewModel.Description, Mode=OneWay}" />
+        </Paragraph>
+
+        <Paragraph FontSize="24">Ingredients</Paragraph>
+
+        <BlockUIContainer>
+            <ListView ItemsSource="{Binding RecipeViewModel.Ingredients, Mode=OneWay}">
+
+            </ListView>
+        </BlockUIContainer>
+
+        <Paragraph FontSize="24">Directions</Paragraph>
+
+        <BlockUIContainer>
+            <ListView ItemsSource="{Binding RecipeViewModel.Directions, Mode=OneWay}">
+
+            </ListView>
+        </BlockUIContainer>
+
+    </FlowDocument>

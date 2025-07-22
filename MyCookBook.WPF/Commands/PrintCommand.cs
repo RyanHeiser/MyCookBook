@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace MyCookBook.WPF.Commands
 {
-    public class PrintCommand : AsyncCommandBase
+    public class PrintCommand : CommandBase
     {
         //RecipeDisplayViewModel _viewModel;
 
@@ -23,7 +23,7 @@ namespace MyCookBook.WPF.Commands
         //    _viewModel = viewModel;
         //}
 
-        public override async Task ExecuteAsync(object? parameter)
+        public override void Execute(object? parameter)
         {
             if (parameter is FlowDocument document)
             {

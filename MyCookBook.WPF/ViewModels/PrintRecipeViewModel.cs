@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -42,6 +43,9 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        public FlowDocument? RecipeFlowDocument { get; }
+
+
         public ICommand BackCommand { get; }
         public ICommand PrintCommand { get; }
 
@@ -57,6 +61,10 @@ namespace MyCookBook.WPF.ViewModels
 
             RecipeViewModel = new RecipeViewModel(recipeStore.Current);
             RawImageData = imageStore.Items.ElementAt(0).RawImageData;
+
+            RecipeFlowDocument = Application.LoadComponent(new Uri("../Resources/Documents/RecipeFlowDocument.xaml", UriKind.Relative)) as FlowDocument;
+            if (RecipeFlowDocument != null)
+                RecipeFlowDocument.DataContext = this;
         }
     }
 }
