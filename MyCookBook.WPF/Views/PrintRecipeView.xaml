@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="MyCookBook.WPF.Views.PrintRecipeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyCookBook.WPF.Views" xmlns:viewmodels="clr-namespace:MyCookBook.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PrintRecipeViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="0">
+            <Button
+                Content="Back"
+                Command="{Binding BackCommand}"
+                Margin="10"
+                Padding="5" />
+            <Button 
+                Content="Print" 
+                Command="{Binding PrintCommand}"
+                CommandParameter="{Binding ElementName=PrintDocument}"
+                Margin="10"
+                Padding="5" />
+        </StackPanel>
+
+        <FlowDocumentScrollViewer 
+            BorderBrush="Black" 
+            BorderThickness="2"
+            Grid.Column="1">
+            <FlowDocument 
+                Name="PrintDocument"
+                FontFamily="Segoe UI"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                FontSize="16">
+                <Paragraph>
+                    <Run 
+                        FontSize="36" 
+                        Text="{Binding RecipeViewModel.Name, Mode=OneWay}" />
+                </Paragraph>
+
+                <Paragraph FontWeight="Bold">
+                    Time:
+                    <Run Text="{Binding RecipeViewModel.Minutes, Mode=OneWay}" />
+                    <Run Text="    " />
+                    Servings:
+                    <Run Text="{Binding RecipeViewModel.Servings, Mode=OneWay}" />
+                </Paragraph>
+
+                <Paragraph>
+                    <Image 
+                        MaxHeight="400"
+                        HorizontalAlignment="Left"
+                        Source="{Binding RawImageData,
+                            Converter={StaticResource ByteArrayToBitmapConverter},
+                            Mode=OneWay}" />
+                </Paragraph>
+
+                <Paragraph>
+                    <Run Text="{Binding RecipeViewModel.Description, Mode=OneWay}" />
+                </Paragraph>
+
+                <Paragraph FontSize="24">Ingredients</Paragraph>
+
+                <BlockUIContainer>
+                    <ListView ItemsSource="{Binding RecipeViewModel.Ingredients, Mode=OneWay}">
+
+                    </ListView>
+                </BlockUIContainer>
+
+                <Paragraph FontSize="24">Directions</Paragraph>
+
+                <BlockUIContainer>
+                    <ListView ItemsSource="{Binding RecipeViewModel.Directions, Mode=OneWay}">
+
+                    </ListView>
+                </BlockUIContainer>
+
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</UserControl>

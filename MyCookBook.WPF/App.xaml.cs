@@ -135,6 +135,11 @@ public partial class App : Application
         return new NavigationService<RecipeDisplayViewModel>(services.GetRequiredService<NavigationStore>(), () => RecipeDisplayViewModel(services));
     }
 
+    private INavigationService PrintRecipeNavigationService(IServiceProvider services)
+    {
+        return new NavigationService<PrintRecipeViewModel>(services.GetRequiredService<NavigationStore>(), () => PrintRecipeViewModel(services));
+    }
+
     private INavigationService PreviousNavigationService(IServiceProvider services)
     {
         return new PreviousNavigationService(services.GetRequiredService<NavigationStore>());
@@ -206,8 +211,14 @@ public partial class App : Application
     private RecipeDisplayViewModel RecipeDisplayViewModel(IServiceProvider services)
     {
         return new RecipeDisplayViewModel(services.GetRequiredService<RecipeStoreBase<RecipeCategory>>(), services.GetRequiredService<RecipeStoreBase<Recipe>>(),
-            services.GetRequiredService<RecipeStoreBase<RecipeImage>>(), services.GetRequiredService<DeleteStore>(), services.GetRequiredService<MoveStore>(), 
-            CreateRecipeNavigationService(services), DeleteNavigationService<Recipe>(services, "recipe", new NavigateCommand(PreviousNavigationService(services))), 
+            services.GetRequiredService<RecipeStoreBase<RecipeImage>>(), services.GetRequiredService<DeleteStore>(), services.GetRequiredService<MoveStore>(),
+            PrintRecipeNavigationService(services), CreateRecipeNavigationService(services), DeleteNavigationService<Recipe>(services, "recipe", 
+            new NavigateCommand(PreviousNavigationService(services))), PreviousNavigationService(services));
+    }
+
+    private PrintRecipeViewModel PrintRecipeViewModel(IServiceProvider services)
+    {
+        return new PrintRecipeViewModel(services.GetRequiredService<RecipeStoreBase<Recipe>>(), services.GetRequiredService<RecipeStoreBase<RecipeImage>>(),
             PreviousNavigationService(services));
     }
 

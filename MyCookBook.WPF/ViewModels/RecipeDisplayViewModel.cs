@@ -47,15 +47,16 @@ namespace MyCookBook.WPF.ViewModels
 
         public ICommand BackCommand { get; }
 
+        public ICommand PrintCommand { get; }
+        public ICommand MoveCommand {  get; }
 		public ICommand EditCommand { get; }
 		public ICommand DeleteCommand { get; }
 
-        public ICommand MoveCommand {  get; }
 
         public ICommand LoadImageCommand { get; }
 
         public RecipeDisplayViewModel(RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, 
-            RecipeStoreBase<RecipeImage> imageStore, DeleteStore deleteStore, MoveStore moveCopyStore,
+            RecipeStoreBase<RecipeImage> imageStore, DeleteStore deleteStore, MoveStore moveCopyStore, INavigationService printRecipeNavigationService,
 			INavigationService createRecipeNavigationService, INavigationService deleteNavigationService, INavigationService previousNavigationService)
         {
 			Recipe = recipeStore.Current;
@@ -64,13 +65,13 @@ namespace MyCookBook.WPF.ViewModels
 
             BackCommand = new NavigateCommand(previousNavigationService);
 
+            PrintCommand = new NavigateCommand(printRecipeNavigationService);
+            MoveCommand = new StartMoveCommand<Recipe>(moveCopyStore, recipeStore.Current);
 			EditCommand = new NavigateCommand(createRecipeNavigationService);
 			DeleteCommand = new CompositeCommand(new SetDeleteStoreCommand(deleteStore), new NavigateCommand(deleteNavigationService));
 
-            MoveCommand = new StartMoveCommand<Recipe>(moveCopyStore, recipeStore.Current);
 
             LoadImageCommand = new LoadCommand<RecipeImage>(this, imageStore);
-
             LoadImageCommand.Execute(null);
 
             RecipeViewModel = new RecipeViewModel(recipeStore.Current);

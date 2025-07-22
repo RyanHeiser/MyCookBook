@@ -10,6 +10,7 @@
         xmlns:modalvms="clr-namespace:MyCookBook.WPF.ViewModels.Modals" 
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
+        FontFamily="Segoe UI"
         FontSize="16"
         WindowStartupLocation="CenterScreen"
         Title="My Cook Book" Height="900" Width="1400">
@@ -34,6 +35,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vms:RecipeBookListingViewModel}">
                         <views:RecipeBookListingView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:PrintRecipeViewModel}">
+                        <views:PrintRecipeView />
                     </DataTemplate>
 
                     <!-- Modal Views -->

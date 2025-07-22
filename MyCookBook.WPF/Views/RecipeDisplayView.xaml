@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:MyCookBook.WPF.Views"
              mc:Ignorable="d" 
              MaxWidth="1400"
+             Name="Root"
              d:DesignHeight="800" d:DesignWidth="1400">
     <UserControl.Resources>
         <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
@@ -40,6 +41,13 @@
                 Text="{Binding RecipeViewModel.Name}" />
             
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="30 0 0 0">
+                <Button
+                    Content="Print"
+                    Command="{Binding PrintCommand}"
+                    MinWidth="50"
+                    MaxHeight="40"
+                    Margin="10 0 0 0"
+                    Padding="5" />
                 <Button
                     Content="Move"
                     Command="{Binding MoveCommand}"
