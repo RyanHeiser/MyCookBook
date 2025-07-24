@@ -16,12 +16,6 @@ namespace MyCookBook.WPF.Commands
 {
     public class PrintCommand : CommandBase
     {
-        //RecipeDisplayViewModel _viewModel;
-
-        //public PrintCommand(RecipeDisplayViewModel viewModel)
-        //{
-        //    _viewModel = viewModel;
-        //}
 
         public override void Execute(object? parameter)
         {
@@ -31,7 +25,7 @@ namespace MyCookBook.WPF.Commands
                 PrintDialog dialog = new PrintDialog();
                 if (dialog.ShowDialog() == true)
                 {
-                    dialog.PrintDocument(paginator, "Print recipe");
+                    dialog.PrintDocument(paginator, "Print");
                 }
             }
         }

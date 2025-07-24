@@ -17,7 +17,11 @@
 
         <Paragraph FontWeight="Bold">
             Time:
+            <Run Text="{Binding RecipeViewModel.Hours, Mode=OneWay}" />
+            hrs
+            <Run Text=" " />
             <Run Text="{Binding RecipeViewModel.Minutes, Mode=OneWay}" />
+            min
             <Run Text="    " />
             Servings:
             <Run Text="{Binding RecipeViewModel.Servings, Mode=OneWay}" />

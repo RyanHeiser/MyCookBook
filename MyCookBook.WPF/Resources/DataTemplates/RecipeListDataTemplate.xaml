@@ -47,9 +47,18 @@
                     Margin="0 0 5 0"
                     FontWeight="Bold"
                     Text="Time:" />
+                <TextBlock 
+                    Margin="5 0 0 0" 
+                    Text="{Binding Hours}" />
                 <TextBlock
-                    Margin="0 0 20 0"
+                    Margin="5 0 0 0"
+                    Text="hrs" />
+                <TextBlock 
+                    Margin="5 0 0 0" 
                     Text="{Binding Minutes}" />
+                <TextBlock
+                    Margin="5 0 20 0"
+                    Text="min" />
 
                 <TextBlock
                     Margin="0 0 5 0"

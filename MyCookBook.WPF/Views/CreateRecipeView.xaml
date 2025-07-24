@@ -49,11 +49,33 @@
                 Grid.Column="0"
                 Style="{StaticResource Subtitle}"
                 Text="Prep/Cook Time" />
-            <TextBox
-                Grid.Row="1"
+            <Grid 
+                Grid.Row="1" 
                 Grid.Column="0"
-                Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}"
-                Margin="0 5 0 0" />
+                HorizontalAlignment="Stretch"
+                Margin="0 5 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    Text="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock 
+                    Grid.Column="1"
+                    Margin="5 0 0 0"
+                    Text="hrs" />
+                <TextBox
+                    Grid.Column="2"
+                    Margin="10 0 0 0"
+                    Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock 
+                    Grid.Column="3"
+                    Margin="5 0 0 0"
+                    Text="min" />
+            </Grid>
 
             <TextBlock
                 Grid.Row="0"

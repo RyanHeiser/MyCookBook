@@ -50,6 +50,21 @@ namespace MyCookBook.WPF.ViewModels
             }
         }
 
+        protected int _hours;
+        public int Hours
+        {
+            get
+            {
+                return _hours;
+            }
+            set
+            {
+                _hours = value;
+                OnPropertyChanged(nameof(Hours));
+                OnPropertyChanged(nameof(CanCreateRecipe));
+            }
+        }
+
         protected int _servings;
         public int Servings
         {

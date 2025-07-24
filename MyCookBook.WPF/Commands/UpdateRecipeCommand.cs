@@ -33,6 +33,7 @@ namespace MyCookBook.WPF.Commands
 
             Recipe updatedRecipe = new Recipe(
                 _createRecipeViewModel.Name ?? "New Recipe",
+                _createRecipeViewModel.Hours,
                 _createRecipeViewModel.Minutes,
                 _createRecipeViewModel.Servings,
                 _createRecipeViewModel.Description,

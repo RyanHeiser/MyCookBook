@@ -10,7 +10,8 @@ namespace MyCookBook.WPF.ViewModels
     public class RecipeViewModel : ViewModelBase
     {
         public string Name => Recipe?.Name ?? "New Recipe";
-        public string Minutes => Recipe?.Minutes > 0 ? Recipe.Minutes.ToString() : String.Empty;
+        public string Hours => Recipe?.Hours.ToString() ?? String.Empty;
+        public string Minutes => Recipe?.Minutes.ToString() ?? String.Empty;
         public string Servings => Recipe?.Servings > 0 ? Recipe.Servings.ToString() : String.Empty;
         public string Description => Recipe?.Description ?? String.Empty;
         public byte[]? RawThumbnailData => Recipe?.RawThumbnailData;

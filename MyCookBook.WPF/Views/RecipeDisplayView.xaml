@@ -79,7 +79,16 @@
                 Text="Time:" />
             <TextBlock 
                 Margin="5 0 0 0" 
+                Text="{Binding RecipeViewModel.Hours}" />
+            <TextBlock
+                Margin="5 0 0 0"
+                Text="hrs" />
+            <TextBlock 
+                Margin="5 0 0 0" 
                 Text="{Binding RecipeViewModel.Minutes}" />
+            <TextBlock
+                Margin="5 0 0 0"
+                Text="min" />
             <TextBlock 
                 Margin="30 0 0 0"
                 FontWeight="Bold"

@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 namespace MyCookBook.Domain.Models
 {
     public class Recipe : ChildDomainObject
-    {        
-        //public string Name { get; set; }
+    {
+        public int Hours { get; set; }
         public int Minutes { get; set; }
         public int Servings { get; set; }
 
@@ -32,10 +32,11 @@ namespace MyCookBook.Domain.Models
         public IEnumerable<string> Directions { get { return _directions; } set { _ingredients = value.ToList(); } }
 
         [JsonConstructor]
-        public Recipe(string name, int minutes, int servings, string description)
+        public Recipe(string name, int hours, int minutes, int servings, string description)
         {
             Id = Guid.NewGuid();
             Name = name;
+            Hours = hours;
             Minutes = minutes;
             Servings = servings;
             Description = description;
@@ -43,11 +44,12 @@ namespace MyCookBook.Domain.Models
             _directions = new List<string>();
         }
 
-        public Recipe(string name, int minutes, int servings, string description, 
+        public Recipe(string name, int hours, int minutes, int servings, string description, 
             byte[] rawThumbnailData, List<string> ingredients, List<string> directions)
         {
             Id = Guid.NewGuid();
             Name = name;
+            Hours = hours;
             Minutes = minutes;
             Servings = servings;
             Description = description;
@@ -56,11 +58,12 @@ namespace MyCookBook.Domain.Models
             _directions = directions;
         }
 
-        public Recipe(string name, int minutes, int servings, string description, 
+        public Recipe(string name, int hours, int minutes, int servings, string description, 
             byte[] rawThumbnailData, List<string> ingredients, List<string> directions, Guid parentId)
         {
             Id = Guid.NewGuid();
             Name = name;
+            Hours = hours;
             Minutes = minutes;
             Servings = servings;
             Description = description;
