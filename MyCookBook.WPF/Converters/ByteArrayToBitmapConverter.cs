@@ -27,6 +27,7 @@ namespace MyCookBook.WPF.Converters
                 bitmapImage.StreamSource = stream;
                 bitmapImage.EndInit();
             }
+            bitmapImage.Freeze();
             return bitmapImage;
         }
 

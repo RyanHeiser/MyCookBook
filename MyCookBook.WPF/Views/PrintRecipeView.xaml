@@ -14,20 +14,19 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="8*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0">
+        <StackPanel Grid.Column="0" Margin="0 0 20 0">
             <Button
                 Content="Back"
                 Command="{Binding BackCommand}"
-                Margin="10"
                 Padding="5" />
             <Button 
                 Content="Print" 
                 Command="{Binding PrintCommand}"
                 CommandParameter="{Binding RecipeFlowDocument}"
-                Margin="10"
+                Margin="0 10 0 0"
                 Padding="5" />
         </StackPanel>
 
@@ -35,5 +34,5 @@
             Name="FixedDocument"
             Grid.Column="2"
             Document="{Binding RecipeFlowDocument, Mode=OneTime, Converter={StaticResource FlowToFixedDocumentConverter}}" />
-    </Grid>
+        </Grid>
 </UserControl>

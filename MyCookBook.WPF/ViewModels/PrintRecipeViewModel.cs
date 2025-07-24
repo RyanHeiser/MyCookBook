@@ -4,12 +4,16 @@ using MyCookBook.WPF.Services.Navigation;
 using MyCookBook.WPF.Stores.RecipeStores;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Xps;
+using System.Windows.Xps.Packaging;
 
 namespace MyCookBook.WPF.ViewModels
 {
@@ -64,7 +68,10 @@ namespace MyCookBook.WPF.ViewModels
 
             RecipeFlowDocument = Application.LoadComponent(new Uri("../Resources/Documents/RecipeFlowDocument.xaml", UriKind.Relative)) as FlowDocument;
             if (RecipeFlowDocument != null)
+            {
                 RecipeFlowDocument.DataContext = this;
+                RecipeFlowDocument.ColumnWidth = double.MaxValue;
+            }
         }
     }
 }

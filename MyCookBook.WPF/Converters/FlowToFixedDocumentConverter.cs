@@ -6,9 +6,11 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 using System.Xml;
 
@@ -16,38 +18,33 @@ namespace MyCookBook.WPF.Converters
 {
     public class FlowToFixedDocumentConverter : IValueConverter
     {
+        private string? _tempXpsPath;
+        private XpsDocument? _xpsDocument;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             FlowDocument flowDocument = (FlowDocument)value;
             DocumentPaginator paginator = ((IDocumentPaginatorSource)flowDocument).DocumentPaginator;
 
-            Package package = Package.Open(new MemoryStream(), FileMode.Create, FileAccess.ReadWrite);
+            // Create a temp file
+            _tempXpsPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".xps");
 
+            // Write paginator to temp file
+            using (var xpsDocWrite = new XpsDocument(_tempXpsPath, FileAccess.ReadWrite))
+            {
+                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocWrite);
+                writer.Write(paginator);
+            }
 
-            Uri packageUri = new Uri("pack://temp.xps");
-            PackageStore.RemovePackage(packageUri);
-            PackageStore.AddPackage(packageUri, package);
-            XpsDocument xps = new XpsDocument(package, CompressionOption.NotCompressed, packageUri.ToString());
-            XpsDocument.CreateXpsDocumentWriter(xps).Write(paginator);
-            FixedDocument doc = xps.GetFixedDocumentSequence().References[0].GetDocument(true);
-            return doc;
+            // Reopen the file in read mode and return document
+            _xpsDocument = new XpsDocument(_tempXpsPath, FileAccess.Read);
+            FixedDocument fixedDoc = _xpsDocument.GetFixedDocumentSequence().References[0].GetDocument(false);
+            return fixedDoc;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
-
-        private FlowDocument CloneFlowDocument(FlowDocument original)
-        {
-            string xaml = XamlWriter.Save(original);
-            using (var stringReader = new StringReader(xaml))
-            {
-                using (var xmlReader = XmlReader.Create(stringReader))
-                {
-                    return (FlowDocument)XamlReader.Load(xmlReader);
-                }
-            }
         }
     }
 }

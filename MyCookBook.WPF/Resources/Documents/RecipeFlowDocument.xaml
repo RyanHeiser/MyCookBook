@@ -23,14 +23,14 @@
             <Run Text="{Binding RecipeViewModel.Servings, Mode=OneWay}" />
         </Paragraph>
 
-        <Paragraph>
+        <BlockUIContainer>
             <Image 
-            MaxHeight="400"
-            HorizontalAlignment="Left"
-            Source="{Binding RawImageData,
-                Converter={StaticResource ByteArrayToBitmapConverter},
-                Mode=OneWay}" />
-        </Paragraph>
+                MaxHeight="400"
+                HorizontalAlignment="Left"
+                Source="{Binding RawImageData,
+                    Converter={StaticResource ByteArrayToBitmapConverter},
+                    Mode=OneWay}" />
+        </BlockUIContainer>
 
         <Paragraph>
             <Run Text="{Binding RecipeViewModel.Description, Mode=OneWay}" />
@@ -39,17 +39,13 @@
         <Paragraph FontSize="24">Ingredients</Paragraph>
 
         <BlockUIContainer>
-            <ListView ItemsSource="{Binding RecipeViewModel.Ingredients, Mode=OneWay}">
-
-            </ListView>
+            <ListView ItemsSource="{Binding RecipeViewModel.Ingredients, Mode=OneWay}" />
         </BlockUIContainer>
 
         <Paragraph FontSize="24">Directions</Paragraph>
 
         <BlockUIContainer>
-            <ListView ItemsSource="{Binding RecipeViewModel.Directions, Mode=OneWay}">
-
-            </ListView>
+            <ListView ItemsSource="{Binding RecipeViewModel.Directions, Mode=OneWay}" />
         </BlockUIContainer>
 
     </FlowDocument>
