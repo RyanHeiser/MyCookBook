@@ -4,5 +4,6 @@
     <SolidColorBrush x:Key="MyCookBook.LightGreen" Color="#62e36c" />
     <SolidColorBrush x:Key="MyCookBook.Green" Color="#31a33a" />
     <SolidColorBrush x:Key="MyCookBook.DarkGreen" Color="#35853b" />
+    <SolidColorBrush x:Key="MyCookBook.FadedGreen" Color="#d1edd1" />
 
 </ResourceDictionary>

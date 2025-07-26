@@ -93,13 +93,8 @@
                 Grid.IsSharedSizeScope="True">
 
                 <ListView.Resources>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource RecipeListItem}" />
                 </ListView.Resources>
-
-                
-
             </ListView>
         </Grid>
 

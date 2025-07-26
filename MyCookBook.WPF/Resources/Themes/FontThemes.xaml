@@ -8,5 +8,5 @@
     <Style x:Key="Subtitle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="24" />
     </Style>
-    
+
 </ResourceDictionary>

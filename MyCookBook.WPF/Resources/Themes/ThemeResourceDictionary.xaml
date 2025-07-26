@@ -4,5 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Resources/Themes/FontThemes.xaml" />
         <ResourceDictionary Source="/Resources/Themes/Buttons/ButtonThemeResourceDictionary.xaml" />
+        <ResourceDictionary Source="/Resources/Themes/Lists/ListThemeResourceDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
 </ResourceDictionary>

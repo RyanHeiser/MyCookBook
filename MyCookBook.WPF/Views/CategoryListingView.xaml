@@ -85,9 +85,7 @@
                 Visibility="{Binding HasCategories, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <ListView.Resources>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource RecipeListItem}" />
                 </ListView.Resources>
 
             </ListView>
