@@ -89,6 +89,7 @@
                     Margin="10 0 0 0"
                     Padding="5" />
                 <Button
+                    Style="{StaticResource DeleteButton}"
                     Content="Delete"
                     Command="{Binding DataContext.DeleteRecipeCommand, ElementName=Root}"
                     CommandParameter="{Binding Recipe}"

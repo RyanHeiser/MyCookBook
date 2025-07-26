@@ -63,6 +63,7 @@
                 Margin="10 0 0 0"
                 Padding="5" />
             <Button 
+                Style="{StaticResource DeleteButton}"
                 Grid.Row="0"
                 Grid.Column="2"
                 Content="Delete" 
