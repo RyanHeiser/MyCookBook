@@ -7,6 +7,7 @@
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="/Resources/ConverterResourceDictionary.xaml" />
                     <ResourceDictionary Source="/Resources/Themes/FontThemes.xaml" />
+                    <ResourceDictionary Source="/Resources/Themes/Buttons/ButtonThemeResourceDictionary.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -32,17 +33,20 @@
                 Grid.Column="1"
                 Orientation="Horizontal">
                 <Button
+                    
                     Content="Move"
                     Command="{Binding DataContext.MoveCategoryCommand, ElementName=Root}"
                     CommandParameter="{Binding Category}"
                     Padding="5" />
                 <Button
+                    
                     Content="Rename"
                     Command="{Binding DataContext.RenameCategoryCommand, ElementName=Root}"
                     CommandParameter="{Binding Category}"
                     Margin="10 0 0 0"
                     Padding="5" />
                 <Button
+                    
                     Content="Delete"
                     Command="{Binding DataContext.DeleteCategoryCommand, ElementName=Root}"
                     CommandParameter="{Binding Category}"

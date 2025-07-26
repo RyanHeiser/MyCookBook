@@ -19,10 +19,12 @@
 
         <StackPanel Grid.Column="0" Margin="0 0 20 0">
             <Button
+                
                 Content="Back"
                 Command="{Binding BackCommand}"
                 Padding="5" />
             <Button 
+                
                 Content="Print" 
                 Command="{Binding PrintCommand}"
                 CommandParameter="{Binding RecipeFlowDocument}"
@@ -31,7 +33,6 @@
         </StackPanel>
 
         <DocumentViewer 
-            Name="FixedDocument"
             Grid.Column="2"
             Document="{Binding RecipeFlowDocument, Mode=OneTime, Converter={StaticResource FlowToFixedDocumentConverter}}" />
         </Grid>
