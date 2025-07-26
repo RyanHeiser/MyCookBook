@@ -72,26 +72,27 @@
 
             <StackPanel 
                 Grid.Row="0"
+                Grid.RowSpan="2"
                 Grid.Column="2"
                 Orientation="Horizontal">
                 <Button
-                    
                     Content="Move"
                     Command="{Binding DataContext.MoveRecipeCommand, ElementName=Root}"
                     CommandParameter="{Binding Recipe}"
+                    MaxHeight="40"
                     Padding="5" />
                 <Button
-                    
                     Content="Edit"
                     Command="{Binding DataContext.EditRecipeCommand, ElementName=Root}"
                     CommandParameter="{Binding Recipe}"
+                    MaxHeight="40"
                     Margin="10 0 0 0"
                     Padding="5" />
                 <Button
-                    
                     Content="Delete"
                     Command="{Binding DataContext.DeleteRecipeCommand, ElementName=Root}"
                     CommandParameter="{Binding Recipe}"
+                    MaxHeight="40"
                     Margin="10 0 0 0"
                     Padding="5" />
             </StackPanel>
