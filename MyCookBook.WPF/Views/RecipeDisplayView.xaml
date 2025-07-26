@@ -137,6 +137,11 @@
                 Grid.Row="1" 
                 Grid.Column="0"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource IngredientAndDirectionList}" />
+                </ListView.Resources>
+
             </ListView>
 
             <TextBlock 
@@ -150,6 +155,11 @@
                 Grid.Row="1" 
                 Grid.Column="1"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource IngredientAndDirectionList}" />
+                </ListView.Resources>
+                
             </ListView>
 
         </Grid>
