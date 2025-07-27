@@ -76,18 +76,25 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
                             <TextBlock 
+                                Grid.Row="0"
                                 Style="{StaticResource Subtitle}" 
                                 TextWrapping="Wrap" 
+                                TextAlignment="Center"
+                                VerticalAlignment="Top"
                                 Text="{Binding Name}" />
                             <Button
-                                
+                                Grid.Row="1"
                                 Margin="0 10 0 0"
                                 Content="Export"
                                 Command="{Binding DataContext.ExportCommand, ElementName=Root}"
                                 CommandParameter="{Binding Book}"/>
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 

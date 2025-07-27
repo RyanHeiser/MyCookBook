@@ -19,8 +19,8 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" SharedSizeGroup="ImageRow" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" SharedSizeGroup="RecipeRow1" />
+                <RowDefinition Height="auto" SharedSizeGroup="RecipeRow2" />
             </Grid.RowDefinitions>
             
             <Image
