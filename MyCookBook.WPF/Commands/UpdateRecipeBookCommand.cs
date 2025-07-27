@@ -1,4 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
+using MyCookBook.WPF.Services.Navigation;
 using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels.Modals;
 using System;
@@ -14,12 +15,14 @@ namespace MyCookBook.WPF.Commands
     public class UpdateRecipeBookCommand : AsyncCommandBase
     {
         private readonly CreateRecipeBookViewModel _createRecipeBookViewModel;
+        private readonly INavigationService _navigationService;
         private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
 
-        public UpdateRecipeBookCommand(CreateRecipeBookViewModel createRecipeBookViewModel, RecipeStoreBase<RecipeBook> recipeBookStore)
+        public UpdateRecipeBookCommand(CreateRecipeBookViewModel createRecipeBookViewModel, INavigationService navigationService, RecipeStoreBase<RecipeBook> recipeBookStore)
         {
             _createRecipeBookViewModel = createRecipeBookViewModel;
             _recipeBookStore = recipeBookStore;
+            _navigationService = navigationService;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -37,6 +40,7 @@ namespace MyCookBook.WPF.Commands
             {
                 await _recipeBookStore.Update(_recipeBookStore.Current.Id, updatedBook);
                 MessageBox.Show("Updated category", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _navigationService.Navigate();
             }
             catch (NullReferenceException)
             {

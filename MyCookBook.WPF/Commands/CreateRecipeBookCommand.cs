@@ -1,4 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
+using MyCookBook.WPF.Services.Navigation;
 using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels.Modals;
 using System;
@@ -12,12 +13,14 @@ namespace MyCookBook.WPF.Commands
     public class CreateRecipeBookCommand : AsyncCommandBase
     {
         private readonly CreateRecipeBookViewModel _viewModel;
+        private readonly INavigationService _navigationService;
         private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
 
-        public CreateRecipeBookCommand(CreateRecipeBookViewModel viewModel, RecipeStoreBase<RecipeBook> recipeBookStore)
+        public CreateRecipeBookCommand(CreateRecipeBookViewModel viewModel, INavigationService navigationService, RecipeStoreBase<RecipeBook> recipeBookStore)
         {
             _viewModel = viewModel;
             _recipeBookStore = recipeBookStore;
+            _navigationService = navigationService;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -36,6 +39,8 @@ namespace MyCookBook.WPF.Commands
             {
                 _viewModel.ErrorMessage = "Could not create this recipe book.";
             }
+
+            _navigationService.Navigate();
         }
     }
 }

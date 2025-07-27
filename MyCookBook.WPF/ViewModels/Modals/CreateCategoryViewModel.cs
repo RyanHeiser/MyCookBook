@@ -57,12 +57,12 @@ namespace MyCookBook.WPF.ViewModels.Modals
             // Command executed from outside of category
             if (categoryStore.Current == null)
             {
-                SubmitCommand = new CompositeCommand(new CreateCategoryCommand(this, recipeBookStore, categoryStore), new NavigateCommand(closeNavigationService));
+                SubmitCommand = new CreateCategoryCommand(this, closeNavigationService, recipeBookStore, categoryStore);
             }
             else
             {
                 Category = categoryStore.Current;
-                SubmitCommand = new CompositeCommand(new UpdateCategoryCommand(this, recipeBookStore, categoryStore), new NavigateCommand(closeNavigationService));
+                SubmitCommand = new UpdateCategoryCommand(this, closeNavigationService, recipeBookStore, categoryStore);
                 IsEditing = true;
             }
         }

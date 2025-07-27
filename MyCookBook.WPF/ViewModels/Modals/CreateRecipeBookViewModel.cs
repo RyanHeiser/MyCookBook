@@ -56,11 +56,11 @@ namespace MyCookBook.WPF.ViewModels.Modals
 
             if (recipeBookStore.Current == null)
             {
-                SubmitCommand = new CompositeCommand(new CreateRecipeBookCommand(this, recipeBookStore), new NavigateCommand(closeNavigationService));
+                SubmitCommand = new CreateRecipeBookCommand(this, closeNavigationService, recipeBookStore);
             }
             else
             {
-                SubmitCommand = new CompositeCommand(new UpdateRecipeBookCommand(this, recipeBookStore), new NavigateCommand(closeNavigationService));
+                SubmitCommand = new UpdateRecipeBookCommand(this, closeNavigationService, recipeBookStore);
                 IsEditing = true;
             }
         }

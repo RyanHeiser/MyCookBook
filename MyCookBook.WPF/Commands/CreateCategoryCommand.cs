@@ -1,4 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
+using MyCookBook.WPF.Services.Navigation;
 using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels;
 using MyCookBook.WPF.ViewModels.Modals;
@@ -13,12 +14,14 @@ namespace MyCookBook.WPF.Commands
     public class CreateCategoryCommand : AsyncCommandBase
     {
         private readonly CreateCategoryViewModel _viewModel;
+        private readonly INavigationService _navigationService;
         private readonly RecipeStoreBase<RecipeBook> _recipeBookStore;
         private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
 
-        public CreateCategoryCommand(CreateCategoryViewModel viewModel, RecipeStoreBase<RecipeBook> recipeBookStore, RecipeStoreBase<RecipeCategory> categoryStore)
+        public CreateCategoryCommand(CreateCategoryViewModel viewModel, INavigationService navigationService, RecipeStoreBase<RecipeBook> recipeBookStore, RecipeStoreBase<RecipeCategory> categoryStore)
         {
             _viewModel = viewModel;
+            _navigationService = navigationService;
             _recipeBookStore = recipeBookStore;
             _categoryStore = categoryStore;
         }
@@ -34,6 +37,8 @@ namespace MyCookBook.WPF.Commands
             RecipeCategory category = new RecipeCategory(_viewModel.Name, _recipeBookStore.Current.Id);
 
             await _categoryStore.Create(category);
+
+            _navigationService.Navigate();
         }
     }
 }
