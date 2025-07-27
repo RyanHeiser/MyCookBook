@@ -22,6 +22,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -183,8 +184,15 @@
                 Command="{Binding AddDirection}" />
         </StackPanel>
 
+        <TextBlock 
+            Grid.Row="7"
+            Margin="0 20 0 0"
+            Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Foreground="Red"
+            Text="{Binding ErrorMessage}" />
+
         <StackPanel 
-            Grid.Row="7" 
+            Grid.Row="8" 
             Margin="0 15 0 0" 
             Orientation="Horizontal">
 

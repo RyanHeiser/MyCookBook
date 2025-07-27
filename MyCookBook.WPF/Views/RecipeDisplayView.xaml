@@ -38,6 +38,7 @@
             <TextBlock 
                 Grid.Column="1" 
                 Style="{StaticResource Title}"
+                TextWrapping="Wrap"
                 Margin="30 0 0 0" 
                 Text="{Binding RecipeViewModel.Name}" />
             

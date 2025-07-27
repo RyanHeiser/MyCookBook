@@ -22,6 +22,12 @@ namespace MyCookBook.WPF.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            if (_viewModel.Name.Length > 50)
+            {
+                _viewModel.ErrorMessage = "Name must not be longer than 50 characters";
+                return;
+            }
+
             RecipeBook book = new RecipeBook(_viewModel.Name);
 
             bool created = await _recipeBookStore.Create(book);

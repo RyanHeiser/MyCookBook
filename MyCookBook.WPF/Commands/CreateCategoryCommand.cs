@@ -1,5 +1,6 @@
 ﻿using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Stores.RecipeStores;
+using MyCookBook.WPF.ViewModels;
 using MyCookBook.WPF.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,12 @@ namespace MyCookBook.WPF.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            if (_viewModel.Name.Length > 50)
+            {
+                _viewModel.ErrorMessage = "Name must not be longer than 50 characters";
+                return;
+            }
+
             RecipeCategory category = new RecipeCategory(_viewModel.Name, _recipeBookStore.Current.Id);
 
             await _categoryStore.Create(category);

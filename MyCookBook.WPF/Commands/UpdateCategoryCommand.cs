@@ -27,6 +27,12 @@ namespace MyCookBook.WPF.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            if (_createCategoryViewModel.Name.Length > 50)
+            {
+                _createCategoryViewModel.ErrorMessage = "Name must not be longer than 50 characters";
+                return;
+            }
+
             RecipeCategory updatedCategory = new RecipeCategory(_createCategoryViewModel.Name, _categoryStore.Current.RecipeCount);
 
             try
