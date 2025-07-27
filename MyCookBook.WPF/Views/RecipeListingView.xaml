@@ -8,8 +8,8 @@
              xmlns:converters="clr-namespace:MyCookBook.WPF.Converters"
              mc:Ignorable="d" 
              Name="Root"
-             MaxWidth="800"
-             d:DesignHeight="600" d:DesignWidth="800">
+             MaxWidth="1000"
+             d:DesignHeight="600" d:DesignWidth="1000">
     
     <UserControl.Resources>
         <ResourceDictionary Source="/Resources/ApplicationResourceDictionary.xaml" />
@@ -20,64 +20,65 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>
 
-        <TextBlock 
-            Grid.Row="0" 
-            Grid.Column="1" 
-            Style="{StaticResource Title}"
-            MaxWidth="{Binding ActualWidth, ElementName=Root, Converter={StaticResource PercentageConverter}, ConverterParameter=0.7}"
-            Text="{Binding Name}" />
-
-        <Button 
-            Grid.Row="0"
-            Grid.Column="0"
-            Content="Back" 
-            Command="{Binding BackCommand}"
-            MinWidth="50"
-            MaxHeight="40"
-            Padding="5"
-            Margin="0 0 20 0"/>
-
-        <StackPanel 
-            Grid.Row="0"
-            Grid.Column="2"
-            Orientation="Horizontal">
-            <Button
-                Content="Move"
-                Command="{Binding MoveCategoryCommand}"
-                MinWidth="50"
-                MaxHeight="40"
-                Margin="10 0 0 0"
-                Padding="5" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
             <Button 
-                Content="Rename" 
-                Command="{Binding RenameCategoryCommand}"
+                Grid.Column="0"
+                Content="Back" 
+                Command="{Binding BackCommand}"
                 MinWidth="50"
-                MaxHeight="40"
-                Margin="10 0 0 0"
+                Height="40"
                 Padding="5" />
-            <Button 
-                Style="{StaticResource DeleteButton}"
-                Grid.Row="0"
+            <TextBlock 
+                Grid.Column="1"
+                Margin="40 0 0 0"
+                TextWrapping="Wrap"
+                Style="{StaticResource Title}"
+                Text="{Binding Name}" />
+
+            <StackPanel 
                 Grid.Column="2"
-                Content="Delete" 
-                Command="{Binding DeleteCategoryCommand}"
-                CommandParameter="{Binding Category}"
-                MinWidth="50"
-                MaxHeight="40"
-                Padding="5"
-                Margin="10 0 0 0"/>
-        </StackPanel>
+                Margin="20 0 0 0"
+                Orientation="Horizontal">
+                <Button
+                    Content="Move"
+                    Command="{Binding MoveCategoryCommand}"
+                    MinWidth="50"
+                    Height="40"
+                    Margin="0 0 0 0"
+                    Padding="5" />
+                <Button 
+                    Content="Rename" 
+                    Command="{Binding RenameCategoryCommand}"
+                    MinWidth="50"
+                    Height="40"
+                    Margin="10 0 0 0"
+                    Padding="5" />
+                <Button 
+                    Style="{StaticResource DeleteButton}"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Content="Delete" 
+                    Command="{Binding DeleteCategoryCommand}"
+                    CommandParameter="{Binding Category}"
+                    MinWidth="50"
+                    Height="40"
+                    Padding="5"
+                    Margin="10 0 0 0"/>
+            </StackPanel>
+        </Grid>
+
 
         <Grid 
-            Margin="0 40 0 0" 
-            Grid.Row="1" 
+            Margin="0 30 0 0" 
+            Grid.Row="2" 
             Grid.Column="0"
             Grid.ColumnSpan="3">
             <TextBlock 
@@ -100,7 +101,7 @@
         </Grid>
 
         <Button 
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Content="Add" 

@@ -75,7 +75,8 @@ namespace MyCookBook.WPF.ViewModels
             LoadImageCommand.Execute(null);
 
             RecipeViewModel = new RecipeViewModel(recipeStore.Current);
-            RawImageData = imageStore.Items.ElementAt(0).RawImageData;
+            if (imageStore.Items.Count() > 0)
+                RawImageData = imageStore.Items.ElementAt(0).RawImageData;
         }
 
     }
