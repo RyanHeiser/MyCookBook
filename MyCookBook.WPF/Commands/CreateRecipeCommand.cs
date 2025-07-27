@@ -66,7 +66,6 @@ namespace MyCookBook.WPF.Commands
             try
             {
                 await _recipeStore.Create(recipe);
-                MessageBox.Show("Created recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             } 
             catch (NullReferenceException)
             {

@@ -60,8 +60,6 @@ namespace MyCookBook.WPF.Commands
 
                 if (_imageStore.Items != null)
                     await _imageStore.Update(_imageStore.Items.First().Id, image);
-
-                MessageBox.Show("Updated recipe", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NullReferenceException)
             {

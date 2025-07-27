@@ -39,7 +39,7 @@ namespace MyCookBook.WPF.Commands
             try
             {
                 await _recipeBookStore.Update(_recipeBookStore.Current.Id, updatedBook);
-                MessageBox.Show("Updated category", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 _navigationService.Navigate();
             }
             catch (NullReferenceException)

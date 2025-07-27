@@ -41,7 +41,6 @@ namespace MyCookBook.WPF.Commands
             try
             {
                 await _categoryStore.Update(_categoryStore.Current.Id, updatedCategory);
-                MessageBox.Show("Updated category", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _navigationService.Navigate();
             }
