@@ -1,4 +1,5 @@
 ﻿using MyCookBook.Domain.Models;
+using MyCookBook.WPF.Services.Navigation;
 using MyCookBook.WPF.Stores.RecipeStores;
 using MyCookBook.WPF.ViewModels;
 using System;
@@ -15,14 +16,16 @@ namespace MyCookBook.WPF.Commands
     public class UpdateRecipeCommand : AsyncCommandBase
     {
         private readonly CreateRecipeViewModel _createRecipeViewModel;
+        private readonly INavigationService _navigationService;
         private readonly RecipeStoreBase<RecipeImage> _imageStore;
         private readonly RecipeStoreBase<Recipe> _recipeStore;
 
-        public UpdateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore)
+        public UpdateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, INavigationService navigationService, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
             _imageStore = imageStore;
             _recipeStore = recipeStore;
+            _navigationService = navigationService;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -66,6 +69,8 @@ namespace MyCookBook.WPF.Commands
             }
 
             _createRecipeViewModel.IsSubmitting = false;
+
+            _navigationService.Navigate();
         }
     }
 }

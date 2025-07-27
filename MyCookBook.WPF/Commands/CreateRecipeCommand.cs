@@ -16,13 +16,15 @@ namespace MyCookBook.WPF.Commands
     public class CreateRecipeCommand : AsyncCommandBase
     {
         private readonly CreateRecipeViewModel _createRecipeViewModel;
+        private readonly INavigationService _navigationService;
         private readonly RecipeStoreBase<RecipeImage> _imageStore;
         private readonly RecipeStoreBase<Recipe> _recipeStore;
         private readonly RecipeStoreBase<RecipeCategory> _categoryStore;
 
-        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore)
+        public CreateRecipeCommand(CreateRecipeViewModel createRecipeViewModel, INavigationService navigationService, RecipeStoreBase<RecipeCategory> categoryStore, RecipeStoreBase<Recipe> recipeStore, RecipeStoreBase<RecipeImage> imageStore)
         {
             _createRecipeViewModel = createRecipeViewModel;
+            _navigationService = navigationService;
             _recipeStore = recipeStore;
             _categoryStore = categoryStore;
             _createRecipeViewModel.PropertyChanged += OnViewModelPropertyChanged;
@@ -72,6 +74,8 @@ namespace MyCookBook.WPF.Commands
             }
 
             _createRecipeViewModel.IsSubmitting = false;
+
+            _navigationService.Navigate();
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)

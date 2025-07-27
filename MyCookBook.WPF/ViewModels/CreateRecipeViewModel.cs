@@ -187,7 +187,7 @@ namespace MyCookBook.WPF.ViewModels
                 Ingredients = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
                 Directions = new ObservableCollection<StringViewModel>() { new StringViewModel("") };
 
-                SubmitCommand = new CompositeCommand(new CreateRecipeCommand(this, categoryStore, recipeStore, imageStore), new NavigateCommand(recipeDisplayNavigationService));
+                SubmitCommand = new CreateRecipeCommand(this, recipeDisplayNavigationService, categoryStore, recipeStore, imageStore);
             }
             else
             {
@@ -202,7 +202,7 @@ namespace MyCookBook.WPF.ViewModels
                 Ingredients = new ObservableCollection<StringViewModel>(recipeStore.Current.Ingredients.Select(i => new StringViewModel(i)));
                 Directions = new ObservableCollection<StringViewModel>(recipeStore.Current.Directions.Select(d => new StringViewModel(d)));
 
-                SubmitCommand = new CompositeCommand(new UpdateRecipeCommand(this, recipeStore, imageStore), new NavigateCommand(recipeDisplayNavigationService));
+                SubmitCommand = new UpdateRecipeCommand(this, recipeDisplayNavigationService, recipeStore, imageStore);
 
                 IsEditing = true;
             }
