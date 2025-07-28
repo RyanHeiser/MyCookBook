@@ -10,6 +10,7 @@
 	<PublishSingleFile>true</PublishSingleFile>
 	<PublishReadyToRun>true</PublishReadyToRun>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	<AssemblyName>MyCookBook</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,12 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MyCookBook.Domain\MyCookBook.Domain.csproj" />
     <ProjectReference Include="..\MyCookBook.EntityFramework\MyCookBook.EntityFramework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="MyCookBook.db">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

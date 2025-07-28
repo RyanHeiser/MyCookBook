@@ -128,8 +128,9 @@ namespace MyCookBook.WPF.ViewModels
 
         public ObservableCollection<StringViewModel> Directions { get; set; }
 
-        public bool CanCreateRecipe => HasName && MinutesGreaterThanZero && ServingsGreaterThanZero;
+        public bool CanCreateRecipe => HasName && (MinutesGreaterThanZero || HoursGreaterThanZero) && ServingsGreaterThanZero;
         private bool HasName => !string.IsNullOrEmpty(Name);
+        private bool HoursGreaterThanZero => Hours > 0;
         private bool MinutesGreaterThanZero => Minutes > 0;
         private bool ServingsGreaterThanZero => Servings > 0;
 
