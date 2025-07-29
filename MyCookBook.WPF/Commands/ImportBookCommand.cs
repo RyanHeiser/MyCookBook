@@ -46,6 +46,25 @@ namespace MyCookBook.WPF.Commands
 
                 if (book != null)
                 {
+                    book.Id = Guid.NewGuid();
+                    foreach (RecipeCategory category in book.Categories)
+                    {
+                        category.Id = Guid.NewGuid();
+                        category.ParentId = book.Id;
+                        foreach (Recipe recipe in category.Recipes)
+                        {
+                            recipe.Id = Guid.NewGuid();
+                            recipe.ParentId = category.Id;
+
+                            if (recipe.Image != null)
+                            {
+                                recipe.Image.Id = Guid.NewGuid();
+                                recipe.Image.ParentId = recipe.Id;
+                            }
+                        }
+                    }
+
+
                     bool created = await _bookStore.Create(book);
                     if (!created)
                     {

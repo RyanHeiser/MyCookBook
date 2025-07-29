@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyCookBook.EntityFramework
 {
@@ -13,8 +14,13 @@ namespace MyCookBook.EntityFramework
     {
         public MyCookBookDbContext CreateDbContext(string[] args = null)
         {
-            DbContextOptionsBuilder options = new DbContextOptionsBuilder<MyCookBookDbContext>();
-            options.UseSqlite("Data Source=MyCookBook.db");
+            string dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MyCookBook");
+            Directory.CreateDirectory(dbFolder); // Ensure the folder exists
+
+            string dbPath = Path.Combine(dbFolder, "MyCookBook.db");
+
+            var options = new DbContextOptionsBuilder<MyCookBookDbContext>();
+            options.UseSqlite($"Data Source={dbPath}");
 
             return new MyCookBookDbContext(options.Options);
         }

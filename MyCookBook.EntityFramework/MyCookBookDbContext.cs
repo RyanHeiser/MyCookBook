@@ -40,15 +40,6 @@ namespace MyCookBook.EntityFramework
                 .HasForeignKey<RecipeImage>(i => i.ParentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<Recipe>(b =>
-            //{
-            //    b.Property(i => i.Id).IsRequired();
-            //    b.HasOne<RecipeImage>()
-            //        .WithOne()
-            //        .HasForeignKey<RecipeImage>(i => i.ParentId)
-            //        .OnDelete(DeleteBehavior.Cascade);
-            //});
-
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCookBook.EntityFramework"
 		{991EB214-AC51-4D0C-A4C0-0E6C92423791} = {991EB214-AC51-4D0C-A4C0-0E6C92423791}
 	EndProjectSection
 EndProject
+Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "MyCookBook.Packaging", "MyCookBook.Packaging\MyCookBook.Packaging.wixproj", "{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,26 @@ Global
 		{437DBC20-5088-4D11-81A4-D4980D5F69A4}.Release|x64.Build.0 = Release|Any CPU
 		{437DBC20-5088-4D11-81A4-D4980D5F69A4}.Release|x86.ActiveCfg = Release|Any CPU
 		{437DBC20-5088-4D11-81A4-D4980D5F69A4}.Release|x86.Build.0 = Release|Any CPU
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|Any CPU.Build.0 = Debug|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|ARM.ActiveCfg = Debug|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|ARM.Build.0 = Debug|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|ARM64.Build.0 = Debug|ARM64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|x64.ActiveCfg = Debug|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|x64.Build.0 = Debug|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|x86.ActiveCfg = Debug|x86
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Debug|x86.Build.0 = Debug|x86
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|Any CPU.ActiveCfg = Release|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|Any CPU.Build.0 = Release|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|ARM.ActiveCfg = Release|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|ARM.Build.0 = Release|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|ARM64.ActiveCfg = Release|ARM64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|ARM64.Build.0 = Release|ARM64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|x64.ActiveCfg = Release|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|x64.Build.0 = Release|x64
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|x86.ActiveCfg = Release|x86
+		{854C565B-DDE9-4DDF-99DD-31B498EB0B3B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

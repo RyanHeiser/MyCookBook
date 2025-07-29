@@ -1,0 +1,10 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
+      <Component>
+	    <File Source="../MyCookBook.WPF\bin\Release\net8.0-windows\publish\MyCookBook.exe" />
+	    <Shortcut Name="MyCookBook" Directory="ProgramMenuFolder" Advertise="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
