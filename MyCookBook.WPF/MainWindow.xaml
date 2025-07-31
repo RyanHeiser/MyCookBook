@@ -15,7 +15,7 @@
         FontFamily="Segoe UI"
         FontSize="16"
         WindowStartupLocation="CenterScreen"
-        Title="My Cook Book" Height="900" Width="1400">
+        Title="MyCookBook" Height="900" Width="1400">
 
     <Window.Resources>
         <ResourceDictionary>

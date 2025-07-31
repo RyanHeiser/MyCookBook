@@ -26,7 +26,7 @@
             Grid.Row="0" 
             Grid.Column="0" 
             Style="{StaticResource Title}"
-            Text="My Cook Book" />
+            Text="MyCookBook" />
 
         <StackPanel 
             Grid.Row="0"

@@ -13,7 +13,16 @@
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<AssemblyName>MyCookBook</AssemblyName>
 	<PlatformTarget>x64</PlatformTarget>
+	<ApplicationIcon>MyCookBook.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MyCookBook.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="MyCookBook.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
@@ -28,6 +37,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MyCookBook.Domain\MyCookBook.Domain.csproj" />
     <ProjectReference Include="..\MyCookBook.EntityFramework\MyCookBook.EntityFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="MyCookBook.ico" />
   </ItemGroup>
 
 </Project>
