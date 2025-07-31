@@ -1,9 +1,15 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Fragment>
+	<Icon Id="MyCookBook.ico" SourceFile="..\MyCookBook.WPF\MyCookBook.ico" />
     <ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
+	  <Component>
+	    <File Id="MyCookBook.exe" Source="../MyCookBook.WPF\bin\Release\net8.0-windows\publish\MyCookBook.exe" />
+	  </Component>
       <Component>
-	    <File Source="../MyCookBook.WPF\bin\Release\net8.0-windows\publish\MyCookBook.exe" />
-	    <Shortcut Name="MyCookBook" Directory="ProgramMenuFolder" Advertise="yes" />
+		<RegistryKey Root="HKCU" Key="Software\MyCookBook">
+			<RegistryValue Name="installed" Type="integer" Value="1" KeyPath="yes" />
+		</RegistryKey>
+		<Shortcut Name="MyCookBook" Directory="ProgramMenuFolder" Icon="MyCookBook.ico" Target="[INSTALLFOLDER]MyCookBook.exe" WorkingDirectory="INSTALLFOLDER" />
       </Component>
     </ComponentGroup>
   </Fragment>

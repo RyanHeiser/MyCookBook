@@ -1,4 +1,7 @@
 ﻿<Project Sdk="WixToolset.Sdk/6.0.1">
+  <PropertyGroup>
+    <OutputName>MyCookBookInstaller</OutputName>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyCookBook.WPF\MyCookBook.WPF.csproj" />
   </ItemGroup>
