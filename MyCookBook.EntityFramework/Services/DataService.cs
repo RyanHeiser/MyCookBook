@@ -19,6 +19,11 @@ namespace MyCookBook.EntityFramework.Services
 
         public abstract Task<T?> Duplicate(Guid Id);
 
+        /// <summary>
+        /// Checks if the entity exists in the table.
+        /// </summary>
+        /// <param name="Id">The Id of the entity.</param>
+        /// <returns>True if the entity is present.</returns>
         public async Task<bool> Contains(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -27,6 +32,11 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Creates a new entity.
+        /// </summary>
+        /// <param name="entity">The entity to create.</param>
+        /// <returns>The created entity.</returns>
         public async Task<T> Create(T entity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -38,6 +48,11 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Deletes an entity.
+        /// </summary>
+        /// <param name="Id">The Id of the entity to delete.</param>
+        /// <returns>True if successfully deleted.</returns>
         public async Task<bool> Delete(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -55,6 +70,11 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Gets an entity by Id.
+        /// </summary>
+        /// <param name="Id">The Id of the entity.</param>
+        /// <returns>The entity</returns>
         public virtual async Task<T?> Get(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -64,6 +84,10 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Gets all entities in the table.
+        /// </summary>
+        /// <returns>An IEnumerable of the entities.</returns>
         public virtual async Task<IEnumerable<T>> GetAll()
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -73,6 +97,12 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Updates an entity.
+        /// </summary>
+        /// <param name="Id">The Id of the entity to update.</param>
+        /// <param name="updatedEntity">The updated version of the entity.</param>
+        /// <returns>The updated entity.</returns>
         public virtual async Task<T> Update(Guid Id, T updatedEntity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())

@@ -25,6 +25,10 @@ namespace MyCookBook.WPF.Commands
             _itemToMove = itemToMove;
         }
 
+        /// <summary>
+        /// Starts the move process for an item.
+        /// </summary>
+        /// <param name="parameter">The item to start the move process with.</param>
         public override void Execute(object? parameter)
         {
             if (_itemToMove == null)

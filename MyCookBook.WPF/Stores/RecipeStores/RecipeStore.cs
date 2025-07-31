@@ -14,6 +14,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
         {
         }
 
+        /// <summary>
+        /// Creates a new Recipe.
+        /// </summary>
+        /// <param name="recipe">The Recipe to be created.</param>
+        /// <returns>True if created successfully</returns>
         public override async Task<bool> Create(Recipe recipe)
         {
             if (_parentStore.Current == null)
@@ -29,6 +34,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return true;
         }
 
+        /// <summary>
+        /// Deletes a Recipe.
+        /// </summary>
+        /// <param name="Id">The Id of the Recipe to delete.</param>
+        /// <returns>True if deleted successfully.</returns>
         public override async Task<bool> Delete(Guid Id)
         {
             if (_parentStore.Current != null && await _dataService.Delete(Id))
@@ -46,6 +56,12 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return false;
         }
 
+        /// <summary>
+        /// Updates a Recipe
+        /// </summary>
+        /// <param name="Id">The Id of the Recipe to update.</param>
+        /// <param name="recipe">The updated version of the Recipe.</param>
+        /// <returns>True if updated successfully</returns>
         public override async Task<bool> Update(Guid Id, Recipe recipe)
         {
             try

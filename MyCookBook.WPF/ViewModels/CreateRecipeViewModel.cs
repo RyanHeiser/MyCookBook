@@ -1,5 +1,4 @@
 ﻿using MyCookBook.WPF.Commands;
-using MyCookBook.WPF.Exceptions;
 using MyCookBook.Domain.Models;
 using MyCookBook.WPF.Services;
 using MyCookBook.WPF.Services.Navigation;

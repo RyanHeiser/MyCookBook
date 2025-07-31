@@ -16,7 +16,10 @@ namespace MyCookBook.WPF.Commands
 {
     public class PrintCommand : CommandBase
     {
-
+        /// <summary>
+        /// Opens a print dialog for the current Recipe.
+        /// </summary>
+        /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
             if (parameter is FlowDocument document)

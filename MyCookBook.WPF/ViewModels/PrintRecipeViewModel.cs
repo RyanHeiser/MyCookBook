@@ -70,7 +70,7 @@ namespace MyCookBook.WPF.ViewModels
             if (RecipeFlowDocument != null)
             {
                 RecipeFlowDocument.DataContext = this;
-                RecipeFlowDocument.ColumnWidth = double.MaxValue;
+                RecipeFlowDocument.ColumnWidth = double.MaxValue; // set column width to max double value to prevent multiple columns
             }
         }
     }

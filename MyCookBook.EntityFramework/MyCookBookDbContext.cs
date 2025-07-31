@@ -20,6 +20,10 @@ namespace MyCookBook.EntityFramework
             
         }
 
+        /// <summary>
+        /// Setup for the relationships within the database.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RecipeBook>()

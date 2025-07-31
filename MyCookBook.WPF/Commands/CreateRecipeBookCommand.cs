@@ -23,6 +23,11 @@ namespace MyCookBook.WPF.Commands
             _navigationService = navigationService;
         }
 
+        /// <summary>
+        /// Creates a new RecipeBook.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             if (_viewModel.Name.Length > 50)

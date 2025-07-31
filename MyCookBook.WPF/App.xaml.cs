@@ -95,11 +95,6 @@ public partial class App : Application
         INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate();
 
-        //// temp moving test
-        //MoveCopyStore moveCopyStore = _host.Services.GetRequiredService<MoveCopyStore>();
-        //moveCopyStore.IsMoving = true;
-        ////
-
         MainWindow wnd = _host.Services.GetRequiredService<MainWindow>();
         wnd.Show();
         base.OnStartup(e);

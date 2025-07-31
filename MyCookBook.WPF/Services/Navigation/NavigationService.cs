@@ -21,6 +21,9 @@ namespace MyCookBook.WPF.Services.Navigation
             _createViewModel = createViewModel;
         }
 
+        /// <summary>
+        /// Navigates to the view model specified on initialization.
+        /// </summary>
         public void Navigate()
         {
             _navigationStore.Navigate(_createViewModel);

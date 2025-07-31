@@ -25,6 +25,11 @@ namespace MyCookBook.WPF.Commands
             _navigationService = navigationService;
         }
 
+        /// <summary>
+        /// Updates the current RecipeBook from CreateRecipeBookView.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             if (_createRecipeBookViewModel.Name.Length > 50)

@@ -16,6 +16,10 @@ namespace MyCookBook.WPF.Commands
             _commands = commands;
         }
 
+        /// <summary>
+        /// Executes multiple commands sequentially.
+        /// </summary>
+        /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
             foreach (ICommand command in _commands)

@@ -51,11 +51,20 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return await _dataService.Get(Id);
         }
 
+        /// <summary>
+        /// Duplicates an item.
+        /// </summary>
+        /// <param name="Id">The Id of the item to duplicate.</param>
+        /// <returns>The duplicated item.</returns>
         public virtual async Task<T?> Duplicate(Guid Id)
         {
             return await _dataService.Duplicate(Id);
         }
 
+        /// <summary>
+        /// Loads the items from database lazily. If the item is a ChildDomainObject only items that are children of the current parent are loaded.
+        /// </summary>
+        /// <returns></returns>
         public async Task Load()
         {
             try
@@ -70,6 +79,10 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             OnFinishedLoading();
         }
 
+        /// <summary>
+        /// Loads items from database.
+        /// </summary>
+        /// <returns></returns>
         protected virtual async Task Initialize()
         {
             IEnumerable<T> items = await _dataService.GetAll();

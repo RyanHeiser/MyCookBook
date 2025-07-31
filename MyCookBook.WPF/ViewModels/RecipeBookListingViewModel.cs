@@ -77,6 +77,9 @@ namespace MyCookBook.WPF.ViewModels
             _recipeBookStore.ItemDeleted += OnBookDeleted;
         }
 
+        /// <summary>
+        /// Updates the list of books.
+        /// </summary>
         public void UpdateBooks()
         {
             _books.Clear();
@@ -90,6 +93,9 @@ namespace MyCookBook.WPF.ViewModels
             OnPropertyChanged(nameof(HasBooks));
         }
 
+        /// <summary>
+        /// Disposes of the view model.
+        /// </summary>
         public override void Dispose()
         {
             _recipeBookStore.NewCreated -= OnBookCreated;
@@ -98,6 +104,9 @@ namespace MyCookBook.WPF.ViewModels
             base.Dispose();
         }
 
+        /// <summary>
+        /// Updates the view model.
+        /// </summary>
         public override void Update()
         {
             UpdateBooks();

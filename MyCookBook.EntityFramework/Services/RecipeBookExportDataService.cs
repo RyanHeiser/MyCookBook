@@ -19,6 +19,11 @@ namespace MyCookBook.EntityFramework.Services
             _contextFactory = contextFactory;
         }
 
+        /// <summary>
+        /// Creates a JSON of a RecipeBook.
+        /// </summary>
+        /// <param name="Id">The Id of the RecipeBook.</param>
+        /// <returns>A JSON string created from the RecipeBook.</returns>
         public async Task<string> ExportBook(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())

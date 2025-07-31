@@ -24,6 +24,11 @@ namespace MyCookBook.WPF.Commands
             _bookStore = bookStore;
         }
 
+        /// <summary>
+        /// Imports a RecipeBook from a JSON file.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();

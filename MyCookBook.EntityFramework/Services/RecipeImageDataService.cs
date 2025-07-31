@@ -14,6 +14,11 @@ namespace MyCookBook.EntityFramework.Services
         {
         }
 
+        /// <summary>
+        /// Duplicates the RecipeImage
+        /// </summary>
+        /// <param name="Id">The Id of the RecipeImage to duplicate.</param>
+        /// <returns>The duplicated RecipeImage.</returns>
         public override async Task<RecipeImage?> Duplicate(Guid Id)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())

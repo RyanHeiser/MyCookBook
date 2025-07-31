@@ -107,6 +107,9 @@ namespace MyCookBook.WPF.ViewModels
             _recipeBookStore.ItemUpdated += OnBookUpdated;
         }
 
+        /// <summary>
+        /// Updates list of RecipeCategories.
+        /// </summary>
         public void UpdateCategories()
         {
             _categories.Clear();
@@ -120,12 +123,18 @@ namespace MyCookBook.WPF.ViewModels
             OnPropertyChanged(nameof(HasCategories));
         }
 
+        /// <summary>
+        /// Updates the view model.
+        /// </summary>
         public override void Update()
         {
             UpdateCategories();
             Name = _recipeBookStore.Current.Name;
         }
 
+        /// <summary>
+        /// Disposes of the view model.
+        /// </summary>
         public override void Dispose()
         {
             _categoryStore.NewCreated -= OnCategoryCreated;
@@ -145,6 +154,10 @@ namespace MyCookBook.WPF.ViewModels
             OnPropertyChanged(nameof(HasCategories));
         }
 
+        /// <summary>
+        /// Updates the title when RecipeBook name is updated.
+        /// </summary>
+        /// <param name="book"></param>
         private void OnBookUpdated(RecipeBook book)
         {
             if (book.Id == _recipeBookStore?.Current?.Id)

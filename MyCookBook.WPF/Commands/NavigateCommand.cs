@@ -26,7 +26,6 @@ namespace MyCookBook.WPF.Commands
         /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
-            
             _navigationService.Navigate();
         }
     }

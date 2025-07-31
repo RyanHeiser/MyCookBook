@@ -16,6 +16,9 @@ namespace MyCookBook.WPF.Services.Navigation
             _navigationStore = navigationStore;
         }
 
+        /// <summary>
+        /// Navigates to the previous view model.
+        /// </summary>
         public void Navigate()
         {
             _navigationStore.NavigatePrevious();

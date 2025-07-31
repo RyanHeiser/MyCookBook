@@ -16,6 +16,10 @@ namespace MyCookBook.WPF.Commands
             _moveStore = moveStore;
         }
 
+        /// <summary>
+        /// Cancels movement of Recipe or RecipeCategory if any is currently being moved.
+        /// </summary>
+        /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
             _moveStore.IsMoving = false;

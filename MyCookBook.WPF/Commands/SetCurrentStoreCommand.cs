@@ -17,6 +17,10 @@ namespace MyCookBook.WPF.Commands
             _store = store;
         }
 
+        /// <summary>
+        /// Sets the item store's Current property to specified item.
+        /// </summary>
+        /// <param name="parameter">The item to set as Current.</param>
         public override void Execute(object? parameter)
         {
             try

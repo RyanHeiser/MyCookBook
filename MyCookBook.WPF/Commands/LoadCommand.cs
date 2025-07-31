@@ -20,6 +20,11 @@ namespace MyCookBook.WPF.Commands
             _store = store;
         }
 
+        /// <summary>
+        /// Loads DomainObjects of type T. If T is a ChildDomainObject then only children of the current parent are loaded.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             _viewModel.IsLoading = true;
@@ -31,7 +36,7 @@ namespace MyCookBook.WPF.Commands
             }
             catch (Exception)
             {
-
+                throw;
             }
 
             _viewModel.IsLoading = false;

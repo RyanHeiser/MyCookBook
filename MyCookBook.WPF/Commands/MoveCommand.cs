@@ -30,6 +30,11 @@ namespace MyCookBook.WPF.Commands
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
+        /// <summary>
+        /// Checks if the command can be executed.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns>True if the command can be executed.</returns>
         public override bool CanExecute(object? parameter)
         {
             bool canExecute = _itemToMove is Recipe && _navigationStore.CurrentViewModel is RecipeListingViewModel ||
@@ -38,6 +43,11 @@ namespace MyCookBook.WPF.Commands
             return canExecute && base.CanExecute(parameter);
         }
 
+        /// <summary>
+        /// Moves a Recipe of RecipeCategory to the current parent.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             if (_parentStore.Current != null)

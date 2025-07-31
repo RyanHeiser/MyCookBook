@@ -118,6 +118,9 @@ namespace MyCookBook.WPF.ViewModels
             _recipeStore.ItemDeleted += OnRecipeDeleted;
         }
 
+        /// <summary>
+        /// Disposes of the view model.
+        /// </summary>
         public override void Dispose()
         {
             _categoryStore.ItemUpdated -= OnCategoryUpdated;
@@ -125,6 +128,9 @@ namespace MyCookBook.WPF.ViewModels
             base.Dispose();
         }
 
+        /// <summary>
+        /// Updates the list of recipes.
+        /// </summary>
         public void UpdateRecipes()
         {
             _recipes.Clear();
@@ -134,25 +140,17 @@ namespace MyCookBook.WPF.ViewModels
                 RecipeViewModel recipeViewModel = new RecipeViewModel(recipe);
                 _recipes.Add(recipeViewModel);
             }
+            OnPropertyChanged(nameof(HasRecipes));
         }
 
+        /// <summary>
+        /// Updates the view model.
+        /// </summary>
         public override void Update()
         {
             UpdateRecipes();
             Name = _categoryStore.Current?.Name ?? "New Category";
             base.Update();
-        }
-
-        public void UpdateRecipes(IEnumerable<Recipe> recipes)
-        {
-            _recipes.Clear();
-
-            foreach (Recipe recipe in recipes)
-            {
-                RecipeViewModel recipeViewModel = new RecipeViewModel(recipe);
-                _recipes.Add(recipeViewModel);
-            }
-            OnPropertyChanged(nameof(HasRecipes));
         }
 
         private void OnRecipeCreated(object? sender, NotifyCollectionChangedEventArgs e)

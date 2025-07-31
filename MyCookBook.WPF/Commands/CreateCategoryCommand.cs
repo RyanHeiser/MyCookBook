@@ -26,6 +26,11 @@ namespace MyCookBook.WPF.Commands
             _categoryStore = categoryStore;
         }
 
+        /// <summary>
+        /// Creates a new Category.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             if (_viewModel.Name.Length > 50)

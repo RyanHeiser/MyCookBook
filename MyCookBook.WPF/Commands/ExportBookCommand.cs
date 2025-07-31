@@ -27,6 +27,11 @@ namespace MyCookBook.WPF.Commands
             _book = book;
         }
 
+        /// <summary>
+        /// Exports a RecipeBook to a JSON file.
+        /// </summary>
+        /// <param name="parameter">The RecipeBook to export if the book to delete is not set on initialization.</param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             if (_book == null)

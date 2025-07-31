@@ -21,6 +21,11 @@ namespace MyCookBook.WPF.Commands
             _viewModel = viewModel;
         }
 
+        /// <summary>
+        /// Uploads image from OpenFileDialog to CreateRecipeViewModel.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             OpenFileDialog dialog = new OpenFileDialog();

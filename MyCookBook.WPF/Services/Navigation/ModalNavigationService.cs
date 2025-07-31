@@ -18,6 +18,10 @@ namespace MyCookBook.WPF.Services.Navigation
             _navigationStore = navigationStore;
             _createViewModel = createViewModel;
         }
+
+        /// <summary>
+        /// Navigates to the modal view model specified on initialization.
+        /// </summary>
         public void Navigate()
         {
             _navigationStore.Navigate(_createViewModel);

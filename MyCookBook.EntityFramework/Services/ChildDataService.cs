@@ -15,6 +15,11 @@ namespace MyCookBook.EntityFramework.Services
             
         }
 
+        /// <summary>
+        /// Gets all items from parent.
+        /// </summary>
+        /// <param name="parentId">The Id of the parent</param>
+        /// <returns>All children of the parent</returns>
         public virtual async Task<IEnumerable<T>> GetAllFromParent(Guid parentId)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -23,6 +28,12 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Moves an item to another parent.
+        /// </summary>
+        /// <param name="Id">The Id of the item to move.</param>
+        /// <param name="newParentId">The Id of the new parent.</param>
+        /// <returns>True if moved successfully</returns>
         public async Task<bool> Move(Guid Id, Guid newParentId)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
@@ -39,6 +50,12 @@ namespace MyCookBook.EntityFramework.Services
             }
         }
 
+        /// <summary>
+        /// Updates an item.
+        /// </summary>
+        /// <param name="Id">The Id of the entity to update.</param>
+        /// <param name="updatedEntity">The updated version of the entity.</param>
+        /// <returns>The updated entity.</returns>
         public override async Task<T> Update(Guid Id, T updatedEntity)
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())

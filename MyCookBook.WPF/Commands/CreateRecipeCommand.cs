@@ -31,11 +31,21 @@ namespace MyCookBook.WPF.Commands
             _imageStore = imageStore;
         }
 
+        /// <summary>
+        /// Checks if the command can execute.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns>True if the command can execute.</returns>
         public override bool CanExecute(object? parameter)
         {
             return _createRecipeViewModel.CanCreateRecipe && base.CanExecute(parameter);
         }
 
+        /// <summary>
+        /// Creates a new Recipe.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             if (_createRecipeViewModel?.Name?.Length > 50)

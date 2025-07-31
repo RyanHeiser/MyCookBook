@@ -14,6 +14,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
         {
         }
 
+        /// <summary>
+        /// Creates a new RecipeCategory.
+        /// </summary>
+        /// <param name="category">The RecipeCategory to be created.</param>
+        /// <returns>True if created successfully</returns>
         public override async Task<bool> Create(RecipeCategory category)
         {
             if (_parentStore.Current == null)
@@ -28,6 +33,11 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return true;
         }
 
+        /// <summary>
+        /// Deletes a RecipeCategory.
+        /// </summary>
+        /// <param name="Id">The Id of the RecipeCategory to delete.</param>
+        /// <returns>True if deleted successfully.</returns>
         public override async Task<bool> Delete(Guid Id)
         {
             if (_parentStore.Current != null && await _dataService.Delete(Id))
@@ -44,6 +54,12 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return false;
         }
 
+        /// <summary>
+        /// Updates a RecipeCategory
+        /// </summary>
+        /// <param name="Id">The Id of the RecipeCategory to update.</param>
+        /// <param name="category">The updated version of the RecipeCategory.</param>
+        /// <returns>True if updated successfully</returns>
         public override async Task<bool> Move(RecipeCategory category, Guid newParentId)
         {
             category.ParentId = newParentId;

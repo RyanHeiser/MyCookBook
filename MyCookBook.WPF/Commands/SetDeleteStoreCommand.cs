@@ -17,6 +17,10 @@ namespace MyCookBook.WPF.Commands
             _store = store;
         }
 
+        /// <summary>
+        /// Stages an item to be deleted.
+        /// </summary>
+        /// <param name="parameter">The item to be staged.</param>
         public override void Execute(object? parameter)
         {
             try

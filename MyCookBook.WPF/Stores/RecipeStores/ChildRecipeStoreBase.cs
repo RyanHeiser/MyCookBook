@@ -24,6 +24,12 @@ namespace MyCookBook.WPF.Stores.RecipeStores
 
         public abstract Task<bool> Move(TChild item, Guid newParentId);
 
+        /// <summary>
+        /// Copies an item to a new parent.
+        /// </summary>
+        /// <param name="item">The item to copy.</param>
+        /// <param name="newParentId">The Id of the new parent.</param>
+        /// <returns>True if copied successfully</returns>
         public virtual async Task<bool> Copy(TChild item, Guid newParentId)
         {
             TChild? copiedItem = await Duplicate(item.Id);
@@ -34,16 +40,27 @@ namespace MyCookBook.WPF.Stores.RecipeStores
             return await Move(copiedItem, newParentId);
         }
 
+        /// <summary>
+        /// Loads new items when parent is changed.
+        /// </summary>
+        /// <param name="parent"></param>
         private void ParentCurrentChanged(TParent? parent)
         {
             _initializeLazy = new Lazy<Task>(Initialize);
         }
 
+        /// <summary>
+        /// Updates the parent in the database.
+        /// </summary>
         protected void UpdateParent()
         {
             _parentStore.Update(_parentStore.Current.Id, _parentStore.Current);
         }
 
+        /// <summary>
+        /// Loads items from database.
+        /// </summary>
+        /// <returns></returns>
         protected override async Task Initialize()
         {
             _items.Clear();

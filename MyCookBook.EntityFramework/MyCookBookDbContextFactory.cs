@@ -12,6 +12,11 @@ namespace MyCookBook.EntityFramework
 {
     public class MyCookBookDbContextFactory : IDesignTimeDbContextFactory<MyCookBookDbContext>
     {
+        /// <summary>
+        /// Creates a MyCookBookDbContext.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>A new MyCookBookDbContext.</returns>
         public MyCookBookDbContext CreateDbContext(string[] args = null)
         {
             string dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MyCookBook");

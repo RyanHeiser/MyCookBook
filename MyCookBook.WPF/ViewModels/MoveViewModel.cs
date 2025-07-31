@@ -42,6 +42,9 @@ namespace MyCookBook.WPF.ViewModels
             _moveStore.MoveUpdated += OnMoveUpdated;
         }
 
+        /// <summary>
+        /// Disposes of the view model.
+        /// </summary>
         public override void Dispose()
         {
             _moveStore.MoveUpdated -= OnMoveUpdated;

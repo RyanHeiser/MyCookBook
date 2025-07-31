@@ -16,6 +16,9 @@ namespace MyCookBook.WPF.Services.Navigation
             _navigationStore = navigationStore;
         }
 
+        /// <summary>
+        /// Closes the modal.
+        /// </summary>
         public void Navigate()
         {
             _navigationStore.Close();

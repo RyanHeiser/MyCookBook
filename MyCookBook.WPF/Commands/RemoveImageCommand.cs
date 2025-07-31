@@ -19,11 +19,20 @@ namespace MyCookBook.WPF.Commands
             _viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
+        /// <summary>
+        /// Checks if the command can be executed.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns>True if the command can be executed.</returns>
         public override bool CanExecute(object? parameter)
         {
             return _viewModel.HasImage;
         }
 
+        /// <summary>
+        /// Removes the image currently saved in memory on CreateRecipeView.
+        /// </summary>
+        /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
             _viewModel.RawImageData = null;
