@@ -138,6 +138,7 @@
                 ItemTemplate="{StaticResource IngredientsAndDirectionsDataTemplate}"
                 Grid.Row="1" 
                 Grid.Column="0"
+                Margin="0 10 0 0"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                 <ListView.Resources>
@@ -156,6 +157,7 @@
                 ItemTemplate="{StaticResource IngredientsAndDirectionsDataTemplate}"
                 Grid.Row="1" 
                 Grid.Column="1"
+                Margin="0 10 0 0"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                 <ListView.Resources>

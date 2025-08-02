@@ -42,13 +42,17 @@
         <Paragraph FontSize="24">Ingredients</Paragraph>
 
         <BlockUIContainer>
-            <ListView ItemsSource="{Binding RecipeViewModel.Ingredients, Mode=OneWay}" />
+            <ListView 
+                ItemsSource="{Binding RecipeViewModel.Ingredients, Mode=OneWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
         </BlockUIContainer>
 
         <Paragraph FontSize="24">Directions</Paragraph>
 
         <BlockUIContainer>
-            <ListView ItemsSource="{Binding RecipeViewModel.Directions, Mode=OneWay}" />
+            <ListView 
+                ItemsSource="{Binding RecipeViewModel.Directions, Mode=OneWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
         </BlockUIContainer>
 
     </FlowDocument>
