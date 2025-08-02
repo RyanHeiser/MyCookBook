@@ -92,7 +92,7 @@ namespace MyCookBook.EntityFramework.Services
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                IEnumerable<T>? entities = await context.Set<T>().ToListAsync();
+                IEnumerable<T>? entities = await context.Set<T>().OrderBy(e => e.Name).ToListAsync();
                 return entities;
             }
         }

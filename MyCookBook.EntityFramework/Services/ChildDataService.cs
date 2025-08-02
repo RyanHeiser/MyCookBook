@@ -24,7 +24,7 @@ namespace MyCookBook.EntityFramework.Services
         {
             using (MyCookBookDbContext context = _contextFactory.CreateDbContext())
             {
-                return await context.Set<T>().Where(c => c.ParentId == parentId).ToListAsync();
+                return await context.Set<T>().Where(c => c.ParentId == parentId).OrderBy(e => e.Name).ToListAsync();
             }
         }
 
