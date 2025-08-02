@@ -28,10 +28,10 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Button 
-                
                 Grid.Column="0" 
                 Content="Back" 
                 Command="{Binding BackCommand}" 
+                IsCancel="True"
                 MinWidth="50"
                 MaxHeight="40"
                 Padding="5" />
@@ -43,16 +43,14 @@
                 Text="{Binding RecipeViewModel.Name}" />
             
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="30 0 0 0">
-                <Button
-                    
+                <Button      
                     Content="Print"
                     Command="{Binding PrintCommand}"
                     MinWidth="50"
                     MaxHeight="40"
                     Margin="10 0 0 0"
                     Padding="5" />
-                <Button
-                    
+                <Button 
                     Content="Move"
                     Command="{Binding MoveCommand}"
                     MinWidth="50"
@@ -60,7 +58,6 @@
                     Margin="10 0 0 0"
                     Padding="5" />
                 <Button 
-                    
                     Content="Edit" 
                     Command="{Binding EditCommand}"
                     MinWidth="50"

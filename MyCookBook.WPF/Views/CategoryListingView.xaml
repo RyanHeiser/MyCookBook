@@ -39,6 +39,7 @@
             Grid.Column="0"
             Content="Back" 
             Command="{Binding BackCommand}"
+            IsCancel="True"
             MinWidth="50"
             Height="40"
             Padding="5"
@@ -100,7 +101,6 @@
         </StackPanel>
 
         <Button 
-            
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
