@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Resources/ConverterResourceDictionary.xaml" />
+        <ResourceDictionary Source="/Resources/ValidationResourceDictionary.xaml" />
         <ResourceDictionary Source="/Resources/Themes/ThemeResourceDictionary.xaml" />
         <ResourceDictionary Source="/Resources/DataTemplates/DataTemplateResourceDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
