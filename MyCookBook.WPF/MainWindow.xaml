@@ -9,13 +9,16 @@
         xmlns:vms="clr-namespace:MyCookBook.WPF.ViewModels" 
         xmlns:modalvms="clr-namespace:MyCookBook.WPF.ViewModels.Modals" 
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
+        xmlns:converters="clr-namespace:MyCookBook.WPF.Converters"
         mc:Ignorable="d"
         MinWidth="800"
         MinHeight="600"
         FontFamily="Segoe UI"
         FontSize="16"
         WindowStartupLocation="CenterScreen"
-        Title="MyCookBook" Height="900" Width="1400">
+        Title="MyCookBook" 
+        Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:PercentageConverter}, ConverterParameter=0.8}" 
+        Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:PercentageConverter}, ConverterParameter=0.6}">
 
     <Window.Resources>
         <ResourceDictionary>
