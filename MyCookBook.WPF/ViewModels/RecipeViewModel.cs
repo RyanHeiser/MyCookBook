@@ -18,9 +18,17 @@ namespace MyCookBook.WPF.ViewModels
         public IEnumerable<string> Ingredients => Recipe?.Ingredients ?? new List<string>();
         public IEnumerable<string> Directions => Recipe?.Directions ?? new List<string>();
 
+        public bool HasTime => IsNotZeroOrEmpty(Hours) || IsNotZeroOrEmpty(Minutes);
+        public bool HasServings => IsNotZeroOrEmpty(Servings);
+
         public RecipeViewModel(Recipe? recipe)
         {
             Recipe = recipe;
+        }
+
+        private static bool IsNotZeroOrEmpty(string value)
+        {
+            return !value.Equals("0") && !String.IsNullOrEmpty(value);
         }
     }
 }

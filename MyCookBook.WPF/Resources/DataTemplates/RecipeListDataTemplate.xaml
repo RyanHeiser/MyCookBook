@@ -19,56 +19,76 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" SharedSizeGroup="RecipeRow1" />
-                <RowDefinition Height="auto" SharedSizeGroup="RecipeRow2" />
+                <RowDefinition SharedSizeGroup="RecipeRow" />
             </Grid.RowDefinitions>
+            
             
             <Image
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Grid.Column="0"
-                Margin="0 0 20 0"
+                Margin="2 2 20 2"
                 MaxHeight="80"
                 Source="{Binding RawThumbnailData,
                     Converter={StaticResource ByteArrayToBitmapConverter},
                     Mode=OneWay}" />
 
-            <TextBlock 
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="0 5"
-                Style="{StaticResource Subtitle}"
-                Text="{Binding Name}" />
+            <Grid Grid.Column="1">
 
-            <StackPanel 
-                Grid.Row="1"
-                Grid.Column="1"
-                Orientation="Horizontal">
-                <TextBlock
-                    Margin="0 0 5 0"
-                    FontWeight="Bold"
-                    Text="Time:" />
-                <TextBlock 
-                    Margin="5 0 0 0" 
-                    Text="{Binding Hours}" />
-                <TextBlock
-                    Margin="5 0 0 0"
-                    Text="hrs" />
-                <TextBlock 
-                    Margin="5 0 0 0" 
-                    Text="{Binding Minutes}" />
-                <TextBlock
-                    Margin="5 0 20 0"
-                    Text="min" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"  />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
-                <TextBlock
-                    Margin="0 0 5 0"
-                    FontWeight="Bold"
-                    Text="Servings:" />
-                <TextBlock
-                    Margin="0 0 20 0"
-                    Text="{Binding Servings}" />
-            </StackPanel>
+                <Grid
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Stretch"
+                    Margin="0 0 0 5">
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Subtitle}"
+                        Text="{Binding Name}" />
+                </Grid>
+
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <StackPanel 
+                            Visibility="{Binding HasTime, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Orientation="Horizontal">
+                        <TextBlock 
+                                Margin="0 0 5 0"
+                                FontWeight="Bold" 
+                                Text="Time:" />
+                        <TextBlock 
+                                Margin="0 0 5 0" 
+                                Text="{Binding Hours}" />
+                        <TextBlock
+                                Margin="0 0 5 0"
+                                Text="hrs" />
+                        <TextBlock 
+                                Margin="0 0 5 0" 
+                                Text="{Binding Minutes}" />
+                        <TextBlock
+                                Margin="0 0 30 0"
+                                Text="min" />
+                    </StackPanel>
+                    <StackPanel
+                            Visibility="{Binding HasServings, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Orientation="Horizontal">
+                        <TextBlock 
+                                Margin="0 0 5 0"
+                                FontWeight="Bold"
+                                Text="Servings:" />
+                        <TextBlock 
+                                Text="{Binding Servings}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
 
             <StackPanel 
                 Grid.Row="0"
