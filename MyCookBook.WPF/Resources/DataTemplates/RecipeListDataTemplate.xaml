@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition SharedSizeGroup="RecipeRow" />
+                <RowDefinition SharedSizeGroup="RecipeRow" MinHeight="80" />
             </Grid.RowDefinitions>
             
             
@@ -33,16 +33,20 @@
                     Converter={StaticResource ByteArrayToBitmapConverter},
                     Mode=OneWay}" />
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" VerticalAlignment="Stretch">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"  />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="RecipeInfoCol0" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
                 <Grid
                     Grid.Row="0"
-                    Grid.Column="1"
+                    Grid.Column="0"
                     VerticalAlignment="Stretch"
                     Margin="0 0 0 5">
                     <TextBlock 
@@ -54,7 +58,7 @@
 
                 <StackPanel
                     Grid.Row="1"
-                    Grid.Column="1"
+                    Grid.Column="0"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <StackPanel 
@@ -88,12 +92,16 @@
                                 Text="{Binding Servings}" />
                     </StackPanel>
                 </StackPanel>
+
+                <!-- <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" TextWrapping="Wrap" MaxHeight="45" VerticalAlignment="Center" Text="{Binding Description}" Margin="60 0 20 0" /> -->
+
             </Grid>
 
             <StackPanel 
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Grid.Column="2"
+                VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <Button
                     Content="Move"
